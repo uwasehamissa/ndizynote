@@ -1,40 +1,45 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-unused-vars */
+
+// =============================================
+// IMPORT SECTION - All necessary dependencies
+// =============================================
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import axios from "axios";
-// import { LoadingSpinner } from "../../pages/loading/LoadingSpinner";
+
 import { Close } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 
-// API Base URL - Update this to your actual API endpoint
-const API_BASE_URL = "https://nexusbackend-hdyk.onrender.com";
+// =============================================
+// CONFIGURATION SECTION - Easy to modify settings
+// =============================================
 
-// Navigation Configuration
+// API Configuration - Change this to your actual backend URL
+const API_BASE_URL = "https://nexusbackend-hdyk.onrender.com/admin";
+
+// Navigation Menu Configuration - Easy to update menu items
 const navigationConfig = {
   main: [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
-    { name: "Classes", path: "/classes" },
+
     { name: "FAQ", path: "/faq" },
   ],
   authenticated: [{ name: "Dashboard", path: "/dashboard" }],
 };
 
-// SVG Icons Component
+// =============================================
+// SVG ICONS COMPONENT - All visual icons in one place
+// =============================================
 const SvgIcons = {
+  // App Logo with gradient
   Logo: () => (
-    <svg
-      width="32"
-      height="32"
-      viewBox="0 0 32 32"
-      fill="none"
-      className="flex-shrink-0"
-    >
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="flex-shrink-0">
       <defs>
         <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#3B82F6" />
@@ -43,135 +48,81 @@ const SvgIcons = {
       </defs>
       <rect width="32" height="32" rx="8" fill="url(#logoGradient)" />
       <path d="M16 8L22 12L16 16L10 12L16 8Z" fill="white" fillOpacity="0.9" />
-      <path
-        d="M16 16L22 20L16 24L10 20L16 16Z"
-        fill="white"
-        fillOpacity="0.7"
-      />
-      <path
-        d="M22 12L28 16L22 20L16 16L22 12Z"
-        fill="white"
-        fillOpacity="0.5"
-      />
+      <path d="M16 16L22 20L16 24L10 20L16 16Z" fill="white" fillOpacity="0.7" />
+      <path d="M22 12L28 16L22 20L16 16L22 12Z" fill="white" fillOpacity="0.5" />
     </svg>
   ),
+  
+  // Menu icon for mobile navigation
   Menu: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path
-        d="M3 12h18M3 6h18M3 18h18"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
+  
+  // Close icon for modals
   Close: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path
-        d="M18 6L6 18M6 6l12 12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     </svg>
   ),
+  
+  // User profile icon
   User: () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
     </svg>
   ),
+  
+  // Email icon for forms
   Email: () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
     </svg>
   ),
+  
+  // Message icon for contact
   Message: () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
   ),
+  
+  // Phone icon
   Phone: () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   ),
+  
+  // Lock icon for security
   Lock: () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
   ),
+  
+  // Key icon for password reset
   Key: () => (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
     </svg>
   ),
+  
+  // Success checkmark icon
   Success: () => (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
       <path d="m9 11 3 3L22 4" />
     </svg>
   ),
+  
+  // Error X icon
   Error: () => (
-    <svg
-      width="64"
-      height="64"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <circle cx="12" cy="12" r="10" />
       <path d="m15 9-6 6" />
       <path d="m9 9 6 6" />
@@ -179,10 +130,14 @@ const SvgIcons = {
   ),
 };
 
-// Create Auth Context
+// =============================================
+// AUTHENTICATION CONTEXT - Global user state management
+// =============================================
+
+// Create context for authentication
 const AuthContext = createContext();
 
-// Custom hook to use auth context
+// Custom hook to easily access auth functions and state
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
@@ -191,27 +146,32 @@ export const useAuth = () => {
   return context;
 };
 
-// API Service functions
+// =============================================
+// API SERVICE FUNCTIONS - All backend communications
+// =============================================
 const apiService = {
-  // Login API call
+  /**
+   * Login user with email and password
+   */
   login: async (email, password) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+      const response = await axios.post(`${API_BASE_URL}/users/login`, {
         email,
         password,
       });
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Login failed. Please try again.";
+      const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
       throw new Error(errorMessage);
     }
   },
 
-  // Register API call
+  /**
+   * Register new user with all required details
+   */
   register: async (name, email, password, confirmPassword) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/register`, {
+      const response = await axios.post(`${API_BASE_URL}/users/register`, {
         name,
         email,
         password,
@@ -219,32 +179,27 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message ||
-        "Registration failed. Please try again.";
+      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
       throw new Error(errorMessage);
     }
   },
 
-  // Forgot Password API call
+  /**
+   * Request password reset email
+   */
   forgotPassword: async (email) => {
     try {
-      const response = await axios.post(
-        `${API_BASE_URL}/auth/forgot-password`,
-        {
-          email,
-        }
-      );
+      const response = await axios.post(`${API_BASE_URL}/auth/forgot-password`, { email });
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message ||
-        "Failed to send reset email. Please try again.";
+      const errorMessage = error.response?.data?.message || "Failed to send reset email. Please try again.";
       throw new Error(errorMessage);
     }
   },
 
-  // Reset Password API call
+  /**
+   * Reset password with token and new password
+   */
   resetPassword: async (token, password) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/auth/reset-password`, {
@@ -253,49 +208,52 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message ||
-        "Failed to reset password. Please try again.";
+      const errorMessage = error.response?.data?.message || "Failed to reset password. Please try again.";
       throw new Error(errorMessage);
     }
   },
 
-  // Contact form submission
+  /**
+   * Submit contact form data
+   */
   contact: async (formData) => {
     try {
       const response = await axios.post(`${API_BASE_URL}/contact`, formData);
       return response.data;
     } catch (error) {
-      throw new Error(
-        error.response?.data?.message ||
-          "Message sending failed. Please try again."
-      );
+      throw new Error(error.response?.data?.message || "Message sending failed. Please try again.");
     }
   },
 };
 
-// Auth Provider Component
+// =============================================
+// AUTH PROVIDER - Manages user authentication state
+// =============================================
 export const AuthProvider = ({ children }) => {
+  // State variables for user management
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  /**
+   * Login function - handles user authentication
+   */
   const login = async (email, password) => {
     try {
       setIsLoading(true);
       const response = await apiService.login(email, password);
 
+      // Handle successful login
       if (response && response.success) {
         const userData = response.data.user;
 
-        // Validate and set user status with fallback
+        // Validate user status with fallback to 'user'
         const validStatuses = ["admin", "user", "manager"];
-        const userStatus = validStatuses.includes(
-          userData.status?.toLowerCase()
-        )
+        const userStatus = validStatuses.includes(userData.status?.toLowerCase())
           ? userData.status.toLowerCase()
           : "user";
 
+        // Create complete user profile
         const userProfile = {
           email: userData.email || email,
           status: userStatus,
@@ -304,19 +262,16 @@ export const AuthProvider = ({ children }) => {
           ...userData,
         };
 
+        // Update state and localStorage
         setUser(userProfile);
         setIsAuthenticated(true);
-
-        // Save user data to localStorage
         localStorage.setItem("user", JSON.stringify(userProfile));
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userEmail", userProfile.email);
         localStorage.setItem("userRole", userProfile.status);
 
-        // Set default authorization header for future requests
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
+        // Set authorization header for future API calls
+        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 
         return { success: true, user: userProfile };
       } else {
@@ -329,7 +284,10 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-  
+
+  /**
+   * Register function - creates new user account
+   */
   const register = async (name, email, password, confirmPassword) => {
     try {
       setIsLoading(true);
@@ -337,32 +295,29 @@ export const AuthProvider = ({ children }) => {
 
       if (response) {
         if (response.success) {
+          // Check if auto-login occurred
           if (response.data && response.data.user) {
             const userData = response.data.user;
             setUser(userData);
             setIsAuthenticated(true);
             localStorage.setItem("user", JSON.stringify(userData));
             localStorage.setItem("token", response.data.token);
-
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${response.data.token}`;
+            axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 
             return { success: true, user: userData, autoLoggedIn: true };
           } else {
-            return { success: true, autoLoggedIn: false, message: response.message || "Registration successful" };
+            // Registration successful but no auto-login
+            return { 
+              success: true, 
+              autoLoggedIn: false, 
+              message: response.message || "Registration successful" 
+            };
           }
         } else {
-          return {
-            success: false,
-            error: response?.message || "Registration failed",
-          };
+          return { success: false, error: response?.message || "Registration failed" };
         }
       } else {
-        return {
-          success: false,
-          error: "No response from server",
-        };
+        return { success: false, error: "No response from server" };
       }
     } catch (error) {
       console.error("Registration error:", error);
@@ -372,20 +327,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  /**
+   * Logout function - clears user data
+   */
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userRole");
-
-    // Remove authorization header
     delete axios.defaults.headers.common["Authorization"];
-
     toast.info("You have been logged out");
   };
 
+  // Initialize authentication on app start
   useEffect(() => {
     const initializeAuth = async () => {
       const savedUser = localStorage.getItem("user");
@@ -393,9 +347,7 @@ export const AuthProvider = ({ children }) => {
 
       if (savedUser && token) {
         try {
-          // Set authorization header for existing token
           axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
           const userData = JSON.parse(savedUser);
           setUser(userData);
           setIsAuthenticated(true);
@@ -403,8 +355,6 @@ export const AuthProvider = ({ children }) => {
           console.error("Error initializing auth:", error);
           localStorage.removeItem("user");
           localStorage.removeItem("token");
-          localStorage.removeItem("userEmail");
-          localStorage.removeItem("userRole");
           delete axios.defaults.headers.common["Authorization"];
         }
       }
@@ -414,6 +364,7 @@ export const AuthProvider = ({ children }) => {
     initializeAuth();
   }, []);
 
+  // Value provided to all components using this context
   const value = {
     user,
     isAuthenticated,
@@ -426,21 +377,14 @@ export const AuthProvider = ({ children }) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Simple Loading Spinner Component (since the import was commented out)
-const LoadingSpinner = ({ size = "md", text = "" }) => (
-  <div className={`flex items-center justify-center ${size === "sm" ? "space-x-2" : "space-x-3"}`}>
-    <div className={`animate-spin rounded-full border-2 border-gray-300 border-t-blue-600 ${
-      size === "sm" ? "w-4 h-4" : "w-6 h-6"
-    }`}></div>
-    {text && <span className="text-gray-600">{text}</span>}
-  </div>
-);
-
-// Protected Route Component
+// =============================================
+// PROTECTED ROUTE COMPONENT - Secures pages
+// =============================================
 export const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { isAuthenticated, user, isLoading } = useAuth();
   const navigate = useNavigate();
 
+  // Redirect if not authenticated or not admin
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       navigate("/");
@@ -450,6 +394,7 @@ export const ProtectedRoute = ({ children, adminOnly = false }) => {
     }
   }, [isAuthenticated, user, isLoading, navigate]);
 
+  // Show loading while checking authentication
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-indigo-500">
@@ -458,18 +403,20 @@ export const ProtectedRoute = ({ children, adminOnly = false }) => {
     );
   }
 
-  if (!isAuthenticated) {
-    return null;
-  }
-
-  if (adminOnly && user?.status !== "admin") {
-    return null;
-  }
+  // Don't render if not authenticated or not authorized
+  if (!isAuthenticated) return null;
+  if (adminOnly && user?.status !== "admin") return null;
 
   return children;
 };
 
-// Modal Overlay Component
+// =============================================
+// REUSABLE MODAL COMPONENTS
+// =============================================
+
+/**
+ * Modal Overlay - Background for all modals
+ */
 const ModalOverlay = ({ children, onClose }) => (
   <motion.div
     initial={{ opacity: 0 }}
@@ -477,16 +424,16 @@ const ModalOverlay = ({ children, onClose }) => (
     exit={{ opacity: 0 }}
     className="fixed inset-0 bg-black/50 backdrop-blur-sm overflow-y-auto flex items-start justify-center z-50 p-4"
     onClick={(e) => {
-      if (e.target === e.currentTarget) {
-        onClose();
-      }
+      if (e.target === e.currentTarget) onClose();
     }}
   >
     {children}
   </motion.div>
 );
 
-// Modal Close Button Component
+/**
+ * Close Button for Modals
+ */
 const ModalCloseButton = ({ onClose }) => (
   <button
     onClick={onClose}
@@ -496,7 +443,9 @@ const ModalCloseButton = ({ onClose }) => (
   </button>
 );
 
-// Success Modal Component
+/**
+ * Success Modal - Shows when actions complete successfully
+ */
 const SuccessModal = ({ onClose }) => (
   <motion.div
     initial={{ scale: 0.9, opacity: 0 }}
@@ -525,7 +474,9 @@ const SuccessModal = ({ onClose }) => (
   </motion.div>
 );
 
-// Fail Modal Component
+/**
+ * Fail Modal - Shows when actions fail
+ */
 const FailModal = ({ onClose, errorMessage }) => (
   <motion.div
     initial={{ scale: 0.9, opacity: 0 }}
@@ -554,20 +505,17 @@ const FailModal = ({ onClose, errorMessage }) => (
   </motion.div>
 );
 
-// Login Form Component
-const LoginForm = ({
-  form,
-  onChange,
-  onSubmit,
-  isSubmitting,
-  onForgotPassword,
-  onSwitchToRegister,
-}) => (
+// =============================================
+// FORM COMPONENTS - Reusable form templates
+// =============================================
+
+/**
+ * Login Form Component
+ */
+const LoginForm = ({ form, onChange, onSubmit, isSubmitting, onForgotPassword, onSwitchToRegister }) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Email Address
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
       <input
         type="email"
         name="email"
@@ -580,9 +528,7 @@ const LoginForm = ({
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Password
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
       <input
         type="password"
         name="password"
@@ -604,7 +550,7 @@ const LoginForm = ({
       </button>
     </div>
 
-    <motion.button
+    <button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       type="submit"
@@ -612,7 +558,7 @@ const LoginForm = ({
       className="w-full bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-700 text-white py-4 px-4 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-800 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {isSubmitting ? <LoadingSpinner size="sm" /> : "Sign In"}
-    </motion.button>
+    </button>
 
     <div className="mt-8 text-center">
       <p className="text-gray-600">
@@ -620,7 +566,7 @@ const LoginForm = ({
         <button
           type="button"
           onClick={onSwitchToRegister}
-          className="bg-gradient-to-br from-blue-800 to-indigo-800 text-white px-4 py-2 rounded-xl font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-200"
+          className="bg-gradient-to-br from-blue-800 to-indigo-800 px-4 py-2 rounded-xl font-semibold hover:from-blue-500 hover:to-indigo-500 transition-all duration-200"
         >
           Create one here
         </button>
@@ -629,19 +575,13 @@ const LoginForm = ({
   </form>
 );
 
-// Register Form Component
-const RegisterForm = ({
-  form,
-  onChange,
-  onSubmit,
-  isSubmitting,
-  onSwitchToLogin,
-}) => (
+/**
+ * Register Form Component
+ */
+const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin }) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Full Name
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
       <input
         type="text"
         name="name"
@@ -654,9 +594,7 @@ const RegisterForm = ({
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Email Address
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
       <input
         type="email"
         name="email"
@@ -669,9 +607,7 @@ const RegisterForm = ({
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Password
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
       <input
         type="password"
         name="password"
@@ -682,15 +618,11 @@ const RegisterForm = ({
         required
         minLength={6}
       />
-      <p className="text-xs text-gray-500 mt-2">
-        Must be at least 6 characters
-      </p>
+      <p className="text-xs text-gray-500 mt-2">Must be at least 6 characters</p>
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Confirm Password
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Confirm Password</label>
       <input
         type="password"
         name="confirmPassword"
@@ -709,11 +641,7 @@ const RegisterForm = ({
       disabled={isSubmitting}
       className="w-full bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-600 text-white py-4 px-4 rounded-xl hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 transition-all duration-200 font-semibold shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {isSubmitting ? (
-        <LoadingSpinner size="sm" text="Creating account..." />
-      ) : (
-        "Create Account"
-      )}
+      {isSubmitting ? <LoadingSpinner size="sm" text="Creating account..." /> : "Create Account"}
     </motion.button>
 
     <div className="mt-8 text-center">
@@ -731,29 +659,21 @@ const RegisterForm = ({
   </form>
 );
 
-// Forgot Password Form Component
-const ForgotPasswordForm = ({
-  form,
-  onChange,
-  onSubmit,
-  isSubmitting,
-  onSwitchToLogin,
-}) => (
+/**
+ * Forgot Password Form Component
+ */
+const ForgotPasswordForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin }) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div className="text-center mb-6">
       <div className="w-16 h-16 bg-gradient-to-tr from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
         <SvgIcons.Key />
       </div>
       <h3 className="text-2xl font-bold text-gray-800 mb-2">Reset Password</h3>
-      <p className="text-gray-600">
-        Enter your email to receive reset instructions
-      </p>
+      <p className="text-gray-600">Enter your email to receive reset instructions</p>
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Email Address
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
       <input
         type="email"
         name="email"
@@ -787,23 +707,21 @@ const ForgotPasswordForm = ({
   </form>
 );
 
-// Reset Password Form Component
+/**
+ * Reset Password Form Component
+ */
 const ResetPasswordForm = ({ form, onChange, onSubmit, isSubmitting }) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div className="text-center mb-6">
       <div className="w-16 h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
         <SvgIcons.Lock />
       </div>
-      <h3 className="text-2xl font-bold text-gray-800 mb-2">
-        Set New Password
-      </h3>
+      <h3 className="text-2xl font-bold text-gray-800 mb-2">Set New Password</h3>
       <p className="text-gray-600">Enter your new password below</p>
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        New Password
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">New Password</label>
       <input
         type="password"
         name="password"
@@ -817,9 +735,7 @@ const ResetPasswordForm = ({ form, onChange, onSubmit, isSubmitting }) => (
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Confirm New Password
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Confirm New Password</label>
       <input
         type="password"
         name="confirmPassword"
@@ -843,14 +759,14 @@ const ResetPasswordForm = ({ form, onChange, onSubmit, isSubmitting }) => (
   </form>
 );
 
-// Contact Form Component
+/**
+ * Contact Form Component
+ */
 const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3">
-          Full Name
-        </label>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
         <input
           type="text"
           name="name"
@@ -863,9 +779,7 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3">
-          Email Address
-        </label>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
         <input
           type="email"
           name="email"
@@ -879,9 +793,7 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Subject
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Subject</label>
       <input
         type="text"
         name="subject"
@@ -894,9 +806,7 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">
-        Message
-      </label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">Message</label>
       <textarea
         name="message"
         value={form.message}
@@ -915,11 +825,7 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
       disabled={isSubmitting}
       className="w-full bg-gradient-to-tr from-orange-500 via-red-500 to-pink-600 text-white py-4 px-4 rounded-xl hover:from-orange-600 hover:via-red-600 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {isSubmitting ? (
-        <LoadingSpinner size="sm" text="Sending message..." />
-      ) : (
-        "Send Message"
-      )}
+      {isSubmitting ? <LoadingSpinner size="sm" text="Sending message..." /> : "Send Message"}
     </motion.button>
 
     <div className="text-center text-sm text-gray-500">
@@ -928,29 +834,35 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
   </form>
 );
 
-// Helper function to get dashboard path based on user status
+// =============================================
+// HELPER FUNCTIONS - Utility functions
+// =============================================
+
+/**
+ * Get the correct dashboard path based on user role
+ */
 const getDashboardPath = (user) => {
   const userStatus = user?.status;
-
   switch (userStatus) {
-    case "admin":
-      return "/dashboard";
-    case "manager":
-      return "/manager-dashboard";
-    case "user":
-      return "/user-dashboard";
-    default:
-      return "/dashboard";
+    case "admin": return "/dashboard";
+    case "manager": return "/manager-dashboard";
+    case "user": return "/user-dashboard";
+    default: return "/dashboard";
   }
 };
 
-// Helper function to get user display status
+/**
+ * Get display-friendly user status
+ */
 const getUserDisplayStatus = (user) => {
   return user?.status || "user";
 };
 
-// Navbar Component with Safe Auth Hook
+// =============================================
+// MAIN NAVBAR COMPONENT - Complete navigation system
+// =============================================
 export const Navbar = () => {
+  // State for managing modal visibility
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
   const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
@@ -962,45 +874,21 @@ export const Navbar = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Form state management
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [registerForm, setRegisterForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
   const [forgotPasswordForm, setForgotPasswordForm] = useState({ email: "" });
-  const [resetPasswordForm, setResetPasswordForm] = useState({
-    password: "",
-    confirmPassword: "",
-    token: "",
-  });
-  const [contactForm, setContactForm] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
+  const [resetPasswordForm, setResetPasswordForm] = useState({ password: "", confirmPassword: "", token: "" });
+  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
 
-  // Safe auth hook usage with fallback
-  let authContext;
-  try {
-    authContext = useAuth();
-  } catch (error) {
-    // If AuthContext is not available, provide fallback values
-    authContext = {
-      isAuthenticated: false,
-      user: null,
-      login: async () => ({ success: false, error: "Auth not available" }),
-      register: async () => ({ success: false, error: "Auth not available" }),
-      logout: () => {},
-    };
-  }
-
-  const { isAuthenticated, user, login, register, logout } = authContext;
+  // Authentication hooks
+  const { isAuthenticated, user, login, register, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Modal handlers
+  // =============================================
+  // MODAL MANAGEMENT FUNCTIONS
+  // =============================================
+
   const openLogin = () => {
     setIsLoginOpen(true);
     setIsRegisterOpen(false);
@@ -1027,14 +915,6 @@ export const Navbar = () => {
     setIsContactOpen(false);
   };
 
-  const openResetPassword = () => {
-    setIsResetPasswordOpen(true);
-    setIsForgotPasswordOpen(false);
-    setIsLoginOpen(false);
-    setIsRegisterOpen(false);
-    setIsContactOpen(false);
-  };
-
   const openContact = () => {
     setIsContactOpen(true);
     setIsLoginOpen(false);
@@ -1052,6 +932,7 @@ export const Navbar = () => {
     setIsContactOpen(false);
     setIsSuccessModalOpen(false);
     setIsFailModalOpen(false);
+    // Reset all forms
     setLoginForm({ email: "", password: "" });
     setRegisterForm({ name: "", email: "", password: "", confirmPassword: "" });
     setForgotPasswordForm({ email: "" });
@@ -1060,38 +941,34 @@ export const Navbar = () => {
     setErrorMessage("");
   };
 
-  // Function to handle switching from login to register
+  // Switch between login and register modals
   const switchToRegister = () => {
     setIsLoginOpen(false);
     setIsRegisterOpen(true);
     if (loginForm.email) {
-      setRegisterForm((prev) => ({
-        ...prev,
-        email: loginForm.email,
-      }));
+      setRegisterForm((prev) => ({ ...prev, email: loginForm.email }));
     }
   };
 
-  // Function to handle switching from register to login
   const switchToLogin = () => {
     setIsRegisterOpen(false);
     setIsLoginOpen(true);
     if (registerForm.email) {
-      setLoginForm((prev) => ({
-        ...prev,
-        email: registerForm.email,
-      }));
+      setLoginForm((prev) => ({ ...prev, email: registerForm.email }));
     }
   };
 
-  // Form handlers
+  // =============================================
+  // FORM SUBMISSION HANDLERS
+  // =============================================
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const result = await login(loginForm.email, loginForm.password);
     if (result.success) {
-      toast.success(`Welcome back, ${result.user.name}! 🎉`);
+      toast.success(`Welcome to NdizNote Musics hub, ${result.user.name}! 🎉`);
       setTimeout(() => {
         closeModals();
         const dashboardPath = getDashboardPath(result.user);
@@ -1106,6 +983,7 @@ export const Navbar = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
+    // Password validation
     if (registerForm.password !== registerForm.confirmPassword) {
       toast.error("Passwords do not match!");
       return;
@@ -1126,27 +1004,21 @@ export const Navbar = () => {
     
     if (result.success) {
       if (result.autoLoggedIn) {
-        toast.success(`Welcome to Nexus, ${result.user.name}! 🚀`);
+        // Auto-login successful
+        toast.success(`Welcome to NdizNote Musics hub, ${result.user.name}! 🚀`);
         setTimeout(() => {
           closeModals();
           const dashboardPath = getDashboardPath(result.user);
           navigate(dashboardPath);
         }, 1500);
       } else {
+        // Registration successful, need to login
         toast.success("Account created successfully! Please login with your credentials. ✅");
         setTimeout(() => {
           setIsRegisterOpen(false);
           setIsLoginOpen(true);
-          setLoginForm({
-            email: registerForm.email,
-            password: "",
-          });
-          setRegisterForm({
-            name: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-          });
+          setLoginForm({ email: registerForm.email, password: "" });
+          setRegisterForm({ name: "", email: "", password: "", confirmPassword: "" });
         }, 1000);
       }
     } else {
@@ -1168,14 +1040,10 @@ export const Navbar = () => {
           setIsLoginOpen(true);
         }, 2000);
       } else {
-        toast.error(
-          result.error || "Failed to send reset email. Please try again."
-        );
+        toast.error(result.error || "Failed to send reset email. Please try again.");
       }
     } catch (error) {
-      toast.error(
-        error.message || "Failed to send reset email. Please try again."
-      );
+      toast.error(error.message || "Failed to send reset email. Please try again.");
     }
     setIsSubmitting(false);
   };
@@ -1201,14 +1069,10 @@ export const Navbar = () => {
           setIsLoginOpen(true);
         }, 2000);
       } else {
-        toast.error(
-          result.error || "Failed to reset password. Please try again."
-        );
+        toast.error(result.error || "Failed to reset password. Please try again.");
       }
     } catch (error) {
-      toast.error(
-        error.message || "Failed to reset password. Please try again."
-      );
+      toast.error(error.message || "Failed to reset password. Please try again.");
     }
     setIsSubmitting(false);
   };
@@ -1222,12 +1086,7 @@ export const Navbar = () => {
       if (result.success) {
         setIsContactOpen(false);
         setIsSuccessModalOpen(true);
-        setContactForm({
-          name: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
+        setContactForm({ name: "", email: "", subject: "", message: "" });
       } else {
         setErrorMessage(result.error || "Failed to send message. Please try again.");
         setIsContactOpen(false);
@@ -1256,36 +1115,31 @@ export const Navbar = () => {
     }
   };
 
+
   return (
     <>
       {/* Navigation Bar */}
       <nav className="bg-gradient-to-t from-gray-100 to-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200/60 overflow-visible">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between h-16">
-            {/* Logo */}
+            
+            {/* Logo Section */}
             <div className="flex items-center">
               <Link to="/" className="flex-shrink-0 flex items-center">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="flex items-center space-x-3"
-                >
-                 
-                  <span className="text-2xl font-bold italic p-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    NDZNOTE
+                <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
+                  <SvgIcons.Logo />
+                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    NdizNote
                   </span>
                 </motion.div>
               </Link>
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden lg:flex items-center space-x-8">
-              {/* Main Navigation */}
+            <div className="hidden lg:flex items-center lg:px-12  space-x-8">
+              {/* Main Navigation Links */}
               {navigationConfig.main.map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className="flex items-center space-x-2 transition-all duration-200 font-medium group"
-                >
+                <Link key={item.path} to={item.path} className="flex items-center space-x-2 transition-all duration-200 font-medium group">
                   <Button className="bg-gradient-to-t from-blue-300 to-indigo-300">
                     <span className="relative">
                       {item.name}
@@ -1296,17 +1150,14 @@ export const Navbar = () => {
               ))}
 
               {/* Contact Button */}
-              <button
-                onClick={openContact}
-                className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl transition-all duration-200 font-medium group"
-              >
+              <button onClick={openContact} className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group">
                 <span className="relative">
                   Contact
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
                 </span>
               </button>
 
-              {/* Dashboard Button for Authenticated Users */}
+              {/* Dashboard Button for Logged-in Users */}
               {isAuthenticated && (
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -1323,19 +1174,23 @@ export const Navbar = () => {
             <div className="hidden lg:flex items-center space-x-4">
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4 pl-4 border-l border-gray-200">
+                  {/* User Profile Display */}
                   <div className="flex items-center space-x-3 min-w-0 bg-white/50 backdrop-blur-sm rounded-xl px-3 py-2 border border-gray-200/50">
-                    <div className="w-8 h-8 rounded-full border-2 border-blue-500 flex-shrink-0 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-bold">
-                      {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                    </div>
+                    <img
+                      src={user?.avatar || `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`}
+                      alt="User avatar"
+                      className="w-8 h-8 rounded-full border-2 border-blue-500 flex-shrink-0"
+                    />
                     <div className="text-right min-w-0">
                       <p className="text-sm font-medium text-indigo-900 truncate max-w-32">
-                        {user?.name?.slice(0, 8) || 'User'}
+                        {user?.name.slice(0, 8)}
                       </p>
                       <p className="text-xs text-gray-500 capitalize font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                         {getUserDisplayStatus(user)}
                       </p>
                     </div>
                   </div>
+                  {/* Logout Button */}
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -1346,6 +1201,7 @@ export const Navbar = () => {
                   </motion.button>
                 </div>
               ) : (
+                /* Login and Register Buttons */
                 <div className="flex items-center space-x-4">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -1353,7 +1209,7 @@ export const Navbar = () => {
                     onClick={openLogin}
                     className="border-2 border-blue-600 bg-transparent text-blue-600 px-6 py-2.5 rounded-xl hover:bg-blue-50 transition-all duration-200 font-semibold shadow-sm flex items-center space-x-2"
                   >
-                    <span>Sign In</span>
+                    <span>LogIn</span>
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
@@ -1367,7 +1223,7 @@ export const Navbar = () => {
               )}
             </div>
 
-            {/* Mobile menu button */}
+            {/* Mobile Menu Button */}
             <div className="lg:hidden flex items-center">
               <motion.button
                 whileTap={{ scale: 0.95 }}
@@ -1390,7 +1246,7 @@ export const Navbar = () => {
               className="lg:hidden bg-white/95 backdrop-blur-md border-t border-gray-200/60 shadow-xl absolute top-full left-0 right-0 max-h-[80vh] overflow-y-auto"
             >
               <div className="px-4 py-6 space-y-4">
-                {/* Main Navigation Mobile */}
+                {/* Mobile Navigation Links */}
                 {navigationConfig.main.map((item) => (
                   <Link
                     to={item.path}
@@ -1407,18 +1263,18 @@ export const Navbar = () => {
                   </Link>
                 ))}
 
-                {/* Contact Mobile */}
+                {/* Mobile Contact Button */}
                 <button
                   onClick={() => {
                     openContact();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white space-x-3 px-4 py-3 text-left rounded-xl transition-all duration-200 font-medium"
+                  className="w-full flex items-center bg-gradient-to-r from-blue-600 to-purple-600 space-x-3 px-4 py-3 text-left bg-transparent text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 rounded-xl transition-all duration-200 font-medium"
                 >
                   <span>Contact</span>
                 </button>
 
-                {/* Dashboard Button for Authenticated Users Mobile */}
+                {/* Mobile Dashboard Button */}
                 {isAuthenticated && (
                   <button
                     onClick={() => {
@@ -1431,7 +1287,7 @@ export const Navbar = () => {
                   </button>
                 )}
 
-                {/* Auth Buttons Mobile */}
+                {/* Mobile Auth Buttons */}
                 {!isAuthenticated ? (
                   <div className="pt-4 border-t border-gray-200 space-y-3">
                     <button
@@ -1455,19 +1311,23 @@ export const Navbar = () => {
                   </div>
                 ) : (
                   <div className="pt-4 border-t border-gray-200 space-y-3">
+                    {/* Mobile User Info */}
                     <div className="flex items-center space-x-3 px-4 py-3 bg-white/50 rounded-xl border border-gray-200/50">
-                      <div className="w-10 h-10 rounded-full border-2 border-blue-500 bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
-                        {user?.name?.charAt(0)?.toUpperCase() || 'U'}
-                      </div>
+                      <img
+                        src={user?.avatar || `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`}
+                        alt="User avatar"
+                        className="w-10 h-10 rounded-full border-2 border-blue-500"
+                      />
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-gray-900 truncate">
-                          {user?.name || 'User'}
+                        <p className="text-sm text-green-500 font-medium text-gray-900 truncate">
+                          {user?.name}
                         </p>
                         <p className="text-xs text-gray-500 capitalize font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                           {getUserDisplayStatus(user)}
                         </p>
                       </div>
                     </div>
+                    {/* Mobile Logout Button */}
                     <button
                       onClick={() => {
                         handleLogout();
@@ -1484,6 +1344,10 @@ export const Navbar = () => {
           )}
         </AnimatePresence>
       </nav>
+
+      {/* ============================================= */}
+      {/* MODAL COMPONENTS - All popup dialogs */}
+      {/* ============================================= */}
 
       {/* Login Modal */}
       <AnimatePresence>
@@ -1502,12 +1366,9 @@ export const Navbar = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <SvgIcons.User />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                  Welcome Back
-                </h2>
-                <p className="text-gray-600">Sign in to your Nexus account</p>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+                <p className="text-gray-600">Sign in to your NdizNote Musics hub account</p>
               </div>
-
               <LoginForm
                 form={loginForm}
                 onChange={setLoginForm}
@@ -1538,14 +1399,9 @@ export const Navbar = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <span className="text-white font-bold text-xl">+</span>
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                  Join Nexus
-                </h2>
-                <p className="text-gray-600">
-                  Create your account and get started
-                </p>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Join NdizNote Musics hub</h2>
+                <p className="text-gray-600">Create your account and get started</p>
               </div>
-
               <RegisterForm
                 form={registerForm}
                 onChange={setRegisterForm}
@@ -1627,12 +1483,9 @@ export const Navbar = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <SvgIcons.Message />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">
-                  Contact Us
-                </h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">Contact Us</h2>
                 <p className="text-gray-600">Get in touch with our team</p>
               </div>
-
               <ContactForm
                 form={contactForm}
                 onChange={setContactForm}
@@ -1664,4 +1517,3 @@ export const Navbar = () => {
     </>
   );
 };
-
