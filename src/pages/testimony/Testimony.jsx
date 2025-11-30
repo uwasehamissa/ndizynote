@@ -220,17 +220,6 @@ const TestimonialCarousel = ({ testimonials, autoPlay = true }) => {
     return () => clearInterval(interval);
   }, [isPlaying, autoPlay, totalSlides]);
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalSlides) % totalSlides);
-  };
-
-  const goToSlide = (index) => {
-    setCurrentIndex(index);
-  };
 
   const currentTestimonials = testimonials.slice(
     currentIndex * itemsPerSlide,

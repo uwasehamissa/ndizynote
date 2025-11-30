@@ -19,7 +19,7 @@ import Button from "@mui/material/Button";
 // =============================================
 
 // API Configuration - Change this to your actual backend URL
-const API_BASE_URL = "https://nexusbackend-hdyk.onrender.com/admin";
+const API_BASE_URL = "https://ndizmusicprojectbackend.onrender.com";
 
 // Navigation Menu Configuration - Easy to update menu items
 const navigationConfig = {
@@ -27,7 +27,7 @@ const navigationConfig = {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Services", path: "/services" },
-
+    { name: "Classes", path: "/classes" },
     { name: "FAQ", path: "/faq" },
   ],
   authenticated: [{ name: "Dashboard", path: "/dashboard" }],
@@ -39,7 +39,13 @@ const navigationConfig = {
 const SvgIcons = {
   // App Logo with gradient
   Logo: () => (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="flex-shrink-0">
+    <svg
+      width="32"
+      height="32"
+      viewBox="0 0 32 32"
+      fill="none"
+      className="flex-shrink-0"
+    >
       <defs>
         <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="#3B82F6" />
@@ -48,81 +54,155 @@ const SvgIcons = {
       </defs>
       <rect width="32" height="32" rx="8" fill="url(#logoGradient)" />
       <path d="M16 8L22 12L16 16L10 12L16 8Z" fill="white" fillOpacity="0.9" />
-      <path d="M16 16L22 20L16 24L10 20L16 16Z" fill="white" fillOpacity="0.7" />
-      <path d="M22 12L28 16L22 20L16 16L22 12Z" fill="white" fillOpacity="0.5" />
+      <path
+        d="M16 16L22 20L16 24L10 20L16 16Z"
+        fill="white"
+        fillOpacity="0.7"
+      />
+      <path
+        d="M22 12L28 16L22 20L16 16L22 12Z"
+        fill="white"
+        fillOpacity="0.5"
+      />
     </svg>
   ),
-  
+
   // Menu icon for mobile navigation
   Menu: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M3 12h18M3 6h18M3 18h18"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
     </svg>
   ),
-  
+
   // Close icon for modals
   Close: () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path
+        d="M18 6L6 18M6 6l12 12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
     </svg>
   ),
-  
+
   // User profile icon
   User: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
       <circle cx="12" cy="7" r="4" />
     </svg>
   ),
-  
+
   // Email icon for forms
   Email: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <rect x="2" y="4" width="20" height="16" rx="2" />
       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
     </svg>
   ),
-  
+
   // Message icon for contact
   Message: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
     </svg>
   ),
-  
+
   // Phone icon
   Phone: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   ),
-  
+
   // Lock icon for security
   Lock: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
     </svg>
   ),
-  
+
   // Key icon for password reset
   Key: () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
     </svg>
   ),
-  
+
   // Success checkmark icon
   Success: () => (
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="64"
+      height="64"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
       <path d="m9 11 3 3L22 4" />
     </svg>
   ),
-  
+
   // Error X icon
   Error: () => (
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg
+      width="64"
+      height="64"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
       <circle cx="12" cy="12" r="10" />
       <path d="m15 9-6 6" />
       <path d="m9 9 6 6" />
@@ -161,7 +241,8 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Login failed. Please try again.";
+      const errorMessage =
+        error.response?.data?.message || "Login failed. Please try again.";
       throw new Error(errorMessage);
     }
   },
@@ -175,11 +256,13 @@ const apiService = {
         name,
         email,
         password,
-        confirmPassword
+        confirmPassword,
       });
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
+      const errorMessage =
+        error.response?.data?.message ||
+        "Registration failed. Please try again.";
       throw new Error(errorMessage);
     }
   },
@@ -189,10 +272,15 @@ const apiService = {
    */
   forgotPassword: async (email) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/forgot-password`, { email });
+      const response = await axios.post(
+        `${API_BASE_URL}/auth/forgot-password`,
+        { email }
+      );
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Failed to send reset email. Please try again.";
+      const errorMessage =
+        error.response?.data?.message ||
+        "Failed to send reset email. Please try again.";
       throw new Error(errorMessage);
     }
   },
@@ -208,7 +296,9 @@ const apiService = {
       });
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Failed to reset password. Please try again.";
+      const errorMessage =
+        error.response?.data?.message ||
+        "Failed to reset password. Please try again.";
       throw new Error(errorMessage);
     }
   },
@@ -221,7 +311,10 @@ const apiService = {
       const response = await axios.post(`${API_BASE_URL}/contact`, formData);
       return response.data;
     } catch (error) {
-      throw new Error(error.response?.data?.message || "Message sending failed. Please try again.");
+      throw new Error(
+        error.response?.data?.message ||
+          "Message sending failed. Please try again."
+      );
     }
   },
 };
@@ -249,7 +342,9 @@ export const AuthProvider = ({ children }) => {
 
         // Validate user status with fallback to 'user'
         const validStatuses = ["admin", "user", "manager"];
-        const userStatus = validStatuses.includes(userData.status?.toLowerCase())
+        const userStatus = validStatuses.includes(
+          userData.status?.toLowerCase()
+        )
           ? userData.status.toLowerCase()
           : "user";
 
@@ -271,7 +366,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("userRole", userProfile.status);
 
         // Set authorization header for future API calls
-        axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${response.data.token}`;
 
         return { success: true, user: userProfile };
       } else {
@@ -291,7 +388,12 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password, confirmPassword) => {
     try {
       setIsLoading(true);
-      const response = await apiService.register(name, email, password, confirmPassword);
+      const response = await apiService.register(
+        name,
+        email,
+        password,
+        confirmPassword
+      );
 
       if (response) {
         if (response.success) {
@@ -302,19 +404,24 @@ export const AuthProvider = ({ children }) => {
             setIsAuthenticated(true);
             localStorage.setItem("user", JSON.stringify(userData));
             localStorage.setItem("token", response.data.token);
-            axios.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${response.data.token}`;
 
             return { success: true, user: userData, autoLoggedIn: true };
           } else {
             // Registration successful but no auto-login
-            return { 
-              success: true, 
-              autoLoggedIn: false, 
-              message: response.message || "Registration successful" 
+            return {
+              success: true,
+              autoLoggedIn: false,
+              message: response.message || "Registration successful",
             };
           }
         } else {
-          return { success: false, error: response?.message || "Registration failed" };
+          return {
+            success: false,
+            error: response?.message || "Registration failed",
+          };
         }
       } else {
         return { success: false, error: "No response from server" };
@@ -459,7 +566,9 @@ const SuccessModal = ({ onClose }) => (
     <div className="w-20 h-20 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
       <SvgIcons.Success />
     </div>
-    <h3 className="text-2xl font-bold text-gray-800 mb-4">Message Sent Successfully!</h3>
+    <h3 className="text-2xl font-bold text-gray-800 mb-4">
+      Message Sent Successfully!
+    </h3>
     <p className="text-gray-600 mb-6">
       Thank you for contacting us. We'll get back to you within 24 hours.
     </p>
@@ -490,9 +599,12 @@ const FailModal = ({ onClose, errorMessage }) => (
     <div className="w-20 h-20 bg-gradient-to-tr from-red-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
       <SvgIcons.Error />
     </div>
-    <h3 className="text-2xl font-bold text-gray-800 mb-4">Message Failed to Send</h3>
+    <h3 className="text-2xl font-bold text-gray-800 mb-4">
+      Message Failed to Send
+    </h3>
     <p className="text-gray-600 mb-4">
-      {errorMessage || "There was an error sending your message. Please try again."}
+      {errorMessage ||
+        "There was an error sending your message. Please try again."}
     </p>
     <motion.button
       whileHover={{ scale: 1.05 }}
@@ -512,10 +624,19 @@ const FailModal = ({ onClose, errorMessage }) => (
 /**
  * Login Form Component
  */
-const LoginForm = ({ form, onChange, onSubmit, isSubmitting, onForgotPassword, onSwitchToRegister }) => (
+const LoginForm = ({
+  form,
+  onChange,
+  onSubmit,
+  isSubmitting,
+  onForgotPassword,
+  onSwitchToRegister,
+}) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Email Address
+      </label>
       <input
         type="email"
         name="email"
@@ -528,7 +649,9 @@ const LoginForm = ({ form, onChange, onSubmit, isSubmitting, onForgotPassword, o
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Password
+      </label>
       <input
         type="password"
         name="password"
@@ -578,10 +701,18 @@ const LoginForm = ({ form, onChange, onSubmit, isSubmitting, onForgotPassword, o
 /**
  * Register Form Component
  */
-const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin }) => (
+const RegisterForm = ({
+  form,
+  onChange,
+  onSubmit,
+  isSubmitting,
+  onSwitchToLogin,
+}) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Full Name
+      </label>
       <input
         type="text"
         name="name"
@@ -594,7 +725,9 @@ const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin 
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Email Address
+      </label>
       <input
         type="email"
         name="email"
@@ -607,7 +740,9 @@ const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin 
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Password</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Password
+      </label>
       <input
         type="password"
         name="password"
@@ -618,11 +753,15 @@ const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin 
         required
         minLength={6}
       />
-      <p className="text-xs text-gray-500 mt-2">Must be at least 6 characters</p>
+      <p className="text-xs text-gray-500 mt-2">
+        Must be at least 6 characters
+      </p>
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Confirm Password</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Confirm Password
+      </label>
       <input
         type="password"
         name="confirmPassword"
@@ -641,7 +780,11 @@ const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin 
       disabled={isSubmitting}
       className="w-full bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-600 text-white py-4 px-4 rounded-xl hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 transition-all duration-200 font-semibold shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {isSubmitting ? <LoadingSpinner size="sm" text="Creating account..." /> : "Create Account"}
+      {isSubmitting ? (
+        <LoadingSpinner size="sm" text="Creating account..." />
+      ) : (
+        "Create Account"
+      )}
     </motion.button>
 
     <div className="mt-8 text-center">
@@ -662,18 +805,28 @@ const RegisterForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin 
 /**
  * Forgot Password Form Component
  */
-const ForgotPasswordForm = ({ form, onChange, onSubmit, isSubmitting, onSwitchToLogin }) => (
+const ForgotPasswordForm = ({
+  form,
+  onChange,
+  onSubmit,
+  isSubmitting,
+  onSwitchToLogin,
+}) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div className="text-center mb-6">
       <div className="w-16 h-16 bg-gradient-to-tr from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
         <SvgIcons.Key />
       </div>
       <h3 className="text-2xl font-bold text-gray-800 mb-2">Reset Password</h3>
-      <p className="text-gray-600">Enter your email to receive reset instructions</p>
+      <p className="text-gray-600">
+        Enter your email to receive reset instructions
+      </p>
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Email Address
+      </label>
       <input
         type="email"
         name="email"
@@ -716,12 +869,16 @@ const ResetPasswordForm = ({ form, onChange, onSubmit, isSubmitting }) => (
       <div className="w-16 h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
         <SvgIcons.Lock />
       </div>
-      <h3 className="text-2xl font-bold text-gray-800 mb-2">Set New Password</h3>
+      <h3 className="text-2xl font-bold text-gray-800 mb-2">
+        Set New Password
+      </h3>
       <p className="text-gray-600">Enter your new password below</p>
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">New Password</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        New Password
+      </label>
       <input
         type="password"
         name="password"
@@ -735,7 +892,9 @@ const ResetPasswordForm = ({ form, onChange, onSubmit, isSubmitting }) => (
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Confirm New Password</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Confirm New Password
+      </label>
       <input
         type="password"
         name="confirmPassword"
@@ -766,7 +925,9 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
   <form onSubmit={onSubmit} className="space-y-6 text-black">
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3">Full Name</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">
+          Full Name
+        </label>
         <input
           type="text"
           name="name"
@@ -779,7 +940,9 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-3">Email Address</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-3">
+          Email Address
+        </label>
         <input
           type="email"
           name="email"
@@ -793,7 +956,9 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Subject</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Subject
+      </label>
       <input
         type="text"
         name="subject"
@@ -806,7 +971,9 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
     </div>
 
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-3">Message</label>
+      <label className="block text-sm font-semibold text-gray-700 mb-3">
+        Message
+      </label>
       <textarea
         name="message"
         value={form.message}
@@ -825,7 +992,11 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
       disabled={isSubmitting}
       className="w-full bg-gradient-to-tr from-orange-500 via-red-500 to-pink-600 text-white py-4 px-4 rounded-xl hover:from-orange-600 hover:via-red-600 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {isSubmitting ? <LoadingSpinner size="sm" text="Sending message..." /> : "Send Message"}
+      {isSubmitting ? (
+        <LoadingSpinner size="sm" text="Sending message..." />
+      ) : (
+        "Send Message"
+      )}
     </motion.button>
 
     <div className="text-center text-sm text-gray-500">
@@ -844,10 +1015,14 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
 const getDashboardPath = (user) => {
   const userStatus = user?.status;
   switch (userStatus) {
-    case "admin": return "/dashboard";
-    case "manager": return "/manager-dashboard";
-    case "user": return "/user-dashboard";
-    default: return "/dashboard";
+    case "admin":
+      return "/dashboard";
+    case "manager":
+      return "/manager-dashboard";
+    case "user":
+      return "/user-dashboard";
+    default:
+      return "/dashboard";
   }
 };
 
@@ -876,10 +1051,24 @@ export const Navbar = () => {
 
   // Form state management
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
-  const [registerForm, setRegisterForm] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  const [registerForm, setRegisterForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [forgotPasswordForm, setForgotPasswordForm] = useState({ email: "" });
-  const [resetPasswordForm, setResetPasswordForm] = useState({ password: "", confirmPassword: "", token: "" });
-  const [contactForm, setContactForm] = useState({ name: "", email: "", subject: "", message: "" });
+  const [resetPasswordForm, setResetPasswordForm] = useState({
+    password: "",
+    confirmPassword: "",
+    token: "",
+  });
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
 
   // Authentication hooks
   const { isAuthenticated, user, login, register, logout } = useAuth();
@@ -1001,11 +1190,13 @@ export const Navbar = () => {
       registerForm.password,
       registerForm.confirmPassword
     );
-    
+
     if (result.success) {
       if (result.autoLoggedIn) {
         // Auto-login successful
-        toast.success(`Welcome to NdizNote Musics hub, ${result.user.name}! 🚀`);
+        toast.success(
+          `Welcome to NdizNote Musics hub, ${result.user.name}! 🚀`
+        );
         setTimeout(() => {
           closeModals();
           const dashboardPath = getDashboardPath(result.user);
@@ -1013,12 +1204,19 @@ export const Navbar = () => {
         }, 1500);
       } else {
         // Registration successful, need to login
-        toast.success("Account created successfully! Please login with your credentials. ✅");
+        toast.success(
+          "Account created successfully! Please login with your credentials. ✅"
+        );
         setTimeout(() => {
           setIsRegisterOpen(false);
           setIsLoginOpen(true);
           setLoginForm({ email: registerForm.email, password: "" });
-          setRegisterForm({ name: "", email: "", password: "", confirmPassword: "" });
+          setRegisterForm({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+          });
         }, 1000);
       }
     } else {
@@ -1040,10 +1238,14 @@ export const Navbar = () => {
           setIsLoginOpen(true);
         }, 2000);
       } else {
-        toast.error(result.error || "Failed to send reset email. Please try again.");
+        toast.error(
+          result.error || "Failed to send reset email. Please try again."
+        );
       }
     } catch (error) {
-      toast.error(error.message || "Failed to send reset email. Please try again.");
+      toast.error(
+        error.message || "Failed to send reset email. Please try again."
+      );
     }
     setIsSubmitting(false);
   };
@@ -1069,10 +1271,14 @@ export const Navbar = () => {
           setIsLoginOpen(true);
         }, 2000);
       } else {
-        toast.error(result.error || "Failed to reset password. Please try again.");
+        toast.error(
+          result.error || "Failed to reset password. Please try again."
+        );
       }
     } catch (error) {
-      toast.error(error.message || "Failed to reset password. Please try again.");
+      toast.error(
+        error.message || "Failed to reset password. Please try again."
+      );
     }
     setIsSubmitting(false);
   };
@@ -1088,12 +1294,16 @@ export const Navbar = () => {
         setIsSuccessModalOpen(true);
         setContactForm({ name: "", email: "", subject: "", message: "" });
       } else {
-        setErrorMessage(result.error || "Failed to send message. Please try again.");
+        setErrorMessage(
+          result.error || "Failed to send message. Please try again."
+        );
         setIsContactOpen(false);
         setIsFailModalOpen(true);
       }
     } catch (error) {
-      setErrorMessage(error.message || "Failed to send message. Please try again.");
+      setErrorMessage(
+        error.message || "Failed to send message. Please try again."
+      );
       setIsContactOpen(false);
       setIsFailModalOpen(true);
     }
@@ -1115,18 +1325,19 @@ export const Navbar = () => {
     }
   };
 
-
   return (
     <>
       {/* Navigation Bar */}
-      <nav className="bg-gradient-to-t from-gray-100 to-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200/60 overflow-visible">
+      <nav className="bg-gradient-to-t from-gray-300 to-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b  overflow-visible">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between h-16">
-            
             {/* Logo Section */}
             <div className="flex items-center">
               <Link to="/" className="flex-shrink-0 flex items-center">
-                <motion.div whileHover={{ scale: 1.05 }} className="flex items-center space-x-3">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="flex items-center space-x-3"
+                >
                   <SvgIcons.Logo />
                   <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                     NdizNote
@@ -1139,7 +1350,11 @@ export const Navbar = () => {
             <div className="hidden lg:flex items-center lg:px-12  space-x-8">
               {/* Main Navigation Links */}
               {navigationConfig.main.map((item) => (
-                <Link key={item.path} to={item.path} className="flex items-center space-x-2 transition-all duration-200 font-medium group">
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className="flex items-center space-x-2 transition-all duration-200 font-medium group"
+                >
                   <Button className="bg-gradient-to-t from-blue-300 to-indigo-300">
                     <span className="relative">
                       {item.name}
@@ -1150,7 +1365,10 @@ export const Navbar = () => {
               ))}
 
               {/* Contact Button */}
-              <button onClick={openContact} className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group">
+              <button
+                onClick={openContact}
+                className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group"
+              >
                 <span className="relative">
                   Contact
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
@@ -1177,7 +1395,10 @@ export const Navbar = () => {
                   {/* User Profile Display */}
                   <div className="flex items-center space-x-3 min-w-0 bg-white/50 backdrop-blur-sm rounded-xl px-3 py-2 border border-gray-200/50">
                     <img
-                      src={user?.avatar || `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`}
+                      src={
+                        user?.avatar ||
+                        `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`
+                      }
                       alt="User avatar"
                       className="w-8 h-8 rounded-full border-2 border-blue-500 flex-shrink-0"
                     />
@@ -1314,7 +1535,10 @@ export const Navbar = () => {
                     {/* Mobile User Info */}
                     <div className="flex items-center space-x-3 px-4 py-3 bg-white/50 rounded-xl border border-gray-200/50">
                       <img
-                        src={user?.avatar || `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`}
+                        src={
+                          user?.avatar ||
+                          `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`
+                        }
                         alt="User avatar"
                         className="w-10 h-10 rounded-full border-2 border-blue-500"
                       />
@@ -1366,8 +1590,12 @@ export const Navbar = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <SvgIcons.User />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
-                <p className="text-gray-600">Sign in to your NdizNote Musics hub account</p>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  Welcome Back
+                </h2>
+                <p className="text-gray-600">
+                  Sign in to your NdizNote Musics hub account
+                </p>
               </div>
               <LoginForm
                 form={loginForm}
@@ -1399,8 +1627,12 @@ export const Navbar = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <span className="text-white font-bold text-xl">+</span>
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Join NdizNote Musics hub</h2>
-                <p className="text-gray-600">Create your account and get started</p>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  Join NdizNote Musics hub
+                </h2>
+                <p className="text-gray-600">
+                  Create your account and get started
+                </p>
               </div>
               <RegisterForm
                 form={registerForm}
@@ -1483,7 +1715,9 @@ export const Navbar = () => {
                 <div className="w-16 h-16 bg-gradient-to-tr from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <SvgIcons.Message />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Contact Us</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                  Contact Us
+                </h2>
                 <p className="text-gray-600">Get in touch with our team</p>
               </div>
               <ContactForm
