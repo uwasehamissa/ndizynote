@@ -226,7 +226,7 @@ export const Hero = () => {
 
   return (
     <>
-      <section className="hero relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="w-full relative min-h-screen flex items-center justify-center overflow-hidden">
         <ToastContainer position="top-right" autoClose={5000} />
 
         {/* Background Image Slideshow */}
@@ -294,7 +294,7 @@ export const Hero = () => {
               {/* Premium Badge */}
 
               {/* Main Heading */}
-              <motion.h1
+              <motion.h2
                 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -305,7 +305,7 @@ export const Hero = () => {
                   NdzNote
                 </span>{" "}
                 Academy
-              </motion.h1>
+              </motion.h2>
 
               <motion.p
                 className="text-base xs:text-lg sm:text-xl md:text-2xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2"

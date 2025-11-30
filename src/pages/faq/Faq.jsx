@@ -1,5 +1,6 @@
-// pages/FAQ.jsx
-import React, { useState } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // SVG Icons
@@ -63,20 +64,42 @@ const PhoneIcon = ({ className = "w-6 h-6" }) => (
   </svg>
 );
 
+const SunIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM6.34 5.16l-1.42 1.42c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l1.42-1.42c.39-.39.39-1.02 0-1.41a.9959.9959 0 00-1.41 0zm13.08 12.42l1.42 1.42c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41l-1.42-1.42c-.39-.39-1.02-.39-1.41 0a.9959.9959 0 000 1.41zM5.16 17.66l1.42-1.42c.39-.39.39-1.02 0-1.41a.9959.9959 0 00-1.41 0l-1.42 1.42c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0zm12.42-13.08l1.42-1.42c.39-.39.39-1.02 0-1.41a.9959.9959 0 00-1.41 0l-1.42 1.42c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0z"/>
+  </svg>
+);
+
+const MoonIcon = ({ className = "w-6 h-6" }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
+    <path d="M9.37 5.51A7.35 7.35 0 009.1 7.5c0 4.08 3.32 7.4 7.4 7.4.68 0 1.35-.09 1.99-.27A7.014 7.014 0 0112 19c-3.86 0-7-3.14-7-7 0-2.93 1.81-5.45 4.37-6.49zM12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/>
+  </svg>
+);
+
+
+
 // FAQ Item Component
-const FAQItem = ({ faq, isOpen, onClick, index }) => {
+const FAQItem = ({ faq, isOpen, onClick, index, darkMode = false }) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden"
+      className={`rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border overflow-hidden ${
+        darkMode 
+          ? 'bg-gray-800 border-gray-700 hover:bg-gray-750' 
+          : 'bg-white border-gray-100 hover:bg-gray-50'
+      }`}
     >
       <button
         onClick={onClick}
-        className="w-full px-4 xsm:px-6 sm:px-8 py-4 xsm:py-5 sm:py-6 text-left flex items-center justify-between gap-4 hover:bg-gray-50 transition-colors duration-200"
+        className={`w-full px-4 xsm:px-6 sm:px-8 py-4 xsm:py-5 sm:py-6 text-left flex items-center justify-between gap-4 transition-colors duration-200 ${
+          darkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
+        }`}
       >
-        <h3 className="text-base xsm:text-lg sm:text-xl font-semibold text-gray-800 flex-1 pr-4">
+        <h3 className={`text-base xsm:text-lg sm:text-xl font-semibold flex-1 pr-4 ${
+          darkMode ? 'text-white' : 'text-gray-800'
+        }`}>
           {faq.question}
         </h3>
         <motion.div
@@ -98,12 +121,20 @@ const FAQItem = ({ faq, isOpen, onClick, index }) => {
             className="overflow-hidden"
           >
             <div className="px-4 xsm:px-6 sm:px-8 pb-4 xsm:pb-5 sm:pb-6">
-              <p className="text-gray-600 text-sm xsm:text-base leading-relaxed">
+              <p className={`leading-relaxed text-sm xsm:text-base ${
+                darkMode ? 'text-gray-300' : 'text-gray-600'
+              }`}>
                 {faq.answer}
               </p>
               {faq.additionalInfo && (
-                <div className="mt-3 xsm:mt-4 p-3 xsm:p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="text-blue-700 text-xs xsm:text-sm font-medium">
+                <div className={`mt-3 xsm:mt-4 p-3 xsm:p-4 rounded-lg border ${
+                  darkMode 
+                    ? 'bg-blue-900/20 border-blue-800' 
+                    : 'bg-blue-50 border-blue-200'
+                }`}>
+                  <p className={`text-xs xsm:text-sm font-medium ${
+                    darkMode ? 'text-blue-300' : 'text-blue-700'
+                  }`}>
                     {faq.additionalInfo}
                   </p>
                 </div>
@@ -117,7 +148,7 @@ const FAQItem = ({ faq, isOpen, onClick, index }) => {
 };
 
 // Category Filter Component
-const CategoryFilter = ({ categories, activeCategory, onCategoryChange }) => {
+const CategoryFilter = ({ categories, activeCategory, onCategoryChange, darkMode = false }) => {
   return (
     <div className="flex flex-wrap gap-2 xsm:gap-3 justify-center">
       {categories.map((category) => (
@@ -129,12 +160,20 @@ const CategoryFilter = ({ categories, activeCategory, onCategoryChange }) => {
           className={`flex items-center gap-2 px-4 xsm:px-5 py-2 xsm:py-2.5 rounded-xl font-semibold text-xs xsm:text-sm transition-all ${
             activeCategory === category.id
               ? 'bg-purple-600 text-white shadow-lg'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              : darkMode
+                ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
           {category.icon}
           {category.name}
-          <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
+          <span className={`px-2 py-1 rounded-full text-xs ${
+            activeCategory === category.id
+              ? 'bg-white/20 text-white'
+              : darkMode
+                ? 'bg-gray-600 text-gray-300'
+                : 'bg-white text-gray-700'
+          }`}>
             {category.count}
           </span>
         </motion.button>
@@ -147,6 +186,34 @@ export const FAQ = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [openItems, setOpenItems] = useState(new Set());
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Initialize dark mode from system preference or localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      setDarkMode(true);
+      document.documentElement.classList.add('dark');
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    
+    if (newDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
 
   // FAQ Data
   const faqData = [
@@ -366,9 +433,18 @@ export const FAQ = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20">
+    <div className={`min-h-screen transition-colors duration-300 pt-20 ${
+      darkMode 
+        ? 'bg-gradient-to-br from-gray-900 to-gray-800 text-white' 
+        : 'bg-gradient-to-br from-gray-50 to-blue-50 text-gray-900'
+    }`}>
+      {/* Header with Theme Toggle */}
+
+
       {/* Hero Section */}
-      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-blue-600 text-white overflow-hidden">
+      <section className={`relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-blue-600 text-white overflow-hidden ${
+        darkMode ? 'via-purple-700' : ''
+      }`}>
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute top-4 xsm:top-6 left-4 xsm:left-6 opacity-10">
           <SupportIcon className="w-8 h-8 xsm:w-12 xsm:h-12 sm:w-16 sm:h-16" />
@@ -405,7 +481,9 @@ export const FAQ = () => {
       </section>
 
       {/* Search Section */}
-      <section className="py-8 xsm:py-12 sm:py-16 bg-white">
+      <section className={`py-8 xsm:py-12 sm:py-16 transition-colors duration-300 ${
+        darkMode ? 'bg-gray-800' : 'bg-white'
+      }`}>
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -414,24 +492,34 @@ export const FAQ = () => {
             className="max-w-2xl mx-auto"
           >
             <div className="relative">
-              <SearchIcon className="absolute left-4 xsm:left-6 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 xsm:w-6 xsm:h-6" />
+              <SearchIcon className={`absolute left-4 xsm:left-6 top-1/2 transform -translate-y-1/2 w-5 h-5 xsm:w-6 xsm:h-6 ${
+                darkMode ? 'text-gray-400' : 'text-gray-400'
+              }`} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for answers..."
-                className="w-full pl-12 xsm:pl-16 pr-12 xsm:pr-16 py-4 xsm:py-5 rounded-2xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base xsm:text-lg shadow-lg"
+                className={`w-full pl-12 xsm:pl-16 pr-12 xsm:pr-16 py-4 xsm:py-5 rounded-2xl border focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base xsm:text-lg shadow-lg transition-colors duration-300 ${
+                  darkMode 
+                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
+                    : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
+                }`}
               />
               {searchQuery && (
                 <button
                   onClick={clearSearch}
-                  className="absolute right-4 xsm:right-6 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  className={`absolute right-4 xsm:right-6 top-1/2 transform -translate-y-1/2 transition-colors ${
+                    darkMode ? 'text-gray-400 hover:text-gray-200' : 'text-gray-400 hover:text-gray-600'
+                  }`}
                 >
                   ×
                 </button>
               )}
             </div>
-            <p className="text-center text-gray-500 text-sm xsm:text-base mt-3 xsm:mt-4">
+            <p className={`text-center text-sm xsm:text-base mt-3 xsm:mt-4 ${
+              darkMode ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               {filteredFAQs.length} questions found
               {searchQuery && ` for "${searchQuery}"`}
             </p>
@@ -453,6 +541,7 @@ export const FAQ = () => {
               categories={categories}
               activeCategory={activeCategory}
               onCategoryChange={setActiveCategory}
+              darkMode={darkMode}
             />
           </motion.div>
 
@@ -472,19 +561,28 @@ export const FAQ = () => {
                     isOpen={openItems.has(faq.id)}
                     onClick={() => toggleFAQ(faq.id)}
                     index={index}
+                    darkMode={darkMode}
                   />
                 ))
               ) : (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-12 xsm:py-16 bg-white rounded-2xl shadow-lg"
+                  className={`text-center py-12 xsm:py-16 rounded-2xl shadow-lg ${
+                    darkMode ? 'bg-gray-800' : 'bg-white'
+                  }`}
                 >
-                  <SearchIcon className="w-12 h-12 xsm:w-16 xsm:h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl xsm:text-2xl font-bold text-gray-600 mb-2">
+                  <SearchIcon className={`w-12 h-12 xsm:w-16 xsm:h-16 mx-auto mb-4 ${
+                    darkMode ? 'text-gray-600' : 'text-gray-400'
+                  }`} />
+                  <h3 className={`text-xl xsm:text-2xl font-bold mb-2 ${
+                    darkMode ? 'text-gray-300' : 'text-gray-600'
+                  }`}>
                     No questions found
                   </h3>
-                  <p className="text-gray-500 text-sm xsm:text-base max-w-md mx-auto">
+                  <p className={`text-sm xsm:text-base max-w-md mx-auto ${
+                    darkMode ? 'text-gray-400' : 'text-gray-500'
+                  }`}>
                     {searchQuery 
                       ? `We couldn't find any questions matching "${searchQuery}". Try different keywords or browse by category.`
                       : "No questions available in this category. Please select another category."
@@ -498,7 +596,9 @@ export const FAQ = () => {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-12 xsm:py-16 sm:py-20 bg-gray-50">
+      <section className={`py-12 xsm:py-16 sm:py-20 transition-colors duration-300 ${
+        darkMode ? 'bg-gray-800' : 'bg-gray-50'
+      }`}>
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -506,10 +606,14 @@ export const FAQ = () => {
             transition={{ duration: 0.8 }}
             className="max-w-4xl mx-auto text-center"
           >
-            <h2 className="text-2xl xsm:text-3xl sm:text-4xl font-bold text-gray-800 mb-4 xsm:mb-6">
+            <h2 className={`text-2xl xsm:text-3xl sm:text-4xl font-bold mb-4 xsm:mb-6 ${
+              darkMode ? 'text-white' : 'text-gray-800'
+            }`}>
               Still Have Questions?
             </h2>
-            <p className="text-base xsm:text-lg sm:text-xl text-gray-600 mb-6 xsm:mb-8 max-w-2xl mx-auto">
+            <p className={`text-base xsm:text-lg sm:text-xl mb-6 xsm:mb-8 max-w-2xl mx-auto ${
+              darkMode ? 'text-gray-300' : 'text-gray-600'
+            }`}>
               Our friendly support team is here to help you with any additional questions 
               about our music programs, enrollment process, or anything else you'd like to know.
             </p>
@@ -527,22 +631,38 @@ export const FAQ = () => {
                 href="tel:+15551234567"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-3 bg-white text-gray-800 font-bold py-3 xsm:py-4 px-6 xsm:px-8 rounded-xl border border-gray-200 hover:bg-gray-50 transition-all duration-300 shadow-lg"
+                className={`flex items-center gap-3 font-bold py-3 xsm:py-4 px-6 xsm:px-8 rounded-xl border transition-all duration-300 shadow-lg ${
+                  darkMode
+                    ? 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'
+                    : 'bg-white text-gray-800 border-gray-200 hover:bg-gray-50'
+                }`}
               >
                 <PhoneIcon className="w-5 h-5" />
                 Call Now
               </motion.a>
             </div>
             <div className="mt-6 xsm:mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 xsm:gap-6 max-w-md mx-auto">
-              <div className="text-center p-4 bg-white rounded-xl shadow-lg">
+              <div className={`text-center p-4 rounded-xl shadow-lg ${
+                darkMode ? 'bg-gray-700' : 'bg-white'
+              }`}>
                 <EmailIcon className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                <p className="font-semibold text-gray-800">support@ndzinote.com</p>
-                <p className="text-gray-600 text-sm">Email Response: Within 2 hours</p>
+                <p className={`font-semibold ${
+                  darkMode ? 'text-white' : 'text-gray-800'
+                }`}>support@ndzinote.com</p>
+                <p className={`text-sm ${
+                  darkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>Email Response: Within 2 hours</p>
               </div>
-              <div className="text-center p-4 bg-white rounded-xl shadow-lg">
+              <div className={`text-center p-4 rounded-xl shadow-lg ${
+                darkMode ? 'bg-gray-700' : 'bg-white'
+              }`}>
                 <PhoneIcon className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                <p className="font-semibold text-gray-800">+1 (555) 123-4567</p>
-                <p className="text-gray-600 text-sm">Phone Support: 9AM-9PM Daily</p>
+                <p className={`font-semibold ${
+                  darkMode ? 'text-white' : 'text-gray-800'
+                }`}>+1 (555) 123-4567</p>
+                <p className={`text-sm ${
+                  darkMode ? 'text-gray-400' : 'text-gray-600'
+                }`}>Phone Support: 9AM-9PM Daily</p>
               </div>
             </div>
           </motion.div>
