@@ -253,7 +253,6 @@ export const Dashboard = () => {
       
       {/* Main Content */}
       <div className="flex-1 lg:ml-0">
- 
 
         {/* Dashboard Content */}
         <div className="p-4 lg:p-8 w-full">
