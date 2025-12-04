@@ -235,7 +235,7 @@
 //    */
 //   login: async (email, password) => {
 //     try {
-//       const response = await axios.post(`${API_BASE_URL}/users/login`, {
+//       const response = await axios.post(`${API_BASE_URL}/api/users/login`, {
 //         email,
 //         password,
 //       });
@@ -252,7 +252,7 @@
 //    */
 //   register: async (name, email, password, confirmPassword) => {
 //     try {
-//       const response = await axios.post(`${API_BASE_URL}/users/register`, {
+//       const response = await axios.post(`${API_BASE_URL}/api/users/register`, {
 //         name,
 //         email,
 //         password,
@@ -1791,7 +1791,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-import { Close } from "@mui/icons-material";
+import { Close, Dashboard, Logout } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 
 // =============================================
@@ -1991,6 +1991,26 @@ const SvgIcons = {
 };
 
 // =============================================
+// LOADING SPINNER COMPONENT
+// =============================================
+const LoadingSpinner = ({ size = "md", text = "" }) => {
+  const sizeClasses = {
+    sm: "w-5 h-5",
+    md: "w-8 h-8",
+    lg: "w-12 h-12",
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <div
+        className={`${sizeClasses[size]} border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin`}
+      />
+      {text && <p className="mt-2 text-sm text-gray-600">{text}</p>}
+    </div>
+  );
+};
+
+// =============================================
 // AUTHENTICATION CONTEXT - Global user state management
 // =============================================
 
@@ -2015,14 +2035,22 @@ const apiService = {
    */
   login: async (email, password) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/login`, {
+      const response = await axios.post(`${API_BASE_URL}/api/users/login`, {
         email,
         password,
       });
+      
+      // Debug: Log response structure
+      console.log("Login API Response:", response.data);
+      
       return response.data;
     } catch (error) {
+      console.error("Login API Error:", error.response?.data || error.message);
       const errorMessage =
-        error.response?.data?.message || "Login failed. Please try again.";
+        error.response?.data?.message || 
+        error.response?.data?.error ||
+        error.message || 
+        "Login failed. Please try again.";
       throw new Error(errorMessage);
     }
   },
@@ -2032,7 +2060,7 @@ const apiService = {
    */
   register: async (name, email, password, confirmPassword) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/users/register`, {
+      const response = await axios.post(`${API_BASE_URL}/api/users/register`, {
         name,
         email,
         password,
@@ -2042,6 +2070,7 @@ const apiService = {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
+        error.response?.data?.error ||
         "Registration failed. Please try again.";
       throw new Error(errorMessage);
     }
@@ -2053,13 +2082,14 @@ const apiService = {
   forgotPassword: async (email) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/auth/forgot-password`,
+        `${API_BASE_URL}/api/users/forgot-password`,
         { email }
       );
       return response.data;
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
+        error.response?.data?.error ||
         "Failed to send reset email. Please try again.";
       throw new Error(errorMessage);
     }
@@ -2070,7 +2100,7 @@ const apiService = {
    */
   resetPassword: async (token, password) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/reset-password`, {
+      const response = await axios.post(`${API_BASE_URL}/api/users/reset-password`, {
         token,
         password,
       });
@@ -2078,6 +2108,7 @@ const apiService = {
     } catch (error) {
       const errorMessage =
         error.response?.data?.message ||
+        error.response?.data?.error ||
         "Failed to reset password. Please try again.";
       throw new Error(errorMessage);
     }
@@ -2116,24 +2147,39 @@ export const AuthProvider = ({ children }) => {
       setIsLoading(true);
       const response = await apiService.login(email, password);
 
+      // Debug: Log response for troubleshooting
+      console.log("Login response:", response);
+
       // Handle successful login
-      if (response && response.success) {
-        const userData = response.data.user;
+      if (response && (response.success || response.token)) {
+        // Try different possible response structures
+        const userData = response.data?.user || response.user || response;
+        const token = response.data?.token || response.token;
+        
+        if (!userData) {
+          console.error("User data not found in response:", response);
+          return { 
+            success: false, 
+            error: "Server error: User information not found." 
+          };
+        }
 
         // Validate user status with fallback to 'user'
         const validStatuses = ["admin", "user", "manager"];
-        const userStatus = validStatuses.includes(
-          userData.status?.toLowerCase()
-        )
-          ? userData.status.toLowerCase()
+        const userStatus = (userData.status && validStatuses.includes(
+          String(userData.status).toLowerCase()
+        ))
+          ? String(userData.status).toLowerCase()
+          : (userData.role && validStatuses.includes(String(userData.role).toLowerCase()))
+          ? String(userData.role).toLowerCase()
           : "user";
 
-        // Create complete user profile
+        // Create complete user profile with defaults
         const userProfile = {
           email: userData.email || email,
           status: userStatus,
-          id: userData.id,
-          name: userData.name,
+          id: userData.id || userData._id || Date.now().toString(),
+          name: userData.name || userData.username || email.split('@')[0] || "User",
           ...userData,
         };
 
@@ -2141,22 +2187,32 @@ export const AuthProvider = ({ children }) => {
         setUser(userProfile);
         setIsAuthenticated(true);
         localStorage.setItem("user", JSON.stringify(userProfile));
-        localStorage.setItem("token", response.data.token);
+        
+        if (token) {
+          localStorage.setItem("token", token);
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        }
+        
         localStorage.setItem("userEmail", userProfile.email);
         localStorage.setItem("userRole", userProfile.status);
 
-        // Set authorization header for future API calls
-        axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${response.data.token}`;
-
-        return { success: true, user: userProfile };
+        return { 
+          success: true, 
+          user: userProfile,
+          message: response.message || "Login successful" 
+        };
       } else {
-        return { success: false, error: response?.message || "Login failed" };
+        return { 
+          success: false, 
+          error: response?.message || response?.error || "Login failed" 
+        };
       }
     } catch (error) {
       console.error("Login error:", error);
-      return { success: false, error: error.message };
+      return { 
+        success: false, 
+        error: error.message || "Login failed. Please try again." 
+      };
     } finally {
       setIsLoading(false);
     }
@@ -2175,32 +2231,51 @@ export const AuthProvider = ({ children }) => {
         confirmPassword
       );
 
-      if (response) {
-        if (response.success) {
-          // Check if auto-login occurred
-          if (response.data && response.data.user) {
-            const userData = response.data.user;
-            setUser(userData);
-            setIsAuthenticated(true);
-            localStorage.setItem("user", JSON.stringify(userData));
-            localStorage.setItem("token", response.data.token);
-            axios.defaults.headers.common[
-              "Authorization"
-            ] = `Bearer ${response.data.token}`;
+      console.log("Register response:", response);
 
-            return { success: true, user: userData, autoLoggedIn: true };
+      if (response) {
+        if (response.success || response.token) {
+          // Check if auto-login occurred
+          const userData = response.data?.user || response.user || response;
+          const token = response.data?.token || response.token;
+          
+          if (userData && token) {
+            // Create user profile
+            const userProfile = {
+              email: userData.email || email,
+              status: userData.status || userData.role || "user",
+              id: userData.id || userData._id || Date.now().toString(),
+              name: userData.name || name,
+              ...userData,
+            };
+            
+            setUser(userProfile);
+            setIsAuthenticated(true);
+            localStorage.setItem("user", JSON.stringify(userProfile));
+            localStorage.setItem("token", token);
+            
+            if (token) {
+              axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+            }
+
+            return { 
+              success: true, 
+              user: userProfile, 
+              autoLoggedIn: true,
+              message: response.message || "Registration successful" 
+            };
           } else {
             // Registration successful but no auto-login
             return {
               success: true,
               autoLoggedIn: false,
-              message: response.message || "Registration successful",
+              message: response.message || "Registration successful. Please login.",
             };
           }
         } else {
           return {
             success: false,
-            error: response?.message || "Registration failed",
+            error: response?.message || response?.error || "Registration failed",
           };
         }
       } else {
@@ -2222,6 +2297,8 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
     delete axios.defaults.headers.common["Authorization"];
     toast.info("You have been logged out");
   };
@@ -2234,14 +2311,19 @@ export const AuthProvider = ({ children }) => {
 
       if (savedUser && token) {
         try {
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
           const userData = JSON.parse(savedUser);
+          
+          // Validate token and user data if needed (could add an API call here)
+          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          
           setUser(userData);
           setIsAuthenticated(true);
         } catch (error) {
           console.error("Error initializing auth:", error);
           localStorage.removeItem("user");
           localStorage.removeItem("token");
+          localStorage.removeItem("userEmail");
+          localStorage.removeItem("userRole");
           delete axios.defaults.headers.common["Authorization"];
         }
       }
@@ -2453,15 +2535,19 @@ const LoginForm = ({
       </button>
     </div>
 
-    <button
+    <motion.button
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
       type="submit"
       disabled={isSubmitting}
-      className="w-full bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-700 text-white py-4 px-4 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-800 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-700 text-white py-4 px-4 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-800 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
     >
-      {isSubmitting ? <LoadingSpinner size="sm" /> : "Sign In"}
-    </button>
+      {isSubmitting ? (
+        <LoadingSpinner size="sm" />
+      ) : (
+        "Sign In"
+      )}
+    </motion.button>
 
     <div className="mt-8 text-center">
       <p className="text-gray-600">
@@ -2558,10 +2644,10 @@ const RegisterForm = ({
       whileTap={{ scale: 0.98 }}
       type="submit"
       disabled={isSubmitting}
-      className="w-full bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-600 text-white py-4 px-4 rounded-xl hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 transition-all duration-200 font-semibold shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-600 text-white py-4 px-4 rounded-xl hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 transition-all duration-200 font-semibold shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
     >
       {isSubmitting ? (
-        <LoadingSpinner size="sm" text="Creating account..." />
+        <LoadingSpinner size="sm" />
       ) : (
         "Create Account"
       )}
@@ -2770,10 +2856,10 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
       whileTap={{ scale: 0.98 }}
       type="submit"
       disabled={isSubmitting}
-      className="w-full bg-gradient-to-tr from-orange-500 via-red-500 to-pink-600 text-white py-4 px-4 rounded-xl hover:from-orange-600 hover:via-red-600 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="w-full bg-gradient-to-tr from-orange-500 via-red-500 to-pink-600 text-white py-4 px-4 rounded-xl hover:from-orange-600 hover:via-red-600 hover:to-pink-700 transition-all duration-200 font-semibold shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
     >
       {isSubmitting ? (
-        <LoadingSpinner size="sm" text="Sending message..." />
+        <LoadingSpinner size="sm" />
       ) : (
         "Send Message"
       )}
@@ -2793,7 +2879,7 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
  * Get the correct dashboard path based on user role
  */
 const getDashboardPath = (user) => {
-  const userStatus = user?.status;
+  const userStatus = user?.status || user?.role;
   switch (userStatus) {
     case "admin":
       return "/dashboard";
@@ -2810,25 +2896,7 @@ const getDashboardPath = (user) => {
  * Get display-friendly user status
  */
 const getUserDisplayStatus = (user) => {
-  return user?.status || "user";
-};
-
-// Loading Spinner Component
-const LoadingSpinner = ({ size = "md", text = "" }) => {
-  const sizeClasses = {
-    sm: "w-5 h-5",
-    md: "w-8 h-8",
-    lg: "w-12 h-12",
-  };
-
-  return (
-    <div className="flex flex-col items-center justify-center">
-      <div
-        className={`${sizeClasses[size]} border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin`}
-      />
-      {text && <p className="mt-2 text-sm text-gray-600">{text}</p>}
-    </div>
-  );
+  return user?.status || user?.role || "user";
 };
 
 // =============================================
@@ -2869,7 +2937,7 @@ export const Navbar = () => {
   });
 
   // Authentication hooks
-  const { isAuthenticated, user, login, register, logout } = useAuth();
+  const { isAuthenticated, user, login, register: registerUser, logout } = useAuth();
   const navigate = useNavigate();
 
   // =============================================
@@ -2877,22 +2945,22 @@ export const Navbar = () => {
   // =============================================
 
   const openLogin = () => {
-    closeAllModals(); // Close all modals first
+    closeAllModals();
     setIsLoginOpen(true);
   };
 
   const openRegister = () => {
-    closeAllModals(); // Close all modals first
+    closeAllModals();
     setIsRegisterOpen(true);
   };
 
   const openForgotPassword = () => {
-    closeAllModals(); // Close all modals first
+    closeAllModals();
     setIsForgotPasswordOpen(true);
   };
 
   const openContact = () => {
-    closeAllModals(); // Close all modals first
+    closeAllModals();
     setIsContactOpen(true);
   };
 
@@ -2971,7 +3039,7 @@ export const Navbar = () => {
     }
 
     setIsSubmitting(true);
-    const result = await register(
+    const result = await registerUser(
       registerForm.name,
       registerForm.email,
       registerForm.password,
@@ -3140,7 +3208,7 @@ export const Navbar = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="flex items-center space-x-2 transition-all duration-200 font-medium group relative"
+                  className="flex items-center space-x-2 transition-all duration-200 font-medium group"
                 >
                   <Button className="bg-gradient-to-t from-blue-300 to-indigo-300 hover:from-blue-400 hover:to-indigo-400 transition-all duration-300">
                     <span className="relative">
@@ -3152,14 +3220,15 @@ export const Navbar = () => {
               ))}
 
               {/* Contact Button */}
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 onClick={openContact}
-                className="flex items-center p-1 rounded-sm space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+                className="flex items-center  rounded-sm space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group"
               >
-                <span>Contact</span>
-              </motion.button>
+                <span className="relative text-white px-4 py-2">
+                  Contact
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                </span>
+              </button>
 
               {/* Dashboard Button for Logged-in Users */}
               {isAuthenticated && (
@@ -3169,28 +3238,28 @@ export const Navbar = () => {
                   onClick={handleDashboardNavigation}
                   className="bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-700 text-white px-6 py-2.5 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-800 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 flex items-center space-x-2"
                 >
-                  <span>Dashboard</span>
+                  <Dashboard/>
                 </motion.button>
               )}
             </div>
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden lg:flex items-center space-x-4">
+            <div className="hidden lg:flex items-center space-x-2">
               {isAuthenticated ? (
-                <div className="flex items-center space-x-4 pl-4 border-l border-gray-200">
+                <div className="flex items-center space-x-4 pl-2 border-l border-gray-200">
                   {/* User Profile Display */}
-                  <div className="flex items-center space-x-3 min-w-0 bg-white/50 backdrop-blur-sm rounded-xl px-3 py-2 border border-gray-200/50 hover:shadow-md transition-all duration-200">
+                  <div className="flex items-center space-x-3 min-w-0 bg-white/50 backdrop-blur-sm rounded-xl px-3 py-2 border border-gray-200/50">
                     <img
                       src={
                         user?.avatar ||
                         `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`
                       }
-                      alt="User avatar"
+                      alt=""
                       className="w-8 h-8 rounded-full border-2 border-blue-500 flex-shrink-0"
                     />
                     <div className="text-right min-w-0">
                       <p className="text-sm font-medium text-indigo-900 truncate max-w-32">
-                        {user?.name.slice(0, 8)}
+                        {user?.name?.slice(0, 4) || "User"}
                       </p>
                       <p className="text-xs text-gray-500 capitalize font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                         {getUserDisplayStatus(user)}
@@ -3204,7 +3273,7 @@ export const Navbar = () => {
                     onClick={handleLogout}
                     className="bg-gradient-to-tr from-gray-600 via-green-700 to-blue-800 text-white px-4 py-2.5 rounded-xl hover:from-blue-700 hover:via-gray-800 hover:to-green-900 transition-all duration-200 font-semibold shadow-lg flex items-center space-x-2"
                   >
-                    <span>Logout</span>
+                    <Logout/>
                   </motion.button>
                 </div>
               ) : (
@@ -3214,7 +3283,7 @@ export const Navbar = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={openLogin}
-                    className="border-2 border-blue-600 bg-transparent text-blue-600 px-6 py-2.5 rounded-xl hover:bg-blue-50 hover:border-blue-700 hover:text-blue-700 transition-all duration-200 font-semibold shadow-sm flex items-center space-x-2"
+                    className="border-2 border-blue-600 bg-transparent text-blue-600 px-6 py-2.5 rounded-xl hover:bg-blue-50 transition-all duration-200 font-semibold shadow-sm flex items-center space-x-2"
                   >
                     <span>LogIn</span>
                   </motion.button>
@@ -3235,7 +3304,7 @@ export const Navbar = () => {
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="bg-gradient-to-tr from-blue-500 to-purple-600 text-white p-2.5 rounded-xl shadow-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-200"
+                className="bg-gradient-to-tr from-blue-500 to-purple-600 text-white p-2.5 rounded-xl shadow-lg"
               >
                 {isMobileMenuOpen ? <SvgIcons.Close /> : <SvgIcons.Menu />}
               </motion.button>
@@ -3264,66 +3333,62 @@ export const Navbar = () => {
                     }}
                     className="w-full flex items-center space-x-3 px-4 py-3 text-left text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 rounded-xl transition-all duration-200 font-medium"
                   >
-                    <Button className="w-full bg-gradient-to-r from-blue-200 to-violet-200 hover:from-blue-300 hover:to-violet-300">
+                    <Button className="w-full bg-gradient-to-r from-blue-200 to-violet-200">
                       <span>{item.name}</span>
                     </Button>
                   </Link>
                 ))}
 
                 {/* Mobile Contact Button */}
-                <motion.button
-                  whileTap={{ scale: 0.98 }}
+                <button
                   onClick={() => {
                     openContact();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="w-full flex items-center bg-gradient-to-r from-blue-600 to-purple-600 text-white space-x-3 px-4 py-3 text-left rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-200 font-semibold"
+                  className="w-full flex items-center bg-gradient-to-r from-blue-600 to-purple-600 space-x-3 px-4 py-3 text-left text-white hover:from-blue-700 hover:to-purple-700 rounded-xl transition-all duration-200 font-medium"
                 >
                   <span>Contact</span>
-                </motion.button>
+                </button>
 
                 {/* Mobile Dashboard Button */}
                 {isAuthenticated && (
-                  <motion.button
-                    whileTap={{ scale: 0.98 }}
+                  <button
                     onClick={() => {
                       handleDashboardNavigation();
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center space-x-3 px-4 py-3 text-center bg-gradient-to-tr from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+                    className="w-full flex items-center space-x-3 px-4 py-3 text-center bg-gradient-to-tr from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg"
                   >
                     <span>Dashboard</span>
-                  </motion.button>
+                  </button>
                 )}
 
                 {/* Mobile Auth Buttons */}
                 {!isAuthenticated ? (
                   <div className="pt-4 border-t border-gray-200 space-y-3">
-                    <motion.button
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       onClick={() => {
                         openLogin();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center space-x-3 px-4 py-3 text-center border-2 border-blue-600 bg-transparent text-blue-600 rounded-xl font-semibold hover:bg-blue-50 hover:border-blue-700 hover:text-blue-700 transition-all duration-200"
+                      className="w-full flex items-center space-x-3 px-4 py-3 text-center border-2 border-blue-600 bg-transparent text-blue-600 rounded-xl font-semibold"
                     >
                       <span>Sign In</span>
-                    </motion.button>
-                    <motion.button
-                      whileTap={{ scale: 0.98 }}
+                    </button>
+                    <button
                       onClick={() => {
                         openRegister();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center space-x-3 px-4 py-3 text-center bg-gradient-to-tr from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200"
+                      className="w-full flex items-center space-x-3 px-4 py-3 text-center bg-gradient-to-tr from-blue-600 to-purple-600 text-white rounded-xl font-semibold shadow-lg"
                     >
                       <span>Register</span>
-                    </motion.button>
+                    </button>
                   </div>
                 ) : (
                   <div className="pt-4 border-t border-gray-200 space-y-3">
                     {/* Mobile User Info */}
-                    <div className="flex items-center space-x-3 px-4 py-3 bg-white/50 rounded-xl border border-gray-200/50 hover:shadow-md transition-all duration-200">
+                    <div className="flex items-center space-x-3 px-4 py-3 bg-white/50 rounded-xl border border-gray-200/50">
                       <img
                         src={
                           user?.avatar ||
@@ -3334,7 +3399,7 @@ export const Navbar = () => {
                       />
                       <div className="min-w-0 flex-1">
                         <p className="text-sm text-green-500 font-medium text-gray-900 truncate">
-                          {user?.name}
+                          {user?.name || "User"}
                         </p>
                         <p className="text-xs text-gray-500 capitalize font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
                           {getUserDisplayStatus(user)}
@@ -3342,16 +3407,15 @@ export const Navbar = () => {
                       </div>
                     </div>
                     {/* Mobile Logout Button */}
-                    <motion.button
-                      whileTap={{ scale: 0.98 }}
+                    <button
                       onClick={() => {
                         handleLogout();
                         setIsMobileMenuOpen(false);
                       }}
-                      className="w-full flex items-center space-x-3 px-4 py-3 text-center bg-gradient-to-tr from-green-600 to-blue-800 text-white rounded-xl font-semibold shadow-lg hover:from-green-700 hover:to-blue-900 transition-all duration-200"
+                      className="w-full flex items-center space-x-3 px-4 py-3 text-center bg-gradient-to-tr from-green-600 to-blue-800 text-white rounded-xl font-semibold shadow-lg"
                     >
                       <span>Logout</span>
-                    </motion.button>
+                    </button>
                   </div>
                 )}
               </div>
@@ -3421,20 +3485,9 @@ export const Navbar = () => {
                 <h2 className="text-3xl font-bold text-gray-800 mb-2">
                   Join NdizNote Musics hub
                 </h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-gray-600">
                   Create your account and get started
                 </p>
-                
-                {/* Added content from screenshot */}
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-xl mb-6 text-left">
-                  <h3 className="text-lg font-bold text-gray-800 mb-2">Master Music with NdizNote Academy</h3>
-                  <p className="text-gray-600 mb-3">
-                    Transform your musical journey with piano, guitar, and vocals from world-class instructors.
-                  </p>
-                  <p className="text-sm text-gray-500 italic">
-                    "We know you are a good listener"
-                  </p>
-                </div>
               </div>
               <RegisterForm
                 form={registerForm}
@@ -3520,26 +3573,7 @@ export const Navbar = () => {
                 <h2 className="text-3xl font-bold text-gray-800 mb-2">
                   Contact Us
                 </h2>
-                
-                {/* Added content from screenshot */}
-                <div className="mb-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    NdizNote Academy<sup>®</sup>
-                  </h3>
-                  <p className="text-gray-600 mb-3 italic">
-                    Your musical journal with professional vocals from world-class instructors
-                  </p>
-                  <p className="text-gray-600 mb-4">
-                    Innovative learning environment.
-                  </p>
-                  
-                  <div className="bg-gradient-to-r from-orange-50 to-red-50 p-4 rounded-xl mt-6">
-                    <h4 className="text-lg font-bold text-gray-800 mb-2">Start Learning Today</h4>
-                    <p className="text-gray-600">
-                      Join our community of music enthusiasts and start your journey today!
-                    </p>
-                  </div>
-                </div>
+                <p className="text-gray-600">Get in touch with our team</p>
               </div>
               <ContactForm
                 form={contactForm}

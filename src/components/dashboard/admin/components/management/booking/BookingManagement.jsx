@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Add as AddIcon,
@@ -31,6 +32,14 @@ import {
 import { Sidebar } from '../../sidebar/Sidebar';
 
 const API_BASE_URL = 'https://ndizmusicprojectbackend.onrender.com';
+
+// Create axios instance
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 // Instruments for selection
 const instruments = [
@@ -126,133 +135,119 @@ export const BookingManagement = () => {
     emergencyContact: ""
   });
 
-  // Fetch all bookings
+  // Helper function for mock data
+  const getMockData = () => {
+    return [
+      {
+        id: 1,
+        name: "Sarah Johnson",
+        email: "sarah.johnson@email.com",
+        phone: "+1 (555) 123-4567",
+        instrument: "Piano",
+        experience: "beginner",
+        preferredDate: "2024-02-15",
+        preferredTime: "morning",
+        lessonType: "trial",
+        message: "I'm excited to start learning piano! I've always wanted to play classical music.",
+        status: "confirmed",
+        age: "28",
+        address: "123 Main St, New York, NY",
+        emergencyContact: "+1 (555) 987-6543",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 2,
+        name: "Michael Chen",
+        email: "michael.chen@email.com",
+        phone: "+1 (555) 234-5678",
+        instrument: "Guitar",
+        experience: "intermediate",
+        preferredDate: "2024-02-16",
+        preferredTime: "evening",
+        lessonType: "regular",
+        message: "Looking to improve my fingerstyle technique.",
+        status: "pending",
+        age: "22",
+        address: "456 Oak Ave, Los Angeles, CA",
+        emergencyContact: "+1 (555) 876-5432",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 3,
+        name: "Emma Rodriguez",
+        email: "emma.rodriguez@email.com",
+        phone: "+1 (555) 345-6789",
+        instrument: "Violin",
+        experience: "advanced",
+        preferredDate: "2024-02-14",
+        preferredTime: "afternoon",
+        lessonType: "intensive",
+        message: "Preparing for conservatory auditions.",
+        status: "completed",
+        age: "35",
+        address: "789 Pine St, Chicago, IL",
+        emergencyContact: "+1 (555) 765-4321",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 4,
+        name: "David Kim",
+        email: "david.kim@email.com",
+        phone: "+1 (555) 456-7890",
+        instrument: "Drums",
+        experience: "beginner",
+        preferredDate: "2024-02-17",
+        preferredTime: "morning",
+        lessonType: "trial",
+        message: "Always wanted to learn drums. Complete beginner.",
+        status: "cancelled",
+        age: "19",
+        address: "321 Elm St, Miami, FL",
+        emergencyContact: "+1 (555) 654-3210",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 5,
+        name: "Lisa Thompson",
+        email: "lisa.thompson@email.com",
+        phone: "+1 (555) 567-8901",
+        instrument: "Voice",
+        experience: "intermediate",
+        preferredDate: "2024-02-18",
+        preferredTime: "evening",
+        lessonType: "workshop",
+        message: "Interested in jazz vocal techniques.",
+        status: "pending",
+        age: "26",
+        address: "654 Maple Dr, Seattle, WA",
+        emergencyContact: "+1 (555) 543-2109",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+    ];
+  };
+
+  // Fetch all bookings using axios
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/bookings`);
-      if (response.ok) {
-        const data = await response.json();
-        setBookings(data);
+      const response = await api.get('/api/bookings');
+      
+      if (response.status === 200) {
+        setBookings(response.data);
       } else {
         console.error('Failed to fetch bookings');
         // Mock data for demonstration
-        setBookings([
-          {
-            id: 1,
-            name: "Sarah Johnson",
-            email: "sarah.johnson@email.com",
-            phone: "+1 (555) 123-4567",
-            instrument: "Piano",
-            experience: "beginner",
-            preferredDate: "2024-02-15",
-            preferredTime: "morning",
-            lessonType: "trial",
-            message: "I'm excited to start learning piano! I've always wanted to play classical music.",
-            status: "confirmed",
-            age: "28",
-            address: "123 Main St, New York, NY",
-            emergencyContact: "+1 (555) 987-6543",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 2,
-            name: "Michael Chen",
-            email: "michael.chen@email.com",
-            phone: "+1 (555) 234-5678",
-            instrument: "Guitar",
-            experience: "intermediate",
-            preferredDate: "2024-02-16",
-            preferredTime: "evening",
-            lessonType: "regular",
-            message: "Looking to improve my fingerstyle technique.",
-            status: "pending",
-            age: "22",
-            address: "456 Oak Ave, Los Angeles, CA",
-            emergencyContact: "+1 (555) 876-5432",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 3,
-            name: "Emma Rodriguez",
-            email: "emma.rodriguez@email.com",
-            phone: "+1 (555) 345-6789",
-            instrument: "Violin",
-            experience: "advanced",
-            preferredDate: "2024-02-14",
-            preferredTime: "afternoon",
-            lessonType: "intensive",
-            message: "Preparing for conservatory auditions.",
-            status: "completed",
-            age: "35",
-            address: "789 Pine St, Chicago, IL",
-            emergencyContact: "+1 (555) 765-4321",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 4,
-            name: "David Kim",
-            email: "david.kim@email.com",
-            phone: "+1 (555) 456-7890",
-            instrument: "Drums",
-            experience: "beginner",
-            preferredDate: "2024-02-17",
-            preferredTime: "morning",
-            lessonType: "trial",
-            message: "Always wanted to learn drums. Complete beginner.",
-            status: "cancelled",
-            age: "19",
-            address: "321 Elm St, Miami, FL",
-            emergencyContact: "+1 (555) 654-3210",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 5,
-            name: "Lisa Thompson",
-            email: "lisa.thompson@email.com",
-            phone: "+1 (555) 567-8901",
-            instrument: "Voice",
-            experience: "intermediate",
-            preferredDate: "2024-02-18",
-            preferredTime: "evening",
-            lessonType: "workshop",
-            message: "Interested in jazz vocal techniques.",
-            status: "pending",
-            age: "26",
-            address: "654 Maple Dr, Seattle, WA",
-            emergencyContact: "+1 (555) 543-2109",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          }
-        ]);
+        setBookings(getMockData());
       }
     } catch (error) {
       console.error('Error fetching bookings:', error);
       // Fallback to mock data
-      setBookings([
-        {
-          id: 1,
-          name: "Sarah Johnson",
-          email: "sarah.johnson@email.com",
-          phone: "+1 (555) 123-4567",
-          instrument: "Piano",
-          experience: "beginner",
-          preferredDate: "2024-02-15",
-          preferredTime: "morning",
-          lessonType: "trial",
-          message: "I'm excited to start learning piano!",
-          status: "confirmed",
-          age: "28",
-          address: "123 Main St, New York, NY",
-          emergencyContact: "+1 (555) 987-6543",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
-      ]);
+      setBookings(getMockData().slice(0, 1));
     } finally {
       setLoading(false);
     }
@@ -286,39 +281,19 @@ export const BookingManagement = () => {
     setShowCreateConfirmModal(true);
   };
 
-  // Create new booking
+  // Create new booking using axios
   const handleCreateBooking = async () => {
     setActionLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/bookings`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(bookingForm),
-      });
+      const response = await api.post('/api/bookings', bookingForm);
 
-      if (response.ok) {
-        const newBooking = await response.json();
+      if (response.status === 201 || response.status === 200) {
+        const newBooking = response.data;
         setBookings(prev => [newBooking, ...prev]);
         setShowCreateModal(false);
         setShowCreateConfirmModal(false);
-        setBookingForm({
-          name: "",
-          email: "",
-          phone: "",
-          instrument: "",
-          experience: "beginner",
-          preferredDate: "",
-          preferredTime: "morning",
-          lessonType: "trial",
-          message: "",
-          status: "pending",
-          age: "",
-          address: "",
-          emergencyContact: ""
-        });
+        resetBookingForm();
       } else {
         alert('Failed to create booking');
       }
@@ -334,24 +309,29 @@ export const BookingManagement = () => {
       setBookings(prev => [newBooking, ...prev]);
       setShowCreateModal(false);
       setShowCreateConfirmModal(false);
-      setBookingForm({
-        name: "",
-        email: "",
-        phone: "",
-        instrument: "",
-        experience: "beginner",
-        preferredDate: "",
-        preferredTime: "morning",
-        lessonType: "trial",
-        message: "",
-        status: "pending",
-        age: "",
-        address: "",
-        emergencyContact: ""
-      });
+      resetBookingForm();
     } finally {
       setActionLoading(false);
     }
+  };
+
+  // Reset form helper
+  const resetBookingForm = () => {
+    setBookingForm({
+      name: "",
+      email: "",
+      phone: "",
+      instrument: "",
+      experience: "beginner",
+      preferredDate: "",
+      preferredTime: "morning",
+      lessonType: "trial",
+      message: "",
+      status: "pending",
+      age: "",
+      address: "",
+      emergencyContact: ""
+    });
   };
 
   // Open edit modal
@@ -381,22 +361,16 @@ export const BookingManagement = () => {
     setShowUpdateConfirmModal(true);
   };
 
-  // Update booking
+  // Update booking using axios
   const handleUpdateBooking = async () => {
     if (!selectedBooking) return;
 
     setActionLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/bookings/${selectedBooking.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editForm),
-      });
+      const response = await api.put(`/api/bookings/${selectedBooking.id}`, editForm);
 
-      if (response.ok) {
-        const updatedBooking = await response.json();
+      if (response.status === 200) {
+        const updatedBooking = response.data;
         setBookings(prev => prev.map(book => 
           book.id === selectedBooking.id ? updatedBooking : book
         ));
@@ -425,20 +399,14 @@ export const BookingManagement = () => {
     }
   };
 
-  // Quick status update
+  // Quick status update using axios
   const handleQuickStatusUpdate = async (bookingId, newStatus) => {
     setActionLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/bookings/${bookingId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      const response = await api.patch(`/api/bookings/${bookingId}`, { status: newStatus });
 
-      if (response.ok) {
-        const updatedBooking = await response.json();
+      if (response.status === 200) {
+        const updatedBooking = response.data;
         setBookings(prev => prev.map(book => 
           book.id === bookingId ? updatedBooking : book
         ));
@@ -464,17 +432,15 @@ export const BookingManagement = () => {
     setShowDeleteModal(true);
   };
 
-  // Delete booking
+  // Delete booking using axios
   const handleDeleteBooking = async () => {
     if (!selectedBooking) return;
 
     setActionLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/bookings/${selectedBooking.id}`, {
-        method: 'DELETE',
-      });
+      const response = await api.delete(`/api/bookings/${selectedBooking.id}`);
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 204) {
         setBookings(prev => prev.filter(book => book.id !== selectedBooking.id));
         setShowDeleteModal(false);
         setSelectedBooking(null);
@@ -500,6 +466,7 @@ export const BookingManagement = () => {
 
   // Format date
   const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -566,6 +533,7 @@ export const BookingManagement = () => {
   };
 
   // Filter bookings based on search and filters
+  // FIXED: Changed from testimonials. Filter to testimonials.filter in your original code
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          booking.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -615,7 +583,12 @@ export const BookingManagement = () => {
         <div className="bg-white border-b border-gray-200 sticky top-0 z-0">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-4">
-
+              <button
+                onClick={() => setSidebarOpen(true)}
+                className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+              >
+                <MenuIcon className="text-gray-600" />
+              </button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">Booking Management</h1>
                 <p className="text-gray-600 mt-1">Manage music lesson bookings and schedules</p>
@@ -1277,12 +1250,14 @@ export const BookingManagement = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowEditModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-6 border-b border-gray-200 sticky top-0 bg-white">
                 <h2 className="text-xl font-semibold text-gray-900">Edit Booking</h2>
@@ -1295,7 +1270,6 @@ export const BookingManagement = () => {
               </div>
 
               <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
-                {/* Similar form structure as Create Modal but with editForm data */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Full Name *
@@ -1340,7 +1314,6 @@ export const BookingManagement = () => {
                   </div>
                 </div>
 
-                {/* Rest of the form fields similar to create modal */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1538,12 +1511,14 @@ export const BookingManagement = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowUpdateConfirmModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-2xl shadow-2xl w-full max-w-md"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6 text-center">
                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -1619,12 +1594,14 @@ export const BookingManagement = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowViewModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-6 border-b border-gray-200">
                 <h2 className="text-xl font-semibold text-gray-900">Booking Details</h2>
@@ -1772,12 +1749,14 @@ export const BookingManagement = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+            onClick={() => setShowDeleteModal(false)}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-white rounded-2xl shadow-2xl w-full max-w-md"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="p-6 text-center">
                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
