@@ -1,4 +1,4 @@
-// pages/Testimonials.jsx
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 

@@ -30,7 +30,7 @@ const api = axios.create({
 const userService = {
   // Get all users
   async getUsers() {
-    const response = await api.get("/users");
+    const response = await api.get("/api/users");
     const data = response.data;
 
     if (data.success) {
@@ -46,7 +46,7 @@ const userService = {
 
   // Create new user
   async createUser(userData) {
-    const response = await api.post("/users", userData);
+    const response = await api.post("/api/users", userData);
     const data = response.data;
 
     if (data.success) {
@@ -62,7 +62,7 @@ const userService = {
 
   // Update user
   async updateUser(id, userData) {
-    const response = await api.put(`/users/${id}`, userData);
+    const response = await api.put(`/api/users/${id}`, userData);
     const data = response.data;
 
     if (data.success) {
@@ -78,7 +78,7 @@ const userService = {
 
   // Delete user
   async deleteUser(id) {
-    const response = await api.delete(`/users/${id}`);
+    const response = await api.delete(`/api/users/${id}`);
     const data = response.data;
 
     if (!data.success) {

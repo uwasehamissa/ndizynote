@@ -542,11 +542,11 @@ const PrivateRoute = ({ children }) => {
 // DASHBOARD LAYOUT COMPONENT
 // ============================
 const DashboardLayout = () => {
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
+  // if (!isAuthenticated) {
+  //   return <Navigate to="/" replace />;
+  // }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Add as AddIcon,
@@ -23,6 +24,42 @@ import {
 import { Sidebar } from "../../sidebar/Sidebar";
 
 const API_BASE_URL = "https://ndizmusicprojectbackend.onrender.com";
+
+// Create axios instance with better error handling
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 15000,
+  headers: {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+  },
+});
+
+// Add response interceptor to handle errors
+api.interceptors.response.use(
+  (response) => {
+    // Check if response is JSON
+    const contentType = response.headers["content-type"];
+    if (contentType && contentType.includes("application/json")) {
+      return response;
+    } else {
+      console.warn("Server returned non-JSON response");
+      // Try to parse as JSON anyway, or return empty response
+      try {
+        if (typeof response.data === 'string' && response.data.trim().startsWith('<')) {
+          throw new Error("Server returned HTML instead of JSON");
+        }
+        return response;
+      } catch (error) {
+        throw new Error("Invalid response format from server");
+      }
+    }
+  },
+  (error) => {
+    console.error("API Error:", error);
+    return Promise.reject(error);
+  }
+);
 
 // Experience level options
 const experienceLevels = [
@@ -68,8 +105,9 @@ export const RequestManagement = () => {
   const [filterExperience, setFilterExperience] = useState("all");
   const [filterInstrument, setFilterInstrument] = useState("all");
   const [filterStatus, setFilterStatus] = useState("all");
-
+  const [error, setError] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const [bookingForm, setBookingForm] = useState({
     name: "",
     email: "",
@@ -87,83 +125,132 @@ export const RequestManagement = () => {
     status: "pending",
   });
 
-  // Fetch all requests
+  // Fetch all requests using axios
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/requests`);
-      if (response.ok) {
-        const data = await response.json();
-        setRequests(data);
-      } else {
-        console.error("Failed to fetch requests");
-        // For demo purposes, using mock data
-        setRequests([
-          {
-            id: 1,
-            name: "John Doe",
-            email: "john@example.com",
-            phone: "+1234567890",
-            instrument: "Guitar",
-            experience: "intermediate",
-            status: "pending",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          {
-            id: 2,
-            name: "Jane Smith",
-            email: "jane@example.com",
-            phone: "+0987654321",
-            instrument: "Piano",
-            experience: "beginner",
-            status: "approved",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-          {
-            id: 3,
-            name: "Mike Johnson",
-            email: "mike@example.com",
-            phone: "+1122334455",
-            instrument: "Violin",
-            experience: "advanced",
-            status: "pending",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          },
-        ]);
+      setError(null);
+      
+      console.log("Fetching requests from API...");
+      const response = await api.get("/api/bookings");
+      
+      // Log response for debugging
+      console.log("API Response status:", response.status);
+      console.log("API Response data:", response.data);
+      
+      // Handle different response formats
+      let requestsData = [];
+      
+      if (Array.isArray(response.data)) {
+        requestsData = response.data;
+      } else if (response.data && typeof response.data === 'object') {
+        // If response is an object with a data property
+        if (Array.isArray(response.data.data)) {
+          requestsData = response.data.data;
+        } else if (Array.isArray(response.data.bookings)) {
+          requestsData = response.data.bookings;
+        } else if (Array.isArray(response.data.results)) {
+          requestsData = response.data.results;
+        } else {
+          // Try to convert object to array
+          requestsData = Object.values(response.data).filter(item => 
+            item && typeof item === 'object' && item.id !== undefined
+          );
+        }
       }
+      
+      console.log("Processed requests data:", requestsData);
+      
+      if (Array.isArray(requestsData) && requestsData.length > 0) {
+        setRequests(requestsData);
+      } else {
+        setRequests([]);
+        setError("No requests found. Create your first request!");
+      }
+      
     } catch (error) {
       console.error("Error fetching requests:", error);
-      // Fallback to mock data
-      setRequests([
-        {
-          id: 1,
-          name: "John Doe",
-          email: "john@example.com",
-          phone: "+1234567890",
-          instrument: "Guitar",
-          experience: "intermediate",
-          status: "pending",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-        {
-          id: 2,
-          name: "Jane Smith",
-          email: "jane@example.com",
-          phone: "+0987654321",
-          instrument: "Piano",
-          experience: "beginner",
-          status: "approved",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        },
-      ]);
+      
+      // Detailed error handling
+      let errorMessage = "Failed to fetch requests";
+      
+      if (error.code === 'ECONNABORTED') {
+        errorMessage = "Request timeout. The server is taking too long to respond.";
+      } else if (error.response) {
+        // Server responded with error status
+        const status = error.response.status;
+        if (status === 404) {
+          errorMessage = "API endpoint not found. Please check the backend is running.";
+        } else if (status === 500) {
+          errorMessage = "Server error. Please try again later.";
+        } else if (status === 401 || status === 403) {
+          errorMessage = "Authentication required. Please login.";
+        } else {
+          errorMessage = `Server error: ${status}`;
+        }
+        
+        // Log response data for debugging
+        console.error("Error response data:", error.response.data);
+      } else if (error.request) {
+        // No response received
+        errorMessage = "No response from server. Please check:";
+        errorMessage += "\n1. Is the backend server running?";
+        errorMessage += "\n2. Check the API URL: " + API_BASE_URL;
+        errorMessage += "\n3. Check CORS settings on the backend";
+      } else {
+        // Request setup error
+        errorMessage = `Request error: ${error.message}`;
+      }
+      
+      setError(errorMessage);
+      setRequests([]); // Ensure it's always an array
+      
+      // For development/testing - uncomment to use sample data
+      // setRequests(getSampleData());
+      // setError(null);
+      
     } finally {
       setLoading(false);
     }
+  };
+
+  // Sample data function for development
+  const getSampleData = () => {
+    return [
+      {
+        id: 1,
+        name: "John Doe",
+        email: "john@example.com",
+        phone: "+1234567890",
+        instrument: "Guitar",
+        experience: "intermediate",
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: 2,
+        name: "Jane Smith",
+        email: "jane@example.com",
+        phone: "+0987654321",
+        instrument: "Piano",
+        experience: "beginner",
+        status: "approved",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+      {
+        id: 3,
+        name: "Mike Johnson",
+        email: "mike@example.com",
+        phone: "+1122334455",
+        instrument: "Violin",
+        experience: "advanced",
+        status: "pending",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    ];
   };
 
   useEffect(() => {
@@ -194,44 +281,23 @@ export const RequestManagement = () => {
     setShowCreateConfirmModal(true);
   };
 
-  // Create new request
+  // Create new request using axios
   const handleCreateRequest = async () => {
     setActionLoading(true);
+    setError(null);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/requests`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookingForm),
-      });
-
-      if (response.ok) {
-        const newRequest = await response.json();
-        setRequests((prev) => [newRequest, ...prev]);
-        setShowCreateModal(false);
-        setShowCreateConfirmModal(false);
-        setBookingForm({
-          name: "",
-          email: "",
-          phone: "",
-          instrument: "",
-          experience: "beginner",
-        });
-      } else {
-        alert("Failed to create request");
+      const response = await api.post("/api/bookings", bookingForm);
+      
+      let newRequest = response.data;
+      
+      // Handle different response formats
+      if (response.data && response.data.data) {
+        newRequest = response.data.data;
+      } else if (response.data && response.data.booking) {
+        newRequest = response.data.booking;
       }
-    } catch (error) {
-      console.error("Error creating request:", error);
-      // For demo, add to local state
-      const newRequest = {
-        id: Date.now(),
-        ...bookingForm,
-        status: "pending",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
+      
       setRequests((prev) => [newRequest, ...prev]);
       setShowCreateModal(false);
       setShowCreateConfirmModal(false);
@@ -242,6 +308,15 @@ export const RequestManagement = () => {
         instrument: "",
         experience: "beginner",
       });
+      
+    } catch (error) {
+      console.error("Error creating request:", error);
+      
+      let errorMessage = "Failed to create request";
+      if (error.response) {
+        errorMessage = error.response.data?.message || errorMessage;
+      }
+      setError(errorMessage);
     } finally {
       setActionLoading(false);
     }
@@ -251,12 +326,12 @@ export const RequestManagement = () => {
   const handleEditRequest = (request) => {
     setSelectedRequest(request);
     setEditForm({
-      name: request.name,
-      email: request.email,
-      phone: request.phone,
-      instrument: request.instrument,
-      experience: request.experience,
-      status: request.status,
+      name: request.name || "",
+      email: request.email || "",
+      phone: request.phone || "",
+      instrument: request.instrument || "",
+      experience: request.experience || "beginner",
+      status: request.status || "pending",
     });
     setShowEditModal(true);
   };
@@ -267,44 +342,28 @@ export const RequestManagement = () => {
     setShowUpdateConfirmModal(true);
   };
 
-  // Update request
+  // Update request using axios
   const handleUpdateRequest = async () => {
     if (!selectedRequest) return;
 
     setActionLoading(true);
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/requests/${selectedRequest.id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(editForm),
-        }
-      );
+    setError(null);
 
-      if (response.ok) {
-        const updatedRequest = await response.json();
-        setRequests((prev) =>
-          prev.map((req) =>
-            req.id === selectedRequest.id ? updatedRequest : req
-          )
-        );
-        setShowEditModal(false);
-        setShowUpdateConfirmModal(false);
-        setSelectedRequest(null);
-      } else {
-        alert("Failed to update request");
+    try {
+      const response = await api.put(
+        `/api/bookings/${selectedRequest.id}`,
+        editForm
+      );
+      
+      let updatedRequest = response.data;
+      
+      // Handle different response formats
+      if (response.data && response.data.data) {
+        updatedRequest = response.data.data;
+      } else if (response.data && response.data.booking) {
+        updatedRequest = response.data.booking;
       }
-    } catch (error) {
-      console.error("Error updating request:", error);
-      // For demo, update local state
-      const updatedRequest = {
-        ...selectedRequest,
-        ...editForm,
-        updatedAt: new Date().toISOString(),
-      };
+      
       setRequests((prev) =>
         prev.map((req) =>
           req.id === selectedRequest.id ? updatedRequest : req
@@ -313,6 +372,15 @@ export const RequestManagement = () => {
       setShowEditModal(false);
       setShowUpdateConfirmModal(false);
       setSelectedRequest(null);
+      
+    } catch (error) {
+      console.error("Error updating request:", error);
+      
+      let errorMessage = "Failed to update request";
+      if (error.response) {
+        errorMessage = error.response.data?.message || errorMessage;
+      }
+      setError(errorMessage);
     } finally {
       setActionLoading(false);
     }
@@ -324,36 +392,29 @@ export const RequestManagement = () => {
     setShowDeleteModal(true);
   };
 
-  // Delete request
+  // Delete request using axios
   const handleDeleteRequest = async () => {
     if (!selectedRequest) return;
 
     setActionLoading(true);
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/requests/${selectedRequest.id}`,
-        {
-          method: "DELETE",
-        }
-      );
+    setError(null);
 
-      if (response.ok) {
-        setRequests((prev) =>
-          prev.filter((req) => req.id !== selectedRequest.id)
-        );
-        setShowDeleteModal(false);
-        setSelectedRequest(null);
-      } else {
-        alert("Failed to delete request");
-      }
-    } catch (error) {
-      console.error("Error deleting request:", error);
-      // For demo, remove from local state
+    try {
+      await api.delete(`/api/bookings/${selectedRequest.id}`);
       setRequests((prev) =>
         prev.filter((req) => req.id !== selectedRequest.id)
       );
       setShowDeleteModal(false);
       setSelectedRequest(null);
+      
+    } catch (error) {
+      console.error("Error deleting request:", error);
+      
+      let errorMessage = "Failed to delete request";
+      if (error.response) {
+        errorMessage = error.response.data?.message || errorMessage;
+      }
+      setError(errorMessage);
     } finally {
       setActionLoading(false);
     }
@@ -365,20 +426,33 @@ export const RequestManagement = () => {
     setShowViewModal(true);
   };
 
-  // Format date
+  // Format date safely
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    });
+    if (!dateString) return "N/A";
+    
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        return "Invalid date";
+      }
+      return date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "N/A";
+    }
   };
 
   // Get experience badge color
   const getExperienceColor = (experience) => {
-    switch (experience) {
+    if (!experience) return "bg-gray-100 text-gray-800";
+    
+    switch (experience.toLowerCase()) {
       case "beginner":
         return "bg-green-100 text-green-800";
       case "intermediate":
@@ -394,7 +468,9 @@ export const RequestManagement = () => {
 
   // Get status badge color
   const getStatusColor = (status) => {
-    switch (status) {
+    if (!status) return "bg-gray-100 text-gray-800";
+    
+    switch (status.toLowerCase()) {
       case "approved":
         return "bg-green-100 text-green-800";
       case "pending":
@@ -406,24 +482,33 @@ export const RequestManagement = () => {
     }
   };
 
-  // Filter requests based on search and filters
-  const filteredRequests = requests.filter((request) => {
+  // Filter requests based on search and filters - SAFE VERSION
+  const filteredRequests = Array.isArray(requests) ? requests.filter((request) => {
+    if (!request || typeof request !== 'object') return false;
+    
+    // Safely get properties with defaults
+    const name = String(request.name || "").toLowerCase();
+    const email = String(request.email || "").toLowerCase();
+    const instrument = String(request.instrument || "").toLowerCase();
+    const experience = request.experience || "";
+    const status = request.status || "";
+
     const matchesSearch =
-      request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      request.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      request.instrument.toLowerCase().includes(searchTerm.toLowerCase());
+      name.includes(searchTerm.toLowerCase()) ||
+      email.includes(searchTerm.toLowerCase()) ||
+      instrument.includes(searchTerm.toLowerCase());
 
     const matchesExperience =
-      filterExperience === "all" || request.experience === filterExperience;
+      filterExperience === "all" || experience === filterExperience;
     const matchesInstrument =
-      filterInstrument === "all" || request.instrument === filterInstrument;
+      filterInstrument === "all" || instrument === filterInstrument;
     const matchesStatus =
-      filterStatus === "all" || request.status === filterStatus;
+      filterStatus === "all" || status === filterStatus;
 
     return (
       matchesSearch && matchesExperience && matchesInstrument && matchesStatus
     );
-  });
+  }) : [];
 
   // Reset filters
   const resetFilters = () => {
@@ -433,10 +518,22 @@ export const RequestManagement = () => {
     setFilterStatus("all");
   };
 
+  // Retry fetching requests
+  const retryFetch = () => {
+    fetchRequests();
+  };
+
+  // Clear error
+  const clearError = () => {
+    setError(null);
+  };
+
+  // Loading state
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex flex-col items-center justify-center h-64 space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+        <p className="text-gray-600">Loading requests...</p>
       </div>
     );
   }
@@ -453,7 +550,12 @@ export const RequestManagement = () => {
           <div className="bg-white border-b border-gray-200 sticky top-0 z-0">
             <div className="flex items-center justify-between p-4">
               <div className="flex items-center space-x-4">
-       
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                >
+                  <MenuIcon />
+                </button>
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">
                     Request Management
@@ -478,6 +580,38 @@ export const RequestManagement = () => {
 
           {/* Page Content */}
           <div className="p-4 lg:p-6">
+            {/* Error Message */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <div className="flex justify-between items-start">
+                  <div className="flex-1">
+                    <h3 className="text-red-800 font-semibold mb-1">Error</h3>
+                    <p className="text-red-700 whitespace-pre-line">{error}</p>
+                  </div>
+                  <div className="flex space-x-2 ml-4">
+                    <button
+                      onClick={retryFetch}
+                      className="text-red-700 hover:text-red-800 font-medium px-3 py-1 bg-red-100 rounded-lg transition-colors duration-200"
+                    >
+                      Retry
+                    </button>
+                    <button
+                      onClick={clearError}
+                      className="text-gray-600 hover:text-gray-800"
+                    >
+                      <CloseIcon className="text-sm" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Debug Info - Remove in production */}
+            <div className="mb-4 text-xs text-gray-500">
+              Showing {filteredRequests.length} of {requests.length} total requests
+              {requests.length === 0 && " - No requests available"}
+            </div>
+
             {/* Search and Filters */}
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -571,10 +705,7 @@ export const RequestManagement = () => {
                   <div>
                     <p className="text-sm font-medium text-gray-600">Pending</p>
                     <p className="text-xl lg:text-2xl font-bold text-gray-900">
-                      {
-                        requests.filter((req) => req.status === "pending")
-                          .length
-                      }
+                      {requests.filter((req) => req?.status === "pending").length}
                     </p>
                   </div>
                   <div className="w-10 h-10 lg:w-12 lg:h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
@@ -590,10 +721,7 @@ export const RequestManagement = () => {
                       Approved
                     </p>
                     <p className="text-xl lg:text-2xl font-bold text-gray-900">
-                      {
-                        requests.filter((req) => req.status === "approved")
-                          .length
-                      }
+                      {requests.filter((req) => req?.status === "approved").length}
                     </p>
                   </div>
                   <div className="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-xl flex items-center justify-center">
@@ -618,134 +746,151 @@ export const RequestManagement = () => {
             </div>
 
             {/* Requests Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
-              {filteredRequests.map((request) => (
-                <motion.div
-                  key={request.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="p-4 lg:p-6">
-                    {/* Header */}
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {request.name}
-                        </h3>
-                        <p className="text-sm text-gray-500">
-                          ID: #{request.id}
-                        </p>
+            {filteredRequests.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-6">
+                {filteredRequests.map((request) => (
+                  <motion.div
+                    key={request.id || Math.random()}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-white rounded-2xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="p-4 lg:p-6">
+                      {/* Header */}
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            {request.name || "Unnamed Request"}
+                          </h3>
+                          <p className="text-sm text-gray-500">
+                            ID: #{request.id || "N/A"}
+                          </p>
+                        </div>
+                        <div className="flex flex-col items-end space-y-2">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${getExperienceColor(
+                              request.experience
+                            )}`}
+                          >
+                            {(request.experience || "Unknown").charAt(0).toUpperCase() +
+                              (request.experience || "Unknown").slice(1)}
+                          </span>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                              request.status
+                            )}`}
+                          >
+                            {(request.status || "Unknown").charAt(0).toUpperCase() +
+                              (request.status || "Unknown").slice(1)}
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex flex-col items-end space-y-2">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${getExperienceColor(
-                            request.experience
-                          )}`}
+
+                      {/* Details */}
+                      <div className="space-y-3 mb-4">
+                        <div className="flex items-center space-x-3">
+                          <Email className="text-gray-400 text-sm" />
+                          <span className="text-sm text-gray-600 truncate">
+                            {request.email || "No email"}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <Phone className="text-gray-400 text-sm" />
+                          <span className="text-sm text-gray-600">
+                            {request.phone || "No phone"}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <MusicNote className="text-gray-400 text-sm" />
+                          <span className="text-sm text-gray-600">
+                            {request.instrument || "No instrument"}
+                          </span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <School className="text-gray-400 text-sm" />
+                          <span className="text-sm text-gray-500">
+                            {formatDate(request.updatedAt)}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex space-x-2 pt-4 border-t border-gray-100">
+                        <motion.button
+                          onClick={() => handleViewRequest(request)}
+                          className="flex-1 flex items-center justify-center space-x-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-2 rounded-lg transition-colors duration-200 text-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          {request.experience.charAt(0).toUpperCase() +
-                            request.experience.slice(1)}
-                        </span>
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
-                            request.status
-                          )}`}
+                          <ViewIcon className="text-sm" />
+                          <span>View</span>
+                        </motion.button>
+                        <motion.button
+                          onClick={() => handleEditRequest(request)}
+                          className="flex-1 flex items-center justify-center space-x-1 bg-green-50 hover:bg-green-100 text-green-600 py-2 px-2 rounded-lg transition-colors duration-200 text-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          {request.status.charAt(0).toUpperCase() +
-                            request.status.slice(1)}
-                        </span>
+                          <EditIcon className="text-sm" />
+                          <span>Edit</span>
+                        </motion.button>
+                        <motion.button
+                          onClick={() => handleDeleteClick(request)}
+                          className="flex-1 flex items-center justify-center space-x-1 bg-red-50 hover:bg-red-100 text-red-600 py-2 px-2 rounded-lg transition-colors duration-200 text-sm"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <DeleteIcon className="text-sm" />
+                          <span>Delete</span>
+                        </motion.button>
                       </div>
                     </div>
-
-                    {/* Details */}
-                    <div className="space-y-3 mb-4">
-                      <div className="flex items-center space-x-3">
-                        <Email className="text-gray-400 text-sm" />
-                        <span className="text-sm text-gray-600 truncate">
-                          {request.email}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <Phone className="text-gray-400 text-sm" />
-                        <span className="text-sm text-gray-600">
-                          {request.phone}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <MusicNote className="text-gray-400 text-sm" />
-                        <span className="text-sm text-gray-600">
-                          {request.instrument}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <School className="text-gray-400 text-sm" />
-                        <span className="text-sm text-gray-500">
-                          {formatDate(request.updatedAt)}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex space-x-2 pt-4 border-t border-gray-100">
-                      <motion.button
-                        onClick={() => handleViewRequest(request)}
-                        className="flex-1 flex items-center justify-center space-x-1 bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-2 rounded-lg transition-colors duration-200 text-sm"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <ViewIcon className="text-sm" />
-                        <span>View</span>
-                      </motion.button>
-                      <motion.button
-                        onClick={() => handleEditRequest(request)}
-                        className="flex-1 flex items-center justify-center space-x-1 bg-green-50 hover:bg-green-100 text-green-600 py-2 px-2 rounded-lg transition-colors duration-200 text-sm"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <EditIcon className="text-sm" />
-                        <span>Edit</span>
-                      </motion.button>
-                      <motion.button
-                        onClick={() => handleDeleteClick(request)}
-                        className="flex-1 flex items-center justify-center space-x-1 bg-red-50 hover:bg-red-100 text-red-600 py-2 px-2 rounded-lg transition-colors duration-200 text-sm"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <DeleteIcon className="text-sm" />
-                        <span>Delete</span>
-                      </motion.button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Empty State */}
-            {filteredRequests.length === 0 && (
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              /* Empty State */
               <div className="text-center py-12">
                 <MusicNote className="mx-auto text-gray-400 text-6xl mb-4" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No Requests Found
-                </h3>
-                <p className="text-gray-600 mb-6">
                   {requests.length === 0
-                    ? "Get started by creating your first music lesson request."
-                    : "No requests match your current filters."}
+                    ? "No Requests Available"
+                    : "No Requests Found"}
+                </h3>
+                <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                  {requests.length === 0
+                    ? error 
+                      ? "There was an error loading requests. Please check your connection and try again."
+                      : "Get started by creating your first music lesson request."
+                    : "No requests match your current filters. Try adjusting your search or filters."}
                 </p>
-                <motion.button
-                  onClick={() => setShowCreateModal(true)}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  Create First Request
-                </motion.button>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <motion.button
+                    onClick={() => setShowCreateModal(true)}
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Create First Request
+                  </motion.button>
+                  {error && (
+                    <motion.button
+                      onClick={retryFetch}
+                      className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      Retry Loading
+                    </motion.button>
+                  )}
+                </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* All Modal Components (unchanged from your original code) */}
+        {/* All Modal Components */}
+        {/* Create Modal */}
         <AnimatePresence>
           {showCreateModal && (
             <motion.div
@@ -1259,7 +1404,7 @@ export const RequestManagement = () => {
                         Request ID
                       </label>
                       <p className="text-lg font-semibold text-gray-900">
-                        #{selectedRequest.id}
+                        #{selectedRequest.id || "N/A"}
                       </p>
                     </div>
                     <div>
@@ -1271,8 +1416,8 @@ export const RequestManagement = () => {
                           selectedRequest.status
                         )}`}
                       >
-                        {selectedRequest.status.charAt(0).toUpperCase() +
-                          selectedRequest.status.slice(1)}
+                        {(selectedRequest.status || "Unknown").charAt(0).toUpperCase() +
+                          (selectedRequest.status || "Unknown").slice(1)}
                       </span>
                     </div>
                   </div>
@@ -1287,8 +1432,8 @@ export const RequestManagement = () => {
                           selectedRequest.experience
                         )}`}
                       >
-                        {selectedRequest.experience.charAt(0).toUpperCase() +
-                          selectedRequest.experience.slice(1)}
+                        {(selectedRequest.experience || "Unknown").charAt(0).toUpperCase() +
+                          (selectedRequest.experience || "Unknown").slice(1)}
                       </span>
                     </div>
                     <div>
@@ -1296,7 +1441,7 @@ export const RequestManagement = () => {
                         Instrument
                       </label>
                       <p className="text-lg text-gray-900">
-                        {selectedRequest.instrument}
+                        {selectedRequest.instrument || "Not specified"}
                       </p>
                     </div>
                   </div>
@@ -1306,7 +1451,7 @@ export const RequestManagement = () => {
                       Full Name
                     </label>
                     <p className="text-lg font-semibold text-gray-900">
-                      {selectedRequest.name}
+                      {selectedRequest.name || "Unnamed"}
                     </p>
                   </div>
 
@@ -1315,7 +1460,7 @@ export const RequestManagement = () => {
                       Email
                     </label>
                     <p className="text-lg text-gray-900">
-                      {selectedRequest.email}
+                      {selectedRequest.email || "No email"}
                     </p>
                   </div>
 
@@ -1324,7 +1469,7 @@ export const RequestManagement = () => {
                       Phone
                     </label>
                     <p className="text-lg text-gray-900">
-                      {selectedRequest.phone}
+                      {selectedRequest.phone || "No phone"}
                     </p>
                   </div>
 
@@ -1389,7 +1534,7 @@ export const RequestManagement = () => {
 
                   <p className="text-gray-600 mb-6">
                     Are you sure you want to delete the request from{" "}
-                    <strong>{selectedRequest.name}</strong>? This action cannot
+                    <strong>{selectedRequest.name || "this user"}</strong>? This action cannot
                     be undone.
                   </p>
 

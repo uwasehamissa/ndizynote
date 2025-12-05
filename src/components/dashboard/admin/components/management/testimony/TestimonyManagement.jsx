@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Add as AddIcon,
@@ -27,6 +28,14 @@ import {
 import { Sidebar } from '../../sidebar/Sidebar';
 
 const API_BASE_URL = 'https://ndizmusicprojectbackend.onrender.com';
+
+// Create axios instance
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 // Instruments for selection
 const instruments = [
@@ -94,118 +103,107 @@ export const TestimonialManagement = () => {
     teacher: ""
   });
 
-  // Fetch all testimonials
+  // Fetch all testimonials using axios
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`${API_BASE_URL}/api/testimonials`);
-      if (response.ok) {
-        const data = await response.json();
-        setTestimonials(data);
+      const response = await api.get('/testimonials');
+      
+      if (response.status === 200) {
+        setTestimonials(response.data);
       } else {
         console.error('Failed to fetch testimonials');
         // Mock data for demonstration
-        setTestimonials([
-          {
-            id: 1,
-            name: "Sarah Johnson",
-            instrument: "Piano",
-            duration: "2 years",
-            joinDate: "Jan 2023",
-            rating: 5,
-            testimonialText: "The piano lessons have been absolutely transformative! My teacher is incredibly patient and knowledgeable. I've improved so much in just two years.",
-            status: "published",
-            email: "sarah.johnson@email.com",
-            age: "28",
-            teacher: "Mr. Anderson",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 2,
-            name: "Michael Chen",
-            instrument: "Guitar",
-            duration: "6 months",
-            joinDate: "Jun 2023",
-            rating: 4,
-            testimonialText: "Great learning experience! The structured approach really helped me build a solid foundation.",
-            status: "published",
-            email: "michael.chen@email.com",
-            age: "22",
-            teacher: "Ms. Garcia",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 3,
-            name: "Emma Rodriguez",
-            instrument: "Violin",
-            duration: "1 year",
-            joinDate: "Mar 2023",
-            rating: 5,
-            testimonialText: "As an adult beginner, I was nervous about learning violin. But my teacher made it so accessible and fun! Highly recommended.",
-            status: "draft",
-            email: "emma.rodriguez@email.com",
-            age: "35",
-            teacher: "Mr. Thompson",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 4,
-            name: "David Kim",
-            instrument: "Drums",
-            duration: "3 years",
-            joinDate: "Aug 2022",
-            rating: 5,
-            testimonialText: "Three years of drumming and I'm still learning new things every week. The instructors are world-class!",
-            status: "published",
-            email: "david.kim@email.com",
-            age: "19",
-            teacher: "Mr. Wilson",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          },
-          {
-            id: 5,
-            name: "Lisa Thompson",
-            instrument: "Voice",
-            duration: "8 months",
-            joinDate: "Apr 2023",
-            rating: 4,
-            testimonialText: "My vocal range has expanded tremendously. The breathing techniques alone were worth it!",
-            status: "archived",
-            email: "lisa.thompson@email.com",
-            age: "26",
-            teacher: "Ms. Davis",
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          }
-        ]);
+        setTestimonials(getMockData());
       }
     } catch (error) {
       console.error('Error fetching testimonials:', error);
       // Fallback to mock data
-      setTestimonials([
-        {
-          id: 1,
-          name: "Sarah Johnson",
-          instrument: "Piano",
-          duration: "2 years",
-          joinDate: "Jan 2023",
-          rating: 5,
-          testimonialText: "The piano lessons have been absolutely transformative!",
-          status: "published",
-          email: "sarah.johnson@email.com",
-          age: "28",
-          teacher: "Mr. Anderson",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
-      ]);
+      setTestimonials(getMockData().slice(0, 1));
     } finally {
       setLoading(false);
     }
+  };
+
+  // Helper function for mock data
+  const getMockData = () => {
+    return [
+      {
+        id: 1,
+        name: "Sarah Johnson",
+        instrument: "Piano",
+        duration: "2 years",
+        joinDate: "Jan 2023",
+        rating: 5,
+        testimonialText: "The piano lessons have been absolutely transformative! My teacher is incredibly patient and knowledgeable. I've improved so much in just two years.",
+        status: "published",
+        email: "sarah.johnson@email.com",
+        age: "28",
+        teacher: "Mr. Anderson",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 2,
+        name: "Michael Chen",
+        instrument: "Guitar",
+        duration: "6 months",
+        joinDate: "Jun 2023",
+        rating: 4,
+        testimonialText: "Great learning experience! The structured approach really helped me build a solid foundation.",
+        status: "published",
+        email: "michael.chen@email.com",
+        age: "22",
+        teacher: "Ms. Garcia",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 3,
+        name: "Emma Rodriguez",
+        instrument: "Violin",
+        duration: "1 year",
+        joinDate: "Mar 2023",
+        rating: 5,
+        testimonialText: "As an adult beginner, I was nervous about learning violin. But my teacher made it so accessible and fun! Highly recommended.",
+        status: "draft",
+        email: "emma.rodriguez@email.com",
+        age: "35",
+        teacher: "Mr. Thompson",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 4,
+        name: "David Kim",
+        instrument: "Drums",
+        duration: "3 years",
+        joinDate: "Aug 2022",
+        rating: 5,
+        testimonialText: "Three years of drumming and I'm still learning new things every week. The instructors are world-class!",
+        status: "published",
+        email: "david.kim@email.com",
+        age: "19",
+        teacher: "Mr. Wilson",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      },
+      {
+        id: 5,
+        name: "Lisa Thompson",
+        instrument: "Voice",
+        duration: "8 months",
+        joinDate: "Apr 2023",
+        rating: 4,
+        testimonialText: "My vocal range has expanded tremendously. The breathing techniques alone were worth it!",
+        status: "archived",
+        email: "lisa.thompson@email.com",
+        age: "26",
+        teacher: "Ms. Davis",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      }
+    ];
   };
 
   useEffect(() => {
@@ -252,36 +250,19 @@ export const TestimonialManagement = () => {
     setShowCreateConfirmModal(true);
   };
 
-  // Create new testimonial
+  // Create new testimonial using axios
   const handleCreateTestimonial = async () => {
     setActionLoading(true);
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/testimonials`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(testimonialForm),
-      });
+      const response = await api.post('/testimonials', testimonialForm);
 
-      if (response.ok) {
-        const newTestimonial = await response.json();
+      if (response.status === 201 || response.status === 200) {
+        const newTestimonial = response.data;
         setTestimonials(prev => [newTestimonial, ...prev]);
         setShowCreateModal(false);
         setShowCreateConfirmModal(false);
-        setTestimonialForm({
-          name: "",
-          instrument: "",
-          duration: "",
-          joinDate: "",
-          rating: 5,
-          testimonialText: "",
-          status: "draft",
-          email: "",
-          age: "",
-          teacher: ""
-        });
+        resetTestimonialForm();
       } else {
         alert('Failed to create testimonial');
       }
@@ -297,21 +278,26 @@ export const TestimonialManagement = () => {
       setTestimonials(prev => [newTestimonial, ...prev]);
       setShowCreateModal(false);
       setShowCreateConfirmModal(false);
-      setTestimonialForm({
-        name: "",
-        instrument: "",
-        duration: "",
-        joinDate: "",
-        rating: 5,
-        testimonialText: "",
-        status: "draft",
-        email: "",
-        age: "",
-        teacher: ""
-      });
+      resetTestimonialForm();
     } finally {
       setActionLoading(false);
     }
+  };
+
+  // Reset form helper
+  const resetTestimonialForm = () => {
+    setTestimonialForm({
+      name: "",
+      instrument: "",
+      duration: "",
+      joinDate: "",
+      rating: 5,
+      testimonialText: "",
+      status: "draft",
+      email: "",
+      age: "",
+      teacher: ""
+    });
   };
 
   // Open edit modal
@@ -338,22 +324,16 @@ export const TestimonialManagement = () => {
     setShowUpdateConfirmModal(true);
   };
 
-  // Update testimonial
+  // Update testimonial using axios
   const handleUpdateTestimonial = async () => {
     if (!selectedTestimonial) return;
 
     setActionLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/testimonials/${selectedTestimonial.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(editForm),
-      });
+      const response = await api.put(`/testimonials/${selectedTestimonial.id}`, editForm);
 
-      if (response.ok) {
-        const updatedTestimonial = await response.json();
+      if (response.status === 200) {
+        const updatedTestimonial = response.data;
         setTestimonials(prev => prev.map(test => 
           test.id === selectedTestimonial.id ? updatedTestimonial : test
         ));
@@ -388,17 +368,15 @@ export const TestimonialManagement = () => {
     setShowDeleteModal(true);
   };
 
-  // Delete testimonial
+  // Delete testimonial using axios
   const handleDeleteTestimonial = async () => {
     if (!selectedTestimonial) return;
 
     setActionLoading(true);
     try {
-      const response = await fetch(`${API_BASE_URL}/api/testimonials/${selectedTestimonial.id}`, {
-        method: 'DELETE',
-      });
+      const response = await api.delete(`/testimonials/${selectedTestimonial.id}`);
 
-      if (response.ok) {
+      if (response.status === 200 || response.status === 204) {
         setTestimonials(prev => prev.filter(test => test.id !== selectedTestimonial.id));
         setShowDeleteModal(false);
         setSelectedTestimonial(null);
@@ -458,6 +436,7 @@ export const TestimonialManagement = () => {
   };
 
   // Filter testimonials based on search and filters
+  // FIXED: Changed from testimonials. Filter to testimonials.filter
   const filteredTestimonials = testimonials.filter(testimonial => {
     const matchesSearch = testimonial.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          testimonial.instrument.toLowerCase().includes(searchTerm.toLowerCase()) ||
