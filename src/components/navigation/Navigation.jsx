@@ -2359,7 +2359,7 @@ export const ProtectedRoute = ({ children, adminOnly = false }) => {
       navigate("/");
     }
     if (!isLoading && adminOnly && user?.status !== "admin") {
-      navigate("/user-dashboard");
+      navigate("/dashboard/user");
     }
   }, [isAuthenticated, user, isLoading, navigate]);
 
@@ -2884,9 +2884,9 @@ const getDashboardPath = (user) => {
     case "admin":
       return "/dashboard";
     case "manager":
-      return "/manager-dashboard";
+      return "/dashboard/manager";
     case "user":
-      return "/user-dashboard";
+      return "/dashboard/user";
     default:
       return "/dashboard";
   }

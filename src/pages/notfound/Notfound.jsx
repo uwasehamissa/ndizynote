@@ -63,7 +63,7 @@ const AdminContactModal = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -71,7 +71,7 @@ const AdminContactModal = ({ isOpen, onClose }) => {
             className="bg-white rounded-xl w-full max-w-md shadow-2xl"
           >
             {/* Header */}
-            <div className="flex items-center justify-between overflow-y-auto p-6 border-b border-gray-200">
+            <div className="flex items-center justify-between overflow-y-auto p-6 mt-10 border-b border-gray-200">
               <div className="flex items-center space-x-3">
                 <div className="p-2 bg-blue-100 rounded-lg">
                   <Email className="w-5 h-5 text-blue-600" />
@@ -250,7 +250,7 @@ export const NotFound = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-blue-500  to-indigo-400 text-black flex items-center justify-center p-4">
         <div className="max-w-4xl w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-// App.jsx
-import React, { useState, useEffect, createContext, useContext } from "react";
+/* eslint-disable react-hooks/set-state-in-effect */
+import React, { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Home } from "./pages/home/Home";
 import "./App.css";
@@ -21,10 +20,15 @@ import { FAQ } from "./pages/faq/Faq";
 import { RequestManagement } from "./components/dashboard/admin/components/management/request/RequestManagement";
 import { TestimonialManagement } from "./components/dashboard/admin/components/management/testimony/TestimonyManagement";
 import { BookingManagement } from "./components/dashboard/admin/components/management/booking/BookingManagement";
+import { CourseManagementDashboard } from "./components/dashboard/admin/components/management/courses/CourseManagement";
+import { UserDashboard } from "./components/dashboard/users/UserDashboard";
+import { MeManagement } from "./components/dashboard/users/components/management/me/MeManagement";
+import { MyTestimonialManagement } from "./components/dashboard/users/components/management/testimony/MyTestimony";
+import { MyContactManagement } from "./components/dashboard/users/components/management/contacts/Mycontacts";
 
-// ============================
+
 // CONTEXT DEFINITIONS
-// ============================
+
 // eslint-disable-next-line react-refresh/only-export-components
 export const DarkModeContext = createContext();
 // eslint-disable-next-line react-refresh/only-export-components
@@ -32,9 +36,9 @@ export const LanguageContext = createContext();
 // eslint-disable-next-line react-refresh/only-export-components
 export const AppContext = createContext();
 
-// ============================
+
 // LOADING COMPONENTS
-// ============================
+
 const PageLoadingSpinner = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
     <div className="text-center">
@@ -54,13 +58,13 @@ const PageLoadingSpinner = () => (
   </div>
 );
 
-// ============================
+
 // NOTIFICATION TOAST COMPONENT
-// ============================
+
 const NotificationToast = () => {
   const { notifications, removeNotification } = useContext(AppContext);
 
-  if (notifications.length === 0) return null;
+  if (!notifications || notifications.length === 0) return null;
 
   return (
     <div className="fixed top-20 right-4 z-50 space-y-2 max-w-sm">
@@ -68,8 +72,8 @@ const NotificationToast = () => {
         <div
           key={notification.id}
           className={`p-4 rounded-lg shadow-lg border-l-4 transform transition-all duration-300 animate-slide-in-right ${
-            notification.type === 'success' 
-              ? 'bg-green-50 border-green-500 text-green-800 dark:bg-green-900/20 dark:text-green-300' 
+            notification.type === 'success'
+              ? 'bg-green-50 border-green-500 text-green-800 dark:bg-green-900/20 dark:text-green-300'
               : notification.type === 'warning'
               ? 'bg-yellow-50 border-yellow-500 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300'
               : notification.type === 'error'
@@ -104,21 +108,22 @@ const NotificationToast = () => {
             <button
               onClick={() => removeNotification(notification.id)}
               className="ml-4 text-gray-400 transition-colors text-lg"
+              aria-label="close notification"
             >
               ✕
             </button>
           </div>
           {/* Progress bar */}
           <div className="w-full bg-gray-200 rounded-full h-1 mt-2">
-            <div 
+            <div
               className={`h-1 rounded-full transition-all duration-100 ${
                 notification.type === 'success' ? 'bg-green-500' :
                 notification.type === 'warning' ? 'bg-yellow-500' :
                 notification.type === 'error' ? 'bg-red-500' : 'bg-blue-500'
               }`}
-              style={{ 
+              style={{
                 width: '100%',
-                animation: `shrink ${notification.duration}ms linear forwards` 
+                animation: `shrink ${notification.duration}ms linear forwards`
               }}
             />
           </div>
@@ -128,9 +133,9 @@ const NotificationToast = () => {
   );
 };
 
-// ============================
+
 // ONLINE STATUS INDICATOR
-// ============================
+
 const OnlineStatusIndicator = () => {
   const { onlineStatus } = useContext(AppContext);
 
@@ -149,66 +154,72 @@ const OnlineStatusIndicator = () => {
   );
 };
 
-// ============================
+
 // APP PROVIDER FOR GLOBAL STATE
-// ============================
+
 const AppProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [pageTransition, setPageTransition] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const [onlineStatus, setOnlineStatus] = useState(navigator.onLine);
 
-  // Declare addNotification function before using it
-  const addNotification = (message, type = 'info', duration = 5000) => {
-    // eslint-disable-next-line react-hooks/purity
-    const id = Date.now();
-    const notification = { id, message, type, duration };
-    
+  // addNotification and removeNotification stable via useCallback
+  const addNotification = useCallback((message, type = 'info', duration = 5000) => {
+    // Accept duration in ms or as small number in seconds
+    let dur = duration;
+    if (typeof dur === 'number' && dur < 1000) {
+      // treat as seconds
+      dur = dur * 1000;
+    }
+    const id = Date.now() + Math.floor(Math.random() * 1000);
+    const notification = { id, message, type, duration: dur };
+
     setNotifications(prev => [...prev, notification]);
-    
+
     // Auto remove after duration
     setTimeout(() => {
-      removeNotification(id);
-    }, duration);
+      setNotifications(prev => prev.filter(n => n.id !== id));
+    }, dur);
 
-    return id; // Return ID for potential manual removal
-  };
+    return id;
+  }, []);
 
-  const removeNotification = (id) => {
+  const removeNotification = useCallback((id) => {
     setNotifications(prev => prev.filter(notif => notif.id !== id));
-  };
+  }, []);
 
   // Clear all notifications
-  const clearNotifications = () => {
+  const clearNotifications = useCallback(() => {
     setNotifications([]);
-  };
+  }, []);
 
   // Simulate initial app loading
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-      // Welcome notification
+      // Welcome notification (4 seconds)
       addNotification('Welcome to Ndizi Music! 🎵', 'success', 4000);
     }, 2000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [addNotification]);
 
   // Online/Offline detection with notifications
   useEffect(() => {
     const handleOnline = () => {
       setOnlineStatus(true);
-      addNotification('Connection restored! You are back online 🌐', 'success', 30);
+      // treat 3 seconds as 3s, not 3ms
+      addNotification('Connection restored! You are back online 🌐', 'success', 3000);
     };
 
     const handleOffline = () => {
       setOnlineStatus(false);
-      addNotification('You are offline. Some features may not work.', 'warning', 10);
+      addNotification('You are offline. Some features may not work.', 'warning', 5000);
     };
 
     // Add initial connectivity notification
     if (!navigator.onLine) {
-      addNotification('You are currently offline. Some features may be limited.', 'warning', 10);
+      addNotification('You are currently offline. Some features may be limited.', 'warning', 5000);
     }
 
     window.addEventListener('online', handleOnline);
@@ -218,7 +229,7 @@ const AppProvider = ({ children }) => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
-  }, [addNotification]); // Add addNotification to dependency array
+  }, [addNotification]);
 
   const value = {
     isLoading,
@@ -239,9 +250,9 @@ const AppProvider = ({ children }) => {
   );
 };
 
-// ============================
+
 // DARK MODE PROVIDER
-// ============================
+
 const DarkModeProvider = ({ children }) => {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -273,9 +284,9 @@ const DarkModeProvider = ({ children }) => {
   );
 };
 
-// ============================
+
 // LANGUAGE PROVIDER
-// ============================
+
 const LanguageProvider = ({ children }) => {
   const [currentLanguage, setCurrentLanguage] = useState(() => {
     return localStorage.getItem("lang") || "english";
@@ -311,15 +322,20 @@ const LanguageProvider = ({ children }) => {
     },
   };
 
-  const changeLanguage = (lang) => {
+  const changeLanguage = useCallback((lang) => {
     setCurrentLanguage(lang);
-    localStorage.setItem("lang", lang);
-  };
+    try {
+      localStorage.setItem("lang", lang);
+    } catch (e) {
+      // localStorage may be disabled in strict environments — ignore safely
+      console.warn("Could not persist language selection", e);
+    }
+  }, []);
 
   const value = {
     currentLanguage,
     changeLanguage,
-    t: translations[currentLanguage]
+    t: translations[currentLanguage] || translations.english
   };
 
   return (
@@ -329,44 +345,53 @@ const LanguageProvider = ({ children }) => {
   );
 };
 
-// ============================
+
 // RWANDA TIME COMPONENT
-// ============================
+// IMPORTANT: Uses UTC (Date.now()) as base, then applies Kigali offset (+2h).
+// This ensures we are NOT relying on user's local timezone.
+
 const RwandaTime = () => {
   const [currentTime, setCurrentTime] = useState("");
   const [currentDate, setCurrentDate] = useState("");
   const [today, setToday] = useState("");
 
   useEffect(() => {
+    let mounted = true;
+
     const updateDateTime = () => {
-      const now = new Date();
-      
-      // Get Rwanda time (CAT - Central Africa Time, UTC+2)
-      const rwandaTime = new Date(now.getTime() + (2 * 60 * 60 * 1000));
-      
-      // Format time with AM/PM
+      // Base on UTC milliseconds
+      const nowUTCms = Date.now();
+
+      // Kigali is UTC+2 (no DST)
+      const rwandaMs = nowUTCms + (2 * 60 * 60 * 1000);
+      const rwandaTime = new Date(rwandaMs);
+
+      // Format using UTC locale so user's device TZ doesn't affect the string.
+      // Because we already applied +2h offset, format with timeZone: 'UTC'
       const timeFormatter = new Intl.DateTimeFormat('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: true
+        hour12: true,
+        timeZone: 'UTC'
       });
-      
-      // Format full date
+
       const dateFormatter = new Intl.DateTimeFormat('en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
+        timeZone: 'UTC'
       });
 
-      // Format today's date
       const todayFormatter = new Intl.DateTimeFormat('en-US', {
         weekday: 'short',
         month: 'short',
-        day: 'numeric'
+        day: 'numeric',
+        timeZone: 'UTC'
       });
 
+      if (!mounted) return;
       setCurrentTime(timeFormatter.format(rwandaTime));
       setCurrentDate(dateFormatter.format(rwandaTime));
       setToday(todayFormatter.format(rwandaTime));
@@ -374,8 +399,11 @@ const RwandaTime = () => {
 
     updateDateTime();
     const intervalId = setInterval(updateDateTime, 1000);
-    
-    return () => clearInterval(intervalId);
+
+    return () => {
+      mounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (
@@ -384,17 +412,17 @@ const RwandaTime = () => {
       <div className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 whitespace-nowrap">
         🕒 {currentTime} CAT
       </div>
-      
+
       {/* Full Date - Hidden on xsm, visible on md and up */}
       <div className="hidden md:block text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
         📅 {currentDate}
       </div>
-      
+
       {/* Today's Date - Hidden on xsm, visible on sm */}
       <div className="hidden sm:block md:hidden text-xs text-gray-600 dark:text-gray-400 whitespace-nowrap">
         📅 {today}
       </div>
-      
+
       {/* Mobile Date - Compact version for xsm */}
       <div className="sm:hidden text-[10px] text-gray-600 dark:text-gray-400 whitespace-nowrap">
         📅 {today}
@@ -403,9 +431,9 @@ const RwandaTime = () => {
   );
 };
 
-// ============================
+
 // DARK MODE TOGGLE COMPONENT
-// ============================
+
 const DarkModeToggle = () => {
   const { isDarkMode, toggleDarkMode } = useContext(DarkModeContext);
 
@@ -422,9 +450,9 @@ const DarkModeToggle = () => {
   );
 };
 
-// ============================
+
 // LANGUAGE SELECTOR COMPONENT
-// ============================
+
 const LanguageSelector = () => {
   const { currentLanguage, changeLanguage } = useContext(LanguageContext);
 
@@ -441,9 +469,9 @@ const LanguageSelector = () => {
   );
 };
 
-// ============================
+
 // BACK TO TOP COMPONENT
-// ============================
+
 const BackToTop = () => {
   const { t } = useContext(LanguageContext);
   const [isVisible, setIsVisible] = useState(false);
@@ -454,6 +482,9 @@ const BackToTop = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    // initial check
+    handleScroll();
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -479,41 +510,41 @@ const BackToTop = () => {
   );
 };
 
-// ============================
+
 // TODAY'S DATE COMPONENT
-// ============================
+
 const TodaysDate = () => {
   const { t } = useContext(LanguageContext);
   const [todayDate, setTodayDate] = useState("");
 
   useEffect(() => {
+    let mounted = true;
+
     const updateTodayDate = () => {
-      const now = new Date();
-      const rwandaTime = new Date(now.getTime() + (2 * 60 * 60 * 1000));
-      
+      const nowUTCms = Date.now();
+      const rwandaMs = nowUTCms + (2 * 60 * 60 * 1000);
+      const rwandaTime = new Date(rwandaMs);
+
       const formatter = new Intl.DateTimeFormat('en-US', {
         weekday: 'long',
         year: 'numeric',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
+        timeZone: 'UTC'
       });
 
+      if (!mounted) return;
       setTodayDate(formatter.format(rwandaTime));
     };
 
     updateTodayDate();
-    // Update daily at midnight
-    const now = new Date();
-    const midnight = new Date(now);
-    midnight.setHours(24, 0, 0, 0);
-    const timeUntilMidnight = midnight.getTime() - now.getTime();
+    // check once a minute to catch midnight changes reliably
+    const intervalId = setInterval(updateTodayDate, 60 * 1000);
 
-    const timeoutId = setTimeout(() => {
-      updateTodayDate();
-      setInterval(updateTodayDate, 24 * 60 * 60 * 1000); // Update every 24 hours
-    }, timeUntilMidnight);
-
-    return () => clearTimeout(timeoutId);
+    return () => {
+      mounted = false;
+      clearInterval(intervalId);
+    };
   }, []);
 
   return (
@@ -524,9 +555,9 @@ const TodaysDate = () => {
   );
 };
 
-// ============================
+
 // PRIVATE ROUTE COMPONENT
-// ============================
+
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
@@ -538,15 +569,15 @@ const PrivateRoute = ({ children }) => {
   return children;
 };
 
-// ============================
-// DASHBOARD LAYOUT COMPONENT
-// ============================
-const DashboardLayout = () => {
-  // const { isAuthenticated } = useAuth();
 
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/" replace />;
-  // }
+// DASHBOARD LAYOUT COMPONENT
+
+const DashboardLayout = () => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -557,14 +588,23 @@ const DashboardLayout = () => {
         <Route path="/request" element={<RequestManagement />} />
         <Route path="/testimony" element={<TestimonialManagement />} />
         <Route path="/booking" element={<BookingManagement />} />
+        <Route path="/courses" element={<CourseManagementDashboard />} />
+        {/* user dashboard */}
+        <Route path="/user" element={<UserDashboard />} />
+        <Route path="/me" element={<MeManagement />} />
+        <Route path="/me/testimony" element={<MyTestimonialManagement />} />
+        <Route path="/me/contacts" element={<MyContactManagement />} />
+        {/* <Route path="/me" element={<MeManagement />} /> */}
+        {/* not found pages */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );
 };
 
-// ============================
+
 // ENHANCED NAVBAR WRAPPER
-// ============================
+
 const EnhancedNavbar = () => {
   const { isLoading } = useContext(AppContext);
 
@@ -577,19 +617,19 @@ const EnhancedNavbar = () => {
         <div className="w-full xsm:w-auto flex justify-center xsm:justify-start">
           <Navbar />
         </div>
-        
+
         {/* Today's Date - Visible on large screens */}
         <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2">
           <TodaysDate />
         </div>
-        
+
         {/* Controls Container */}
         <div className="w-full xsm:w-auto flex items-center justify-between xsm:justify-end space-x-2 sm:space-x-3 lg:space-x-4">
           {/* Rwanda Time & Date */}
           <div className="flex-shrink-0">
             <RwandaTime />
           </div>
-          
+
           {/* Controls */}
           <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
             <LanguageSelector />
@@ -601,9 +641,9 @@ const EnhancedNavbar = () => {
   );
 };
 
-// ============================
+
 // MAIN APP COMPONENT
-// ============================
+
 function App() {
   const { isLoading } = useContext(AppContext);
 
@@ -614,7 +654,7 @@ function App() {
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-200">
       <EnhancedNavbar />
-      
+
       <main className="min-h-screen">
         <Routes>
           {/* Public Routes */}
@@ -647,9 +687,9 @@ function App() {
   );
 }
 
-// ============================
+
 // ROOT WRAPPER COMPONENT
-// ============================
+
 function RootApp() {
   return (
     <AppProvider>
