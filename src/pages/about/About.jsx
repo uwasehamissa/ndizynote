@@ -743,30 +743,6 @@ export const About = () => {
         "Music theory",
       ],
     },
-    {
-      icon: <ViolinIcon />,
-      title: "String Instruments",
-      description: "Violin, viola, cello, and double bass instruction",
-      levels: ["Beginner", "Intermediate", "Advanced"],
-      features: [
-        "Bow techniques",
-        "Fingering",
-        "Orchestral training",
-        "Solo performance",
-      ],
-    },
-    {
-      icon: <DrumSetIcon />,
-      title: "Percussion & Drums",
-      description: "Rhythm development and drum kit mastery",
-      levels: ["Beginner", "Intermediate", "Advanced"],
-      features: [
-        "Rudiments",
-        "Groove development",
-        "Drum notation",
-        "Live performance",
-      ],
-    },
   ];
 
   // Vocal Services
@@ -854,11 +830,7 @@ export const About = () => {
       title: "Vocal Health",
       description: "Learn proper vocal care and maintenance techniques",
     },
-    {
-      icon: <QueueMusic className="text-3xl text-green-400" />,
-      title: "Songwriting",
-      description: "Compose and arrange your own original music",
-    },
+
     {
       icon: <Psychology className="text-3xl text-orange-400" />,
       title: "Music Theory",
@@ -868,11 +840,6 @@ export const About = () => {
       icon: <EmojiPeople className="text-3xl text-cyan-400" />,
       title: "Artist Development",
       description: "Build your unique artistic identity and brand",
-    },
-    {
-      icon: <AutoAwesome className="text-3xl text-yellow-400" />,
-      title: "Master Classes",
-      description: "Learn from industry professionals and guest artists",
     },
   ];
 
