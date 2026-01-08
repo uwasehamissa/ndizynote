@@ -2119,7 +2119,7 @@ const apiService = {
    */
   contact: async (formData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/contact`, formData);
+      const response = await axios.post(`${API_BASE_URL}/api/contacts/contact`, formData);
       return response.data;
     } catch (error) {
       throw new Error(
