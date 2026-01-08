@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // components/Footer.jsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
