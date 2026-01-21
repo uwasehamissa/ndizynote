@@ -56,7 +56,7 @@ import {
   Warning,
   Info,
 } from "@mui/icons-material";
-import { Sidebar } from "../../sidebar/Sidebar";
+
 
 // API Configuration based on your provided data structure
 const API_CONFIG = {
@@ -849,7 +849,7 @@ export const CourseManagementDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+ 
       
       <div className="flex-1 lg:ml-0">
         <div className="p-4 lg:p-8 w-full">

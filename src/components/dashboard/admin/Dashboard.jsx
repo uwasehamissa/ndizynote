@@ -49,7 +49,7 @@ import {
   ArrowUpward,
   ArrowDownward,
 } from "@mui/icons-material";
-import { Sidebar } from "./components/sidebar/Sidebar";
+
 
 // Add Notification Modal Component
 const NotificationModal = ({
@@ -1287,8 +1287,7 @@ export const Dashboard = () => {
     : recentActivities.slice(0, 5);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+    <div className="w-full flex min-h-screen bg-gray-50">
 
       <div className="flex-1 lg:ml-0">
         <div className="p-4 lg:p-8 w-full">
@@ -1379,7 +1378,7 @@ export const Dashboard = () => {
                 <motion.div
                   key={stat.title}
                   variants={itemVariants}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 hover:scale-105 relative"
+                  className=" rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 hover:scale-105 relative"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -1420,6 +1419,126 @@ export const Dashboard = () => {
             })}
           </motion.div>
 
+          {/* Charts Section - Booking Charts */}
+          <div className="mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Daily Booking Trends */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Daily Booking Trends
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    <CalendarToday className="text-gray-400 w-4 h-4" />
+                    <span className="text-xs text-gray-500">This Week</span>
+                  </div>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={bookingTrends}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="day" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar
+                      dataKey="bookings"
+                      fill="#3B82F6"
+                      name="Total Bookings"
+                      radius={[4, 4, 0, 0]}
+                    />
+                    <Bar
+                      dataKey="completed"
+                      fill="#10B981"
+                      name="Completed"
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600">Total This Week</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {bookingTrends.reduce((sum, day) => sum + day.bookings, 0)}
+                    </p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm text-gray-600">Completion Rate</p>
+                    <p className="text-2xl font-bold text-green-600">
+                      {bookingTrends.length > 0
+                        ? Math.round(
+                            (bookingTrends.reduce((sum, day) => sum + day.completed, 0) /
+                              bookingTrends.reduce((sum, day) => sum + day.bookings, 0)) *
+                              100
+                          )
+                        : 0}
+                      %
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Booking Status Distribution */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
+              >
+                <div className="flex justify-between items-center mb-4">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Booking Status Distribution
+                  </h3>
+                  <span className="text-xs text-gray-500">
+                    Total: {apiStats.bookings.total}
+                  </span>
+                </div>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart>
+                    <Pie
+                      data={bookingStatus}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ status, value }) => `${status}: ${value}%`}
+                      outerRadius={100}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {bookingStatus.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value, name, props) => [
+                        `${value}% (${props.payload.count || 0})`,
+                        name,
+                      ]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="mt-4 grid grid-cols-3 gap-2">
+                  {bookingStatus.map((status) => (
+                    <div key={status.status} className="text-center">
+                      <div
+                        className="w-3 h-3 rounded-full mx-auto mb-1"
+                        style={{ backgroundColor: status.color }}
+                      ></div>
+                      <p className="text-sm font-medium text-gray-900">
+                        {status.status}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {status.count || 0} bookings
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </div>
 
         </div>
       </div>

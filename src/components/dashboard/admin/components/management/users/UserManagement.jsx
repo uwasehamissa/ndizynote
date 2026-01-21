@@ -16,7 +16,7 @@ import {
   Email,
   Menu,
 } from "@mui/icons-material";
-import { Sidebar } from '../../sidebar/Sidebar'
+
 
 // Axios instance with base configuration
 const api = axios.create({
@@ -611,11 +611,6 @@ export const UserManagement = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex">
-        {/* Sidebar */}
-        <Sidebar 
-          isOpen={sidebarOpen} 
-          onClose={() => setSidebarOpen(false)} 
-        />
         
         {/* Main Content */}
         <div className="flex-1 lg:ml-8">

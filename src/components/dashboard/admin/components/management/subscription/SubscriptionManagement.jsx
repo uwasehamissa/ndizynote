@@ -26,7 +26,7 @@ import {
   Pause,
   PlayArrow
 } from '@mui/icons-material';
-import { Sidebar } from '../../sidebar/Sidebar';
+
 
 const API_BASE_URL = 'https://ndizmusicprojectbackend.onrender.com';
 
@@ -436,12 +436,7 @@ export const SubscriptionManagement = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <Sidebar 
-        isOpen={sidebarOpen} 
-        onClose={() => setSidebarOpen(false)} 
-      />
-      
+
       {/* Main Content */}
       <div className="flex-1 w-full">
         {/* Header */}

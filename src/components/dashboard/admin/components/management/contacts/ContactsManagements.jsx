@@ -1,3 +1,99 @@
+/* eslint-disable no-unused-vars */
+// components/ContactManagement.jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  Add,
+  Edit,
+  Delete,
+  Refresh,
+  Person,
+  MoreVert,
+  ViewHeadline,
+  Email,
+  Menu,
+  Phone,
+  Message,
+  Business,
+  Schedule,
+} from "@mui/icons-material";
+
+// Axios instance with base configuration
+const api = axios.create({
+  baseURL: "https://ndizmusicprojectbackend.onrender.com",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// API Service using Axios
+const contactService = {
+  // Get all contacts
+  async getContacts() {
+    const response = await api.get("/contacts");
+    const data = response.data;
+
+    if (data.success) {
+      return data.data.map((contact) => ({
+        id: contact._id,
+        name: contact.name,
+        email: contact.email,
+        subject: contact.subject,
+        message: contact.message,
+        phone: contact.phone,
+        company: contact.company,
+        status: contact.status || "new",
+        createdAt: contact.createdAt,
+      }));
+    }
+    throw new Error(data.message || "Failed to fetch contacts");
+  },
+
+  // Create new contact
+  async createContact(contactData) {
+    const response = await api.post("/contacts", contactData);
+    const data = response.data;
+
+    if (data.success) {
+      const contact = data.data;
+      return {
+        id: contact._id,
+        name: contact.name,
+        email: contact.email,
+        subject: contact.subject,
+        message: contact.message,
+        phone: contact.phone,
+        company: contact.company,
+        status: contact.status || "new",
+        createdAt: contact.createdAt,
+      };
+    }
+    throw new Error(data.message || "Failed to create contact");
+  },
+
+  // Update contact
+  async updateContact(id, contactData) {
+    const response = await api.put(`/contacts/${id}`, contactData);
+    const data = response.data;
+
+    if (data.success) {
+      const contact = data.data;
+      return {
+        id: contact._id,
+        name: contact.name,
+        email: contact.email,
+        subject: contact.subject,
+        message: contact.message,
+        phone: contact.phone,
+        company: contact.company,
+        status: contact.status,
+        createdAt: contact.createdAt,
+      };
+    }
+    throw new Error(data.message || "Failed to update contact");
+  },
 // /* eslint-disable no-unused-vars */
 // // components/ContactManagement.jsx
 // import React, { useState, useEffect } from "react";
@@ -1430,6 +1526,24 @@ export const ContactManagement = () => {
   );
 
   return (
+    <>
+      <div className="min-h-screen bg-gray-50">
+        <div className="flex">
+
+          {/* Main Content */}
+          <div className="flex-1 w-full">
+            <div className="p-4 sm:p-6 lg:p-8">
+              {/* Header */}
+              <div className="mb-6">
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                  <div className="mb-4 lg:mb-0">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                      Contact Management
+                    </h1>
+                    <p className="text-gray-600 text-sm sm:text-base">
+                      Manage and respond to customer inquiries
+                    </p>
+                  </div>
     <div className="min-h-screen flex bg-gray-50 p-2 sm:p-3 md:p-4 lg:p-6 xl:p-8">
       {/* Mobile Header */}
       <Sidebar/>
