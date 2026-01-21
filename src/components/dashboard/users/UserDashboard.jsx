@@ -47,7 +47,7 @@ import {
   Delete as DeleteIcon,
   AccountCircle,
 } from "@mui/icons-material";
-import { Sidebar } from "./components/sidebar/Sidebar";
+
 
 // Helper function to get cookie value by name
 const getCookie = (name) => {
@@ -1385,7 +1385,7 @@ export const UserDashboard = () => {
 
   return (
     <div className="flex min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+
 
       <div className="flex-1 lg:ml-0">
         <div className="p-4 lg:p-8 w-full">
