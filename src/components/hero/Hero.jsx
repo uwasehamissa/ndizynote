@@ -302,7 +302,7 @@ export const Hero = () => {
               >
                 Master Music with{" "}
                 <span className="bg-gradient-to-r from-cyan-300 via-purple-300 to-blue-300 bg-clip-text text-transparent">
-                  NdzNote
+                  NdizyNote
                 </span>{" "}
                 Academy
               </motion.h2>

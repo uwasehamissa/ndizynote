@@ -5046,7 +5046,7 @@ export const Navbar = () => {
   return (
     <>
       {/* Navigation Bar */}
-      <nav className="bg-gradient-to-t from-gray-300 to-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200 overflow-visible">
+      <nav className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200 overflow-visible">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between h-16">
             {/* Logo Section */}
@@ -5057,8 +5057,8 @@ export const Navbar = () => {
                   className="flex items-center space-x-3"
                 >
                   <MaterialIcons.Logo />
-                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    NdizNote
+                  <span className="text-2xl font-bold bg-gradient-to-r from-gray-100 to-white bg-clip-text text-transparent">
+                    NdizyNote
                   </span>
                 </motion.div>
               </Link>

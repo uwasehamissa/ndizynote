@@ -818,7 +818,7 @@ const TestimonialCard = ({ testimonial, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -5 }}
-      className="bg-white rounded-2xl p-4 xsm:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 h-full flex flex-col"
+      className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] rounded-2xl p-4 xsm:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 h-full flex flex-col"
     >
       {/* Quote Icon */}
       <div className="text-purple-100 mb-3 xsm:mb-4">
@@ -831,7 +831,7 @@ const TestimonialCard = ({ testimonial, index }) => {
       </div>
 
       {/* Testimonial Text */}
-      <p className="text-gray-600 text-sm xsm:text-base leading-relaxed mb-4 xsm:mb-5 flex-grow">
+      <p className="text-gray-100 text-sm xsm:text-base leading-relaxed mb-4 xsm:mb-5 flex-grow">
         "{testimonial.content || testimonial.testimonial || testimonial.review || "No testimonial content available."}"
       </p>
 
@@ -846,21 +846,21 @@ const TestimonialCard = ({ testimonial, index }) => {
           }}
         />
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-gray-800 text-sm xsm:text-base truncate">
+          <h4 className="font-semibold text-white text-sm xsm:text-base truncate">
             {testimonial.name || "Anonymous Student"}
           </h4>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-gray-500 text-xs xsm:text-sm">
+            <span className="text-gray-100 text-xs xsm:text-sm">
               {testimonial.instrument || testimonial.program || "Not specified"}
             </span>
-            <span className="text-gray-300">•</span>
-            <span className="text-gray-500 text-xs xsm:text-sm">
+            <span className="text-red-400">•</span>
+            <span className="text-gray-100 text-xs xsm:text-sm">
               {testimonial.duration || "Not specified"}
             </span>
           </div>
           <div className="flex items-center gap-1 mt-1">
             <CalendarIcon className="text-gray-400 w-3 h-3 xsm:w-4 xsm:h-4" />
-            <span className="text-gray-500 text-xs xsm:text-sm">
+            <span className="text-gray-100 text-xs xsm:text-sm">
               Joined {testimonial.joinDate || testimonial.createdAt ? new Date(testimonial.createdAt).toLocaleDateString() : "Not specified"}
             </span>
           </div>
@@ -921,13 +921,13 @@ const TestimonialCarousel = ({ testimonials, autoPlay = true }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-center py-12 xsm:py-16"
+        className="text-center py-12 xsm:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772]"
       >
-        <QuoteIcon className="w-12 h-12 xsm:w-16 xsm:h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl xsm:text-2xl font-bold text-gray-600 mb-2">
+        <QuoteIcon className="w-12 h-12 xsm:w-16 xsm:h-16 text-gray-100 mx-auto mb-4" />
+        <h3 className="text-xl xsm:text-2xl font-bold text-white mb-2">
           No testimonials available
         </h3>
-        <p className="text-gray-500 text-sm xsm:text-base">
+        <p className="text-gray-100 text-sm xsm:text-base">
           Check back later for student reviews
         </p>
       </motion.div>
@@ -935,7 +935,7 @@ const TestimonialCarousel = ({ testimonials, autoPlay = true }) => {
   }
 
   return (
-    <div className="relative">
+    <div className="relative bg-gradient-to-t from-[#1e4c9c] to-[#183772] py-4">
       {/* Carousel Container */}
       <div className="relative overflow-hidden rounded-2xl">
         <AnimatePresence mode="wait">
@@ -961,7 +961,7 @@ const TestimonialCarousel = ({ testimonials, autoPlay = true }) => {
       {/* Slide Counter */}
       {totalSlides > 0 && (
         <div className="text-center mt-3 xsm:mt-4">
-          <span className="text-sm xsm:text-base text-gray-600 font-medium">
+          <span className="text-sm xsm:text-base text-gray-100 font-medium">
             {currentIndex + 1} / {totalSlides}
           </span>
         </div>
@@ -1006,7 +1006,7 @@ export const Testimonials = () => {
       console.log("🔍 Fetching testimonials from API...");
 
       const response = await axios.get(`${API_URL}/testimonials`);
-      console.log("📥 API Response:", response.data);
+      // console.log("📥 API Response:", response.data);
 
       let testimonialData = [];
 
@@ -1157,21 +1157,21 @@ export const Testimonials = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] pt-20 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading testimonials...</p>
+          <p className="text-gray-100">Loading testimonials...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20">
+    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-20">
       <ToastContainer position="top-right" autoClose={3000} />
       
       {/* Hero Section */}
-      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-blue-600 text-white overflow-hidden">
+      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute top-4 xsm:top-6 left-4 xsm:left-6 opacity-10">
           <MusicNoteIcon className="w-8 h-8 xsm:w-12 xsm:h-12 sm:w-16 sm:h-16" />
@@ -1187,7 +1187,7 @@ export const Testimonials = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <motion.h1
-              className="text-2xl xsm:text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 xsm:mb-6"
+              className="text-2xl xsm:text-3xl sm:text-4xl text-white lg:text-5xl xl:text-6xl font-bold mb-4 xsm:mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -1195,7 +1195,7 @@ export const Testimonials = () => {
               Student <span className="text-cyan-300">Success Stories</span>
             </motion.h1>
             <motion.p
-              className="text-base xsm:text-lg sm:text-xl lg:text-2xl text-white/90 mb-6 xsm:mb-8 leading-relaxed"
+              className="text-base xsm:text-lg sm:text-xl lg:text-2xl text-gray-100 mb-6 xsm:mb-8 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -1209,7 +1209,7 @@ export const Testimonials = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-8 xsm:py-12 sm:py-16 bg-white">
+      <section className="py-8 xsm:py-12 sm:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -1221,15 +1221,15 @@ export const Testimonials = () => {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-4 xsm:p-6 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl shadow-lg"
+                className="text-center p-4 xsm:p-6 bg-gradient-to-t from-[#1e4c9c] to-[#183772] rounded-2xl shadow-lg"
               >
-                <div className="text-2xl xsm:text-3xl sm:text-4xl font-bold text-gray-800 mb-1 xsm:mb-2">
+                <div className="text-2xl xsm:text-3xl sm:text-4xl font-bold text-gray-100 mb-1 xsm:mb-2">
                   {stat.number}
                 </div>
-                <div className="text-sm xsm:text-base font-semibold text-gray-700 mb-1">
+                <div className="text-sm xsm:text-base font-semibold text-gray-100 mb-1">
                   {stat.label}
                 </div>
-                <div className="text-xs xsm:text-sm text-gray-600">
+                <div className="text-xs xsm:text-sm text-gray-100">
                   {stat.description}
                 </div>
               </motion.div>
@@ -1239,7 +1239,7 @@ export const Testimonials = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 xsm:py-16 sm:py-20 lg:py-24">
+      <section className="py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772]">
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           {/* Section Header */}
           <motion.div
@@ -1248,35 +1248,15 @@ export const Testimonials = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-8 xsm:mb-12 sm:mb-16"
           >
-            <h2 className="text-2xl xsm:text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 xsm:mb-4">
+            <h2 className="text-2xl xsm:text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-3 xsm:mb-4">
               What Our <span className="text-purple-600">Students Say</span>
             </h2>
-            <p className="text-base xsm:text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-2">
+            <p className="text-base xsm:text-lg sm:text-xl text-gray-100 max-w-3xl mx-auto px-2">
               Real stories from real students who have transformed their musical
               abilities with our expert guidance.
             </p>
           </motion.div>
 
-          {/* Filter Buttons */}
-          {testimonials.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              className="flex flex-wrap gap-2 xsm:gap-3 justify-center mb-6 xsm:mb-8"
-            >
-              {categories.map((category) => (
-                <FilterButton
-                  key={category.id}
-                  active={selectedFilter === category.id}
-                  onClick={() => setSelectedFilter(category.id)}
-                  count={category.count}
-                >
-                  {category.icon}
-                  {category.name}
-                </FilterButton>
-              ))}
-            </motion.div>
-          )}
 
           {/* Carousel View */}
           <TestimonialCarousel

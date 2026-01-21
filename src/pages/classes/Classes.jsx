@@ -3380,7 +3380,7 @@ export const Classes = () => {
               className="text-center max-w-4xl mx-auto"
             >
               <motion.h1
-                className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+                className="text-4xl sm:text-5xl text-white lg:text-6xl font-bold mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -3400,7 +3400,7 @@ export const Classes = () => {
         </section>
 
         {/* Categories Filter */}
-        <section className="py-8 bg-white sticky top-20 z-30 shadow-sm">
+        <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white sticky top-20 z-30 shadow-sm">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap gap-4 justify-center">
               {categories.map((category) => (
@@ -3442,7 +3442,7 @@ export const Classes = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5 }}
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
                 >
                   {/* Video Thumbnail with Play Button */}
                   <div className="p-4">
@@ -3468,30 +3468,30 @@ export const Classes = () => {
                       >
                         {classItem.level}
                       </span>
-                      <span className="text-gray-500 text-sm">
+                      <span className="text-gray-100 text-sm">
                         {classItem.duration}
                       </span>
                     </div>
 
-                    <h3 className="font-bold text-gray-800 mb-2 line-clamp-2">
+                    <h3 className="font-bold text-white mb-2 line-clamp-2">
                       {classItem.title}
                     </h3>
 
-                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                    <p className="text-gray-100 text-sm mb-3 line-clamp-2">
                       {classItem.shortDescription}
                     </p>
 
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-1">
                         <StarIcon className="text-yellow-400 w-4 h-4" />
-                        <span className="text-sm text-gray-600">
+                        <span className="text-sm text-gray-100">
                           {classItem.rating}
                         </span>
-                        <span className="text-gray-400 text-sm">
+                        <span className="text-gray-100 text-sm">
                           ({classItem.students})
                         </span>
                       </div>
-                      <span className="text-gray-500 text-sm">
+                      <span className="text-gray-100 text-sm">
                         {classItem.instructor.name}
                       </span>
                     </div>
