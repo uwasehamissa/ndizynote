@@ -783,9 +783,9 @@ export const Services = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-16 xs:pt-18 sm:pt-20">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-16 xs:pt-18 sm:pt-20">
         {/* Hero Section */}
-        <section className="relative py-12 xs:py-14 sm:py-16 lg:py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white overflow-hidden">
+        <section className="relative py-12 xs:py-14 sm:py-16 lg:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="absolute top-5 xs:top-8 left-4 xs:left-8 opacity-10">
             <MusicNote className="text-4xl xs:text-5xl sm:text-6xl" />
@@ -823,7 +823,7 @@ export const Services = () => {
         </section>
 
         {/* Service Tabs */}
-        <section className="py-8 xs:py-10 sm:py-12 bg-white">
+        <section className="py-8 xs:py-10 sm:py-12 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -866,7 +866,7 @@ export const Services = () => {
 
         {/* Instrument Services */}
         {activeTab === "instruments" && (
-          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gray-50">
+          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
             <div className="container mx-auto px-3 xs:px-4 sm:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -874,10 +874,10 @@ export const Services = () => {
                 transition={{ duration: 0.8 }}
                 className="text-center mb-8 xs:mb-10 sm:mb-12"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 xs:mb-4">
-                  Instrument <span className="text-purple-600">Lessons</span>
+                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4">
+                  Instrument <span className="text-purple-400">Lessons</span>
                 </h2>
-                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-2">
+                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-3xl mx-auto px-2">
                   Master your instrument with personalized instruction from
                   world-class educators. From foundational techniques to
                   advanced performance skills, including rhythm and coordination
@@ -893,17 +893,17 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <div className="flex items-start gap-3 xs:gap-4 mb-4 xs:mb-5 sm:mb-6">
                       <div className="flex-shrink-0 w-10 h-10 xs:w-12 xs:h-12">
                         {service.icon}
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-800 mb-1 xs:mb-2">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white mb-1 xs:mb-2">
                           {service.title}
                         </h3>
-                        <p className="text-xs xs:text-sm text-gray-600 mb-3 xs:mb-4">
+                        <p className="text-xs xs:text-sm text-gray-100 mb-3 xs:mb-4">
                           {service.description}
                         </p>
                       </div>
@@ -911,14 +911,14 @@ export const Services = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 mb-4 xs:mb-5 sm:mb-6">
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
                           Skill Levels
                         </h4>
                         <div className="flex flex-wrap gap-1 xs:gap-2">
                           {service.levels.map((level, levelIndex) => (
                             <span
                               key={levelIndex}
-                              className="px-2 xs:px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs xs:text-sm font-medium"
+                              className="px-2 xs:px-3 py-1 bg-purple-100 text-black rounded-full text-xs xs:text-sm font-medium"
                             >
                               {level}
                             </span>
@@ -926,48 +926,28 @@ export const Services = () => {
                         </div>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
                           Session Duration
                         </h4>
-                        <p className="text-xs xs:text-sm text-gray-600">{service.duration}</p>
+                        <p className="text-xs xs:text-sm text-gray-100">{service.duration}</p>
                       </div>
                     </div>
 
                     <div className="mb-4 xs:mb-5 sm:mb-6">
-                      <h4 className="font-semibold text-gray-800 mb-2 xs:mb-3 text-sm xs:text-base">
+                      <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
                         What You'll Learn
                       </h4>
                       <ul className="space-y-1 xs:space-y-2">
                         {service.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-start xs:items-center gap-1 xs:gap-2 text-gray-600 text-xs xs:text-sm"
+                            className="flex items-start xs:items-center gap-1 xs:gap-2 text-gray-100 text-xs xs:text-sm"
                           >
                             <CheckCircle className="text-green-500 text-sm xs:text-lg flex-shrink-0 mt-0.5 xs:mt-0" />
                             {feature}
                           </li>
                         ))}
                       </ul>
-                    </div>
-
-                    <div className="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg xs:rounded-xl p-3 xs:p-4">
-                      <h4 className="font-semibold text-gray-800 mb-1 xs:mb-2 text-sm xs:text-base">
-                        Pricing
-                      </h4>
-                      <div className="flex flex-col xs:flex-row justify-between items-start xs:items-center gap-1 xs:gap-2">
-                        <div className="text-xs xs:text-sm">
-                          <span className="text-gray-600">Individual: </span>
-                          <span className="font-bold text-purple-600">
-                            {service.pricing.individual}
-                          </span>
-                        </div>
-                        <div className="text-xs xs:text-sm">
-                          <span className="text-gray-600">Group: </span>
-                          <span className="font-bold text-blue-600">
-                            {service.pricing.group}
-                          </span>
-                        </div>
-                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -978,7 +958,7 @@ export const Services = () => {
 
         {/* Vocal Services */}
         {activeTab === "vocal" && (
-          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-white">
+          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
             <div className="container mx-auto px-3 xs:px-4 sm:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -986,11 +966,11 @@ export const Services = () => {
                 transition={{ duration: 0.8 }}
                 className="text-center mb-8 xs:mb-10 sm:mb-12"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 xs:mb-4">
+                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4">
                   Professional <span className="text-pink-600">Vocal</span>{" "}
                   Training
                 </h2>
-                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-2">
+                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-3xl mx-auto px-2">
                   Transform your voice with our comprehensive vocal programs.
                   From basic technique to professional performance and
                   recording.
@@ -1005,17 +985,17 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-gradient-to-br from-gray-50 to-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                   >
                     <div className="flex items-start gap-3 xs:gap-4 mb-4 xs:mb-5 sm:mb-6">
                       <div className="flex-shrink-0">
                         {service.icon}
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-800 mb-1 xs:mb-2">
+                        <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white mb-1 xs:mb-2">
                           {service.title}
                         </h3>
-                        <p className="text-xs xs:text-sm text-gray-600 mb-3 xs:mb-4">
+                        <p className="text-xs xs:text-sm text-gray-100 mb-3 xs:mb-4">
                           {service.description}
                         </p>
                       </div>
@@ -1023,14 +1003,14 @@ export const Services = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 mb-4 xs:mb-5 sm:mb-6">
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-bold text-white mb-2 xs:mb-3 text-sm xs:text-base">
                           Skill Levels
                         </h4>
                         <div className="flex flex-wrap gap-1 xs:gap-2">
                           {service.levels.map((level, levelIndex) => (
                             <span
                               key={levelIndex}
-                              className="px-2 xs:px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs xs:text-sm font-medium"
+                              className="px-2 xs:px-3 py-1 bg-pink-100 text-black rounded-full text-xs xs:text-sm font-medium"
                             >
                               {level}
                             </span>
@@ -1038,22 +1018,22 @@ export const Services = () => {
                         </div>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
                           Session Duration
                         </h4>
-                        <p className="text-xs xs:text-sm text-gray-600">{service.duration}</p>
+                        <p className="text-xs xs:text-sm text-gray-100">{service.duration}</p>
                       </div>
                     </div>
 
                     <div className="mb-4 xs:mb-5 sm:mb-6">
-                      <h4 className="font-semibold text-gray-800 mb-2 xs:mb-3 text-sm xs:text-base">
+                      <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
                         Program Features
                       </h4>
                       <ul className="space-y-1 xs:space-y-2">
                         {service.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-start xs:items-center gap-1 xs:gap-2 text-gray-600 text-xs xs:text-sm"
+                            className="flex items-start xs:items-center gap-1 xs:gap-2 text-gray-100 text-xs xs:text-sm"
                           >
                             <CheckCircle className="text-green-500 text-sm xs:text-lg flex-shrink-0 mt-0.5 xs:mt-0" />
                             {feature}
@@ -1062,43 +1042,6 @@ export const Services = () => {
                       </ul>
                     </div>
 
-                    <div className="bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg xs:rounded-xl p-3 xs:p-4">
-                      <h4 className="font-semibold text-gray-800 mb-1 xs:mb-2 text-sm xs:text-base">
-                        Pricing
-                      </h4>
-                      <div className="flex flex-col sm:flex-row justify-between items-start gap-1 xs:gap-2">
-                        <div className="text-xs xs:text-sm">
-                          <span className="text-gray-600">Individual: </span>
-                          <span className="font-bold text-pink-600">
-                            {service.pricing.individual}
-                          </span>
-                        </div>
-                        {service.pricing.group && (
-                          <div className="text-xs xs:text-sm">
-                            <span className="text-gray-600">Group: </span>
-                            <span className="font-bold text-purple-600">
-                              {service.pricing.group}
-                            </span>
-                          </div>
-                        )}
-                        {service.pricing.masterclass && (
-                          <div className="text-xs xs:text-sm">
-                            <span className="text-gray-600">Masterclass: </span>
-                            <span className="font-bold text-purple-600">
-                              {service.pricing.masterclass}
-                            </span>
-                          </div>
-                        )}
-                        {service.pricing.production && (
-                          <div className="text-xs xs:text-sm">
-                            <span className="text-gray-600">Production: </span>
-                            <span className="font-bold text-blue-600">
-                              {service.pricing.production}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -1108,7 +1051,7 @@ export const Services = () => {
 
         {/* Specialized Programs */}
         {activeTab === "specialized" && (
-          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gray-50">
+          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
             <div className="container mx-auto px-3 xs:px-4 sm:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -1116,10 +1059,10 @@ export const Services = () => {
                 transition={{ duration: 0.8 }}
                 className="text-center mb-8 xs:mb-10 sm:mb-12"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-3 xs:mb-4">
+                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4">
                   Specialized <span className="text-purple-600">Programs</span>
                 </h2>
-                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-2">
+                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-3xl mx-auto px-2">
                   Intensive programs designed to take your musical skills to the
                   next level. Perfect for serious students and aspiring
                   professionals.
@@ -1134,28 +1077,26 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    className="bg-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
                   >
-                    <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg xs:rounded-xl flex items-center justify-center text-white mx-auto mb-3 xs:mb-4">
+                    <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16  rounded-lg xs:rounded-xl flex items-center justify-center text-white mx-auto mb-3 xs:mb-4">
                       {program.icon}
                     </div>
-                    <h3 className="text-base xs:text-lg sm:text-xl font-bold text-gray-800 mb-1 xs:mb-2">
+                    <h3 className="text-base xs:text-lg sm:text-xl font-bold text-white mb-1 xs:mb-2">
                       {program.title}
                     </h3>
-                    <p className="text-xs text-gray-600 mb-3 xs:mb-4">
+                    <p className="text-xs text-gray-100 mb-3 xs:mb-4">
                       {program.description}
                     </p>
-                    <div className="text-lg xs:text-xl sm:text-2xl font-bold text-purple-600 mb-2 xs:mb-3">
-                      {program.price}
-                    </div>
-                    <div className="text-xs text-gray-500 mb-3 xs:mb-4">
+
+                    <div className="text-xs text-gray-100 mb-3 xs:mb-4">
                       {program.duration}
                     </div>
                     <ul className="space-y-1 xs:space-y-2 text-left">
                       {program.features.map((feature, featureIndex) => (
                         <li
                           key={featureIndex}
-                          className="flex items-center gap-1 xs:gap-2 text-gray-600 text-xs"
+                          className="flex items-center gap-1 xs:gap-2 text-gray-100 text-xs"
                         >
                           <CheckCircle className="text-green-500 text-xs xs:text-sm flex-shrink-0" />
                           {feature}
@@ -1170,7 +1111,7 @@ export const Services = () => {
         )}
 
         {/* Call to Action Section */}
-        <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+        <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1178,10 +1119,10 @@ export const Services = () => {
               transition={{ duration: 0.8 }}
               className="text-center max-w-3xl mx-auto"
             >
-              <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 xs:mb-5 sm:mb-6">
+              <h2 className="text-xl xs:text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 xs:mb-5 sm:mb-6">
                 Ready to Start Your Musical Journey?
               </h2>
-              <p className="text-sm xs:text-base sm:text-lg md:text-xl mb-6 xs:mb-8 opacity-90 px-2">
+              <p className="text-sm xs:text-base text-gray-100 sm:text-lg md:text-xl mb-6 xs:mb-8 opacity-90 px-2">
                 Book a free trial lesson today and discover your musical
                 potential with our expert instructors.
               </p>

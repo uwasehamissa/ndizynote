@@ -2390,17 +2390,17 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                 >
                   <div
                     className={`w-12 h-12 bg-gradient-to-r ${feature.gradient} rounded-xl flex items-center justify-center text-white mb-4`}
                   >
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                  <h3 className="text-xl font-bold text-gray-100 mb-2">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 leading-relaxed">
+                  <p className="text-gray-100 leading-relaxed">
                     {feature.description}
                   </p>
                 </motion.div>
@@ -2412,7 +2412,7 @@ export const About = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl p-8 sm:p-12 text-white"
+              className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-3xl p-8 sm:p-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 {stats.map((stat, index) => (
@@ -2473,24 +2473,24 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group"
                 >
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 text-blue-500 transform group-hover:scale-110 transition-transform duration-300">
                       {service.icon}
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-600 mb-2">
+                      <h3 className="text-2xl font-bold text-gray-100 mb-2">
                         {service.title}
                       </h3>
-                      <p className="text-gray-800 mb-4">
+                      <p className="text-gray-100 mb-4">
                         {service.description}
                       </p>
                     </div>
                   </div>
 
                   <div className="mb-4">
-                    <h4 className="font-semibold text-gray-700 mb-2">
+                    <h4 className="font-bold text-white mb-2">
                       Skill Levels:
                     </h4>
                     <div className="flex flex-wrap gap-2">
@@ -2506,14 +2506,14 @@ export const About = () => {
                   </div>
 
                   <div>
-                    <h4 className="font-semibold text-gray-800 mb-2">
+                    <h4 className="font-bold text-white mb-2">
                       Key Features:
                     </h4>
                     <ul className="space-y-2">
                       {service.features.map((feature, featureIndex) => (
                         <li
                           key={featureIndex}
-                          className="flex items-center gap-2 text-gray-600"
+                          className="flex items-center gap-2 text-gray-100"
                         >
                           <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
                           {feature}
@@ -2554,23 +2554,23 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group"
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
                       {service.icon}
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                      <h3 className="text-2xl font-bold text-white mb-2">
                         {service.title}
                       </h3>
-                      <p className="text-gray-600">{service.description}</p>
+                      <p className="text-gray-100">{service.description}</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                      <h4 className="font-bold text-white mb-3 flex items-center gap-2">
                         <VolumeUpIcon />
                         Techniques Covered:
                       </h4>
@@ -2578,7 +2578,7 @@ export const About = () => {
                         {service.techniques.map((tech, techIndex) => (
                           <li
                             key={techIndex}
-                            className="flex items-center gap-2 text-gray-600 text-sm"
+                            className="flex items-center gap-2 text-gray-100 text-sm"
                           >
                             <div className="w-1.5 h-1.5 bg-pink-500 rounded-full"></div>
                             {tech}
@@ -2587,7 +2587,7 @@ export const About = () => {
                       </ul>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                      <h4 className="font-bold text-white mb-3 flex items-center gap-2">
                         <TrendingUp className="text-lg text-green-500" />
                         Key Benefits:
                       </h4>
@@ -2595,7 +2595,7 @@ export const About = () => {
                         {service.benefits.map((benefit, benefitIndex) => (
                           <li
                             key={benefitIndex}
-                            className="flex items-center gap-2 text-gray-600 text-sm"
+                            className="flex items-center gap-2 text-gray-100 text-sm"
                           >
                             <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                             {benefit}
@@ -2623,15 +2623,15 @@ export const About = () => {
                   <motion.div
                     key={index}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    className="bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-center group"
+                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-center group"
                   >
                     <div className="text-purple-600 mb-4 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
                       {program.icon}
                     </div>
-                    <h4 className="text-xl font-bold text-gray-800 mb-2">
+                    <h4 className="text-xl font-bold text-white mb-2">
                       {program.title}
                     </h4>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-100 text-sm">
                       {program.description}
                     </p>
                   </motion.div>
@@ -2642,7 +2642,7 @@ export const About = () => {
         </section>
 
         {/* Enhanced CTA Section */}
-        <section className="py-16 sm:py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white relative overflow-hidden">
+        <section className="py-16 sm:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
             <div className="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
@@ -2653,10 +2653,10 @@ export const About = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
+              <h2 className="text-3xl sm:text-4xl text-white lg:text-5xl font-bold mb-6">
                 Begin Your Musical Transformation
               </h2>
-              <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+              <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto">
                 Join our community of passionate musicians and experience the
                 NdziNote difference. Where technical mastery meets artistic
                 freedom in an inspiring learning environment.
@@ -2686,7 +2686,7 @@ export const About = () => {
         </section>
 
         {/* Contact Information Section */}
-        <section className="py-16 bg-gray-50">
+        <section className="py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <motion.div
@@ -2697,10 +2697,10 @@ export const About = () => {
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mx-auto mb-4">
                   <Phone className="text-2xl" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                <h3 className="text-lg font-bold text-white mb-2">
                   Call Us
                 </h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
+                <p className="text-gray-100">+1 (555) 123-4567</p>
               </motion.div>
 
               <motion.div
@@ -2712,10 +2712,10 @@ export const About = () => {
                 <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-green-600 mx-auto mb-4">
                   <Email className="text-2xl" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   Email Us
                 </h3>
-                <p className="text-gray-600">info@ndzinote.com</p>
+                <p className="text-gray-100">info@ndzinote.com</p>
               </motion.div>
 
               <motion.div
@@ -2727,10 +2727,10 @@ export const About = () => {
                 <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mx-auto mb-4">
                   <LocationOn className="text-2xl" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                <h3 className="text-lg font-semibold text-white mb-2">
                   Visit Us
                 </h3>
-                <p className="text-gray-600">123 Music Avenue, Creative City</p>
+                <p className="text-gray-100">123 Music Avenue, Creative City</p>
               </motion.div>
             </div>
           </div>

@@ -1287,7 +1287,7 @@ export const Dashboard = () => {
     : recentActivities.slice(0, 5);
 
   return (
-    <div className="w-full flex min-h-screen bg-gray-50">
+    <div className="w-full flex min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
 
       <div className="flex-1 lg:ml-0">
         <div className="p-4 lg:p-8 w-full">
@@ -1298,14 +1298,14 @@ export const Dashboard = () => {
             className="mb-8 flex justify-between items-center"
           >
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
+              <h1 className="text-2xl lg:text-3xl font-bold text-white">
                 Music Academy Dashboard
               </h1>
-              <p className="text-gray-600 mt-2">
+              <p className="text-gray-100 mt-2">
                 Real-time data from your APIs
               </p>
               {lastUpdated && (
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-100 mt-1">
                   Last updated: {lastUpdated.toLocaleTimeString()}
                 </p>
               )}
@@ -1378,16 +1378,16 @@ export const Dashboard = () => {
                 <motion.div
                   key={stat.title}
                   variants={itemVariants}
-                  className=" rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 hover:scale-105 relative"
+                  className=" rounded-xl shadow-sm border border-gray-100 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white p-6 hover:shadow-md transition-all duration-300 hover:scale-105 relative"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white items-center justify-between">
                     <div>
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-gray-600">
+                        <p className="text-sm font-medium text-white">
                           {stat.title}
                         </p>
                       </div>
-                      <p className="text-2xl font-bold text-gray-900 mt-2">
+                      <p className="text-2xl font-bold text-white mt-2">
                         {stat.value}
                       </p>
                       <div
@@ -1406,7 +1406,7 @@ export const Dashboard = () => {
                           {stat.change}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-gray-100 mt-1">
                         {stat.description}
                       </p>
                     </div>

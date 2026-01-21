@@ -705,7 +705,7 @@ export const ContactManagement = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
         <div className="flex">
 
           {/* Main Content */}
@@ -715,17 +715,17 @@ export const ContactManagement = () => {
               <div className="mb-6">
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                   <div className="mb-4 lg:mb-0">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                       Contact Management
                     </h1>
-                    <p className="text-gray-600 text-sm sm:text-base">
+                    <p className="text-gray-100 text-sm sm:text-base">
                       Manage and respond to customer inquiries
                     </p>
                   </div>
 
                   {/* View Mode Toggle */}
                   <div className="flex items-center space-x-4">
-                    <span className="text-sm text-gray-600 hidden sm:block">
+                    <span className="text-sm text-gray-100 hidden sm:block">
                       View:
                     </span>
                     <div className="flex bg-gray-100 rounded-lg p-1">

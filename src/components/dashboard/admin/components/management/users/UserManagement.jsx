@@ -609,7 +609,7 @@ export const UserManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
       <div className="flex">
         
         {/* Main Content */}
@@ -629,17 +629,17 @@ export const UserManagement = () => {
             <div className="mb-6">
               <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between">
                 <div className="mb-4 lg:mb-0">
-                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
                     User Management
                   </h1>
-                  <p className="text-gray-600 text-sm sm:text-base">
+                  <p className="text-gray-100 text-sm sm:text-base">
                     Manage and search for users in your organization
                   </p>
                 </div>
 
                 {/* View Mode Toggle */}
                 <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-600 hidden sm:block">
+                  <span className="text-sm text-gray-100 hidden sm:block">
                     View:
                   </span>
                   <div className="flex bg-gray-100 rounded-lg p-1">
@@ -686,7 +686,7 @@ export const UserManagement = () => {
             )}
 
             {/* Controls */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
               <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 {/* Search */}
                 <div className="flex-1 max-w-2xl">
@@ -753,7 +753,7 @@ export const UserManagement = () => {
               </div>
             ) : viewMode === "table" ? (
               /* Table View for md screens and up */
-              <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead className="bg-gray-50 border-b border-gray-200">
