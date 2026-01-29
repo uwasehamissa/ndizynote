@@ -250,7 +250,7 @@ export const NotFound = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-blue-500  to-indigo-400 text-black flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white flex items-center justify-center p-4">
         <div className="max-w-4xl w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -293,13 +293,13 @@ export const NotFound = () => {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="mb-12"
             >
-              <h1 className="text-6xl font-bold text-gray-900 mb-4 sm:text-7xl md:text-8xl">
+              <h1 className="text-6xl font-bold text-white mb-4 sm:text-7xl md:text-8xl">
                 404
               </h1>
-              <h2 className="text-2xl font-semibold text-gray-800 mb-4 sm:text-3xl md:text-4xl">
+              <h2 className="text-2xl font-semibold text-red-800 mb-4 sm:text-3xl md:text-4xl">
                 Page Not Found
               </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8 sm:text-xl">
+              <p className="text-lg text-gray-100 max-w-2xl mx-auto mb-8 sm:text-xl">
                 Oops! The page you're looking for seems to have wandered off
                 into the digital wilderness. Don't worry, let's get you back on
                 track.
@@ -307,7 +307,7 @@ export const NotFound = () => {
 
               {/* Error Details */}
               <div className="bg-white rounded-lg border border-gray-200 p-6 max-w-md mx-auto mb-8 shadow-sm">
-                <div className="flex items-center justify-center space-x-2 text-sm text-gray-500 mb-2">
+                <div className="flex items-center justify-center space-x-2 text-sm text-gray-800 mb-2">
                   <Warning className="w-4 h-4" />
                   <span>Error Details</span>
                 </div>
@@ -372,9 +372,9 @@ export const NotFound = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 max-w-2xl mx-auto"
+              className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-8 max-w-2xl mx-auto"
             >
-              <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+              <h3 className="text-xl font-bold text-white mb-4 text-center">
                 Need More Help?
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -382,8 +382,8 @@ export const NotFound = () => {
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
                     <Message className="w-6 h-6 text-blue-600" />
                   </div>
-                  <h4 className="font-medium text-gray-900">Live Chat</h4>
-                  <p className="text-sm text-gray-600">
+                  <h4 className="font-medium text-gray-100">Live Chat</h4>
+                  <p className="text-sm text-gray-100">
                     Get instant help from our team
                   </p>
                 </div>
@@ -391,15 +391,15 @@ export const NotFound = () => {
                   <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                     <Email className="w-6 h-6 text-green-600" />
                   </div>
-                  <h4 className="font-medium text-gray-900">Email Support</h4>
-                  <p className="text-sm text-gray-600">support@example.com</p>
+                  <h4 className="font-bold text-white">Email Support</h4>
+                  <p className="text-sm text-gray-100">support@example.com</p>
                 </div>
                 <div className="space-y-2">
                   <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto">
                     <Person className="w-6 h-6 text-purple-600" />
                   </div>
-                  <h4 className="font-medium text-gray-900">Admin Help</h4>
-                  <p className="text-sm text-gray-600">
+                  <h4 className="font-medium text-white">Admin Help</h4>
+                  <p className="text-sm text-gray-100">
                     Contact system administrators
                   </p>
                 </div>

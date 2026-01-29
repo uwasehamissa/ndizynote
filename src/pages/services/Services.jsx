@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useState } from "react";
 import {
   School,
   Groups,
@@ -751,9 +752,9 @@ export const Services = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-16 xs:pt-18 sm:pt-20">
         {/* Hero Section */}
-        <section className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-purple-600 to-blue-600 text-white overflow-hidden">
+        <section className="relative py-12 xs:py-14 sm:py-16 lg:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="absolute top-10 left-10 opacity-10">
             <MusicNote className="text-6xl" />
@@ -791,8 +792,8 @@ export const Services = () => {
         </section>
 
         {/* Service Tabs */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
+        <section className="py-8 xs:py-10 sm:py-12 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+          <div className="container mx-auto px-3 xs:px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -833,8 +834,8 @@ export const Services = () => {
 
         {/* Instrument Services */}
         {activeTab === "instruments" && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
+          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+            <div className="container mx-auto px-3 xs:px-4 sm:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}

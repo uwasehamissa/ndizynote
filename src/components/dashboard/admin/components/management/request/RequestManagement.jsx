@@ -21,7 +21,6 @@ import {
   Update,
   Menu as MenuIcon,
 } from "@mui/icons-material";
-import { Sidebar } from "../../sidebar/Sidebar";
 
 const API_BASE_URL = "https://ndizmusicprojectbackend.onrender.com";
 
@@ -531,23 +530,20 @@ export const RequestManagement = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center h-64 space-y-4">
+      <div className="flex flex-col bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white items-center justify-center h-64 space-y-4">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-        <p className="text-gray-600">Loading requests...</p>
+        <p className="text-gray-100">Loading requests...</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="min-h-screen bg-gray-50 flex">
-        {/* Sidebar */}
-        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white flex">
         {/* Main Content */}
         <div className="flex-1 w-full">
           {/* Header with Menu Button */}
-          <div className="bg-white border-b border-gray-200 sticky top-0 z-0">
+          <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white border-b border-gray-200 sticky top-0 z-0">
             <div className="flex items-center justify-between p-4">
               <div className="flex items-center space-x-4">
                 <button
@@ -557,10 +553,10 @@ export const RequestManagement = () => {
                   <MenuIcon />
                 </button>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
+                  <h1 className="text-2xl font-bold text-white">
                     Request Management
                   </h1>
-                  <p className="text-gray-600 mt-1">
+                  <p className="text-gray-100 mt-1">
                     Manage music lesson requests and bookings
                   </p>
                 </div>
@@ -582,7 +578,7 @@ export const RequestManagement = () => {
           <div className="p-4 lg:p-6">
             {/* Error Message */}
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <div className="mb-6 p-4 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white border border-red-200 rounded-xl">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <h3 className="text-red-800 font-semibold mb-1">Error</h3>
@@ -591,13 +587,13 @@ export const RequestManagement = () => {
                   <div className="flex space-x-2 ml-4">
                     <button
                       onClick={retryFetch}
-                      className="text-red-700 hover:text-red-800 font-medium px-3 py-1 bg-red-100 rounded-lg transition-colors duration-200"
+                      className="bg-gradient-to-t from-red-500 to-red-700 font-medium px-3 py-1 bg-red-100 rounded-lg transition-colors duration-200"
                     >
                       Retry
                     </button>
                     <button
                       onClick={clearError}
-                      className="text-gray-600 hover:text-gray-800"
+                      className="bg-gradient-to-b from-red-500 to-red-800"
                     >
                       <CloseIcon className="text-sm" />
                     </button>
@@ -607,13 +603,13 @@ export const RequestManagement = () => {
             )}
 
             {/* Debug Info - Remove in production */}
-            <div className="mb-4 text-xs text-gray-500">
+            <div className="mb-4 text-xs text-gray-100">
               Showing {filteredRequests.length} of {requests.length} total requests
               {requests.length === 0 && " - No requests available"}
             </div>
 
             {/* Search and Filters */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Search */}
                 <div className="relative lg:col-span-2">
@@ -631,11 +627,11 @@ export const RequestManagement = () => {
                 <select
                   value={filterExperience}
                   onChange={(e) => setFilterExperience(e.target.value)}
-                  className="px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                  className="px-4 py-3 border  border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
                 >
                   <option value="all">All Experience</option>
                   {experienceLevels.map((level) => (
-                    <option key={level.value} value={level.value}>
+                    <option className='text-black' key={level.value} value={level.value}>
                       {level.label}
                     </option>
                   ))}
@@ -649,7 +645,7 @@ export const RequestManagement = () => {
                 >
                   <option value="all">All Instruments</option>
                   {instruments.map((instrument) => (
-                    <option key={instrument} value={instrument}>
+                    <option className='text-black' key={instrument} value={instrument}>
                       {instrument}
                     </option>
                   ))}
@@ -663,7 +659,7 @@ export const RequestManagement = () => {
                 >
                   <option value="all">All Status</option>
                   {statusOptions.map((status) => (
-                    <option key={status.value} value={status.value}>
+                    <option className="text-black" key={status.value} value={status.value}>
                       {status.label}
                     </option>
                   ))}

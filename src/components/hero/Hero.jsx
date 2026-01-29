@@ -141,7 +141,7 @@ export const Hero = () => {
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/bookings", bookingForm);
+      await axios.post("https://ndizmusicprojectbackend.onrender.com/herobooking", bookingForm);
       toast.success(
         "🎉 Booking request sent successfully! We will contact you soon."
       );
@@ -161,7 +161,7 @@ export const Hero = () => {
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/contact", contactForm);
+      await axios.post("https://ndizmusicprojectbackend.onrender.com/api/contacts/contact", contactForm);
       toast.success(
         "📧 Message sent successfully! We will reply within 24 hours."
       );
@@ -228,7 +228,6 @@ export const Hero = () => {
     <>
       <section className="w-full relative min-h-screen flex items-center justify-center overflow-hidden">
         <ToastContainer position="top-right" autoClose={5000} />
-
         {/* Background Image Slideshow */}
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">

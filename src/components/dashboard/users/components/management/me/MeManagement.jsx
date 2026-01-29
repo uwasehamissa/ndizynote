@@ -19,7 +19,7 @@ import {
   Warning,
   ArrowBack,
 } from "@mui/icons-material";
-import { Sidebar } from '../../sidebar/Sidebar'
+
 
 // Helper function to get cookie value by name
 const getCookie = (name) => {
@@ -859,11 +859,7 @@ export const MeManagement = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="flex">
-        {/* Sidebar */}
-        <Sidebar 
-          isOpen={sidebarOpen} 
-          onClose={() => setSidebarOpen(false)} 
-        />
+
         
         {/* Main Content */}
         <div className="flex-1 lg:ml-8">

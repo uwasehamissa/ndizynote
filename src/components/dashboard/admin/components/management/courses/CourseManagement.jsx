@@ -56,7 +56,7 @@ import {
   Warning,
   Info,
 } from "@mui/icons-material";
-import { Sidebar } from "../../sidebar/Sidebar";
+
 
 // API Configuration based on your provided data structure
 const API_CONFIG = {
@@ -310,7 +310,7 @@ const ViewModal = ({ isOpen, onClose, course }) => (
             <h2 className="text-2xl font-bold text-gray-900">Course Details</h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
+              className="bg-gradient-to-t from-red-500 to-red-800"
             >
               <Close />
             </button>
@@ -417,7 +417,7 @@ const ViewModal = ({ isOpen, onClose, course }) => (
           <div className="mt-6 pt-6 border-t border-gray-200 flex justify-end">
             <button
               onClick={onClose}
-              className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
+              className="px-6 py-2 bg-gradient-to-t from-red-500 to-red-800 rounded-lg hover:bg-gray-300 transition-colors"
             >
               Close
             </button>
@@ -825,10 +825,10 @@ export const CourseManagementDashboard = () => {
 
   if (loading && courses.length === 0) {
     return (
-      <div className="flex min-h-screen bg-gray-50 items-center justify-center">
+      <div className="flex min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading courses...</p>
+          <p className="mt-4 text-gray-100">Loading courses...</p>
         </div>
       </div>
     );
@@ -848,19 +848,18 @@ export const CourseManagementDashboard = () => {
     : '0.00';
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      
+    <div className="flex min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+
       <div className="flex-1 lg:ml-0">
         <div className="p-4 lg:p-8 w-full">
           {/* Header */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-4">
               <div>
-                <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
+                <h1 className="text-2xl lg:text-3xl font-bold text-white">
                   Course Management
                 </h1>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-100 mt-2">
                   Manage all music courses and programs
                 </p>
               </div>
@@ -873,7 +872,7 @@ export const CourseManagementDashboard = () => {
             </div>
 
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
+              <div className="mb-6 p-4 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white border border-red-200 rounded-lg flex items-center gap-3">
                 <ErrorIcon className="text-red-500" />
                 <div>
                   <p className="text-red-800 font-medium">Error loading courses</p>
@@ -881,7 +880,7 @@ export const CourseManagementDashboard = () => {
                 </div>
                 <button
                   onClick={fetchCourses}
-                  className="ml-auto text-sm text-red-700 hover:text-red-800"
+                  className="ml-auto text-sm bg-gradient-to-t from-red-500 to-red-700"
                 >
                   Retry
                 </button>
@@ -891,11 +890,11 @@ export const CourseManagementDashboard = () => {
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl shadow-sm border border-gray-100 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Courses</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm font-medium text-white">Total Courses</p>
+                  <p className="text-2xl font-bold text-gray-100 mt-2">
                     {courses.length}
                   </p>
                 </div>
@@ -905,11 +904,11 @@ export const CourseManagementDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl shadow-sm border border-gray-100 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Active Courses</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm font-medium text-white">Active Courses</p>
+                  <p className="text-2xl font-bold text-gray-100 mt-2">
                     {activeCoursesCount}
                   </p>
                 </div>
@@ -919,11 +918,11 @@ export const CourseManagementDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl shadow-sm border border-gray-100 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Average Price</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm font-medium text-white">Average Price</p>
+                  <p className="text-2xl font-bold text-gray-100 mt-2">
                     ${averagePrice}
                   </p>
                 </div>
@@ -933,11 +932,11 @@ export const CourseManagementDashboard = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl shadow-sm border border-gray-100 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                  <p className="text-sm font-medium text-white">Total Revenue</p>
+                  <p className="text-2xl font-bold text-gray-100 mt-2">
                     ${totalRevenue}
                   </p>
                 </div>
@@ -949,10 +948,10 @@ export const CourseManagementDashboard = () => {
           </div>
 
           {/* Filters and Search */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+          <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Search Courses</label>
+                <label className="block text-sm font-medium text-white mb-2">Search Courses</label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
@@ -966,11 +965,11 @@ export const CourseManagementDashboard = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Status Filter</label>
+                <label className="block text-sm font-medium text-white mb-2">Status Filter</label>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 text-black rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="all">All Status</option>
                   <option value="active">Active</option>
@@ -980,12 +979,12 @@ export const CourseManagementDashboard = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Sort By</label>
+                <label className="block text-sm font-medium text-white mb-2">Sort By</label>
                 <div className="flex gap-2">
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="flex-1 px-4 py-2 border text-black border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="name">Name</option>
                     <option value="price">Price</option>
@@ -994,7 +993,7 @@ export const CourseManagementDashboard = () => {
                   </select>
                   <button
                     onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
-                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                    className="px-4 py-2 border border-gray-300 rounded-lg "
                   >
                     {sortOrder === 'asc' ? '↑' : '↓'}
                   </button>
@@ -1088,7 +1087,7 @@ export const CourseManagementDashboard = () => {
                     </tr>
                   ) : (
                     filteredCourses.map((course) => (
-                      <tr key={course._id || course.id} className="hover:bg-gray-50">
+                      <tr key={course._id || course.id} className="">
                         <td className="px-6 py-4">
                           <div>
                             <div className="font-medium text-gray-900">
@@ -1147,7 +1146,7 @@ export const CourseManagementDashboard = () => {
 
           {/* Pagination/Info */}
           <div className="mt-4 flex justify-between items-center">
-            <div className="text-sm text-gray-700">
+            <div className="text-sm text-gray-100">
               Showing <span className="font-medium">{filteredCourses.length}</span> of{' '}
               <span className="font-medium">{courses.length}</span> courses
             </div>
