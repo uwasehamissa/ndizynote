@@ -5085,12 +5085,9 @@ export const Navbar = () => {
               {/* Contact Button */}
               <button
                 onClick={openContact}
-                className="flex items-center rounded-sm space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group"
-              >
-                <span className="relative text-white px-4 py-2">
+                className="flex items-center p-2 rounded-sm space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group"
+              >  
                   Contact
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
-                </span>
               </button>
 
               {/* Dashboard Button for Logged-in Users */}
