@@ -135,7 +135,8 @@ export const useAuth = () => {
 // =============================================
 // API SERVICE FUNCTIONS - All backend communications
 // =============================================
-const apiService = {
+
+ const apiService = {
   /**
    * Login user with email and password
    */
@@ -145,17 +146,13 @@ const apiService = {
         email,
         password,
       });
-      
-      // Debug: Log response structure
-      // console.log("Login API Response:", response.data);
-      
       return response.data;
     } catch (error) {
       console.error("Login API Error:", error.response?.data || error.message);
       const errorMessage =
-        error.response?.data?.message || 
+        error.response?.data?.message ||
         error.response?.data?.error ||
-        error.message || 
+        error.message ||
         "Login failed. Please try again.";
       throw new Error(errorMessage);
     }
@@ -229,200 +226,112 @@ const apiService = {
       return response.data;
     } catch (error) {
       throw new Error(
-        error.response?.data?.message ||
-          "Message sending failed. Please try again."
+        error.response?.data?.message || "Message sending failed. Please try again."
       );
     }
   },
 };
 
+
 // =============================================
 // AUTH PROVIDER - Manages user authentication state
 // =============================================
+
+
 export const AuthProvider = ({ children }) => {
-  // State variables for user management
   const [user, setUser] = useState(() => {
     try {
-      // Check cookies first (for compatibility with App.jsx)
       const userCookie = Cookies.get("user");
-      if (userCookie) {
-        const parsed = JSON.parse(userCookie);
-        // console.log("Loaded user from cookie:", parsed);
-        return parsed;
-      }
-      // Fallback to localStorage
+      if (userCookie) return JSON.parse(userCookie);
+
       const savedUser = localStorage.getItem("user");
       if (savedUser) {
-        const parsed = JSON.parse(savedUser);
-        // console.log("Loaded user from localStorage:", parsed);
-        // Sync to cookies
         Cookies.set("user", savedUser, { expires: 7 });
-        return parsed;
+        return JSON.parse(savedUser);
       }
+
       return null;
     } catch (error) {
       console.error("Error parsing auth data:", error);
       return null;
     }
   });
-  
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(!!user);
   const [isLoading, setIsLoading] = useState(true);
 
-  /**
-   * Login function - handles user authentication
-   */
+  // LOGIN
   const login = async (email, password) => {
     try {
       setIsLoading(true);
       const response = await apiService.login(email, password);
 
-      // Debug: Log response for troubleshooting
-      // console.log("Login response:", response);
+      if (!response) throw new Error("No response from server");
 
-      // Handle successful login
-      if (response && (response.success || response.token)) {
-        // Try different possible response structures
-        const userData = response.data?.user || response.user || response;
-        const token = response.data?.token || response.token;
-        
-        if (!userData) {
-          console.error("User data not found in response:", response);
-          return { 
-            success: false, 
-            error: "Server error: User information not found." 
-          };
-        }
+      const userData = response.data?.user || response.user || response;
+      const token = response.data?.token || response.token;
 
-        // Validate user status with fallback to 'user'
-        const validStatuses = ["admin", "user", "manager"];
-        const userStatus = (userData.status && validStatuses.includes(
-          String(userData.status).toLowerCase()
-        ))
-          ? String(userData.status).toLowerCase()
-          : (userData.role && validStatuses.includes(String(userData.role).toLowerCase()))
-          ? String(userData.role).toLowerCase()
-          : "user";
+      if (!userData || !token) throw new Error("Invalid login response");
 
-        // Create complete user profile with defaults
-        const userProfile = {
-          email: userData.email || email,
-          status: userStatus,
-          id: userData.id || userData._id || Date.now().toString(),
-          name: userData.name || userData.username || email.split('@')[0] || "User",
-          token: token,
-          ...userData,
-        };
+      const userStatus = userData.status || userData.role || "user";
 
-        // Update state
-        setUser(userProfile);
-        setIsAuthenticated(true);
-        
-        // Store in localStorage (for AuthProvider)
-        localStorage.setItem("user", JSON.stringify(userProfile));
-        
-        // ALSO store in cookies (for App.jsx)
-        Cookies.set("user", JSON.stringify(userProfile), { expires: 7 });
-        
-        if (token) {
-          localStorage.setItem("token", token);
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        }
-        
-        localStorage.setItem("userEmail", userProfile.email);
-        localStorage.setItem("userRole", userProfile.status);
+      const savedUser = {
+        email: userData.email,
+        status: userStatus,
+        token: token,
+      };
 
-        return { 
-          success: true, 
-          user: userProfile,
-          message: response.message || "Login successful" 
-        };
-      } else {
-        return { 
-          success: false, 
-          error: response?.message || response?.error || "Login failed" 
-        };
-      }
+      localStorage.setItem("user", JSON.stringify(savedUser));
+      localStorage.setItem("userEmail", savedUser.email);
+      localStorage.setItem("userRole", savedUser.status);
+      localStorage.setItem("token", token);
+      Cookies.set("user", JSON.stringify(savedUser), { expires: 1 });
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      setUser(savedUser);
+      setIsAuthenticated(true);
+
+      return { success: true, user: savedUser, message: response.message || "Login successful" };
     } catch (error) {
       console.error("Login error:", error);
-      return { 
-        success: false, 
-        error: error.message || "Login failed. Please try again." 
-      };
+      return { success: false, error: error.message };
     } finally {
       setIsLoading(false);
     }
   };
 
-  /**
-   * Register function - creates new user account
-   */
+  // REGISTER
   const register = async (name, email, password, confirmPassword) => {
     try {
       setIsLoading(true);
-      const response = await apiService.register(
-        name,
-        email,
-        password,
-        confirmPassword
-      );
+      const response = await apiService.register(name, email, password, confirmPassword);
 
-      console.log("Register response:", response);
+      const userData = response.data?.user || response.user || response;
+      const token = response.data?.token || response.token;
 
-      if (response) {
-        if (response.success || response.token) {
-          // Check if auto-login occurred
-          const userData = response.data?.user || response.user || response;
-          const token = response.data?.token || response.token;
-          
-          if (userData && token) {
-            // Create user profile
-            const userProfile = {
-              email: userData.email || email,
-              status: userData.status || userData.role || "user",
-              id: userData.id || userData._id || Date.now().toString(),
-              name: userData.name || name,
-              token: token,
-              ...userData,
-            };
-            
-            setUser(userProfile);
-            setIsAuthenticated(true);
-            
-            // Store in localStorage (for AuthProvider)
-            localStorage.setItem("user", JSON.stringify(userProfile));
-            
-            // ALSO store in cookies (for App.jsx)
-            Cookies.set("user", JSON.stringify(userProfile), { expires: 7 });
-            
-            if (token) {
-              localStorage.setItem("token", token);
-              axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-            }
+      if (!userData || !token) return { success: false, error: "Invalid registration response" };
 
-            return { 
-              success: true, 
-              user: userProfile, 
-              autoLoggedIn: true,
-              message: response.message || "Registration successful" 
-            };
-          } else {
-            // Registration successful but no auto-login
-            return {
-              success: true,
-              autoLoggedIn: false,
-              message: response.message || "Registration successful. Please login.",
-            };
-          }
-        } else {
-          return {
-            success: false,
-            error: response?.message || response?.error || "Registration failed",
-          };
-        }
-      } else {
-        return { success: false, error: "No response from server" };
-      }
+      const userStatus = userData.status || userData.role || "user";
+
+      const savedUser = {
+        email: userData.email || email,
+        status: userStatus,
+        token: token,
+      };
+
+      localStorage.setItem("user", JSON.stringify(savedUser));
+      localStorage.setItem("userEmail", savedUser.email);
+      localStorage.setItem("userRole", savedUser.status);
+      localStorage.setItem("token", token);
+      Cookies.set("user", JSON.stringify(savedUser), { expires: 7 });
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      setUser(savedUser);
+      setIsAuthenticated(true);
+
+      return { success: true, user: savedUser, message: response.message || "Registration successful" };
     } catch (error) {
       console.error("Registration error:", error);
       return { success: false, error: error.message };
@@ -431,94 +340,46 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  /**
-   * Logout function - clears user data
-   */
+  // LOGOUT
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
-    
-    // Clear localStorage
+
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userRole");
-    
-    // ALSO clear cookies
     Cookies.remove("user");
-    
+
     delete axios.defaults.headers.common["Authorization"];
-    toast.info("You have been logged out");
   };
 
-  // Initialize authentication on app start
+  // INIT AUTH
   useEffect(() => {
-    const initializeAuth = async () => {
-      // Check cookies first
-      const userCookie = Cookies.get("user");
-      const token = localStorage.getItem("token");
+    const userCookie = Cookies.get("user");
+    const token = localStorage.getItem("token");
 
-      if (userCookie && token) {
-        try {
-          const userData = JSON.parse(userCookie);
-          
-          // Validate token and user data if needed
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          
-          setUser(userData);
-          setIsAuthenticated(true);
-          
-          // Sync to localStorage
-          localStorage.setItem("user", userCookie);
-        } catch (error) {
-          console.error("Error initializing auth:", error);
-          // Clear all storage
-          localStorage.removeItem("user");
-          localStorage.removeItem("token");
-          localStorage.removeItem("userEmail");
-          localStorage.removeItem("userRole");
-          Cookies.remove("user");
-          delete axios.defaults.headers.common["Authorization"];
-        }
+    if (userCookie && token) {
+      try {
+        const savedUser = JSON.parse(userCookie);
+        setUser(savedUser);
+        setIsAuthenticated(true);
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      } catch (error) {
+        console.error("Auth initialization error:", error);
+        logout();
       }
-      setIsLoading(false);
-    };
+    }
 
-    initializeAuth();
+    setIsLoading(false);
   }, []);
 
-  // Value provided to all components using this context
-  const value = {
-    user,
-    isAuthenticated,
-    isLoading,
-    login,
-    register,
-    logout,
-    setUser: (newUser) => {
-      // Update state
-      setUser(newUser);
-      setIsAuthenticated(!!newUser);
-      
-      if (newUser) {
-        // Update localStorage
-        localStorage.setItem("user", JSON.stringify(newUser));
-        // ALSO update cookies
-        Cookies.set("user", JSON.stringify(newUser), { expires: 7 });
-      } else {
-        // Clear storage
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userRole");
-        Cookies.remove("user");
-      }
-    },
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, register, logout, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
-
 // =============================================
 // PROTECTED ROUTE COMPONENT - Secures pages
 // =============================================
