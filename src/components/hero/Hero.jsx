@@ -228,7 +228,6 @@ export const Hero = () => {
     <>
       <section className="w-full relative min-h-screen flex items-center justify-center overflow-hidden">
         <ToastContainer position="top-right" autoClose={5000} />
-
         {/* Background Image Slideshow */}
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">

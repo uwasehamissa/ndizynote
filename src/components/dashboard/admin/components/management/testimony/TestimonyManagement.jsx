@@ -2116,19 +2116,19 @@ export const TestimonialManagement = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-64">
+      <div className="flex bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white items-center justify-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white flex">
       
       {/* Main Content */}
       <div className="flex-1 w-full">
         {/* Header with Menu Button */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white border-b border-gray-200 sticky top-0 z-40">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-4">
               <button
@@ -2138,8 +2138,8 @@ export const TestimonialManagement = () => {
                 <MenuIcon className="text-gray-600" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Testimonial Management</h1>
-                <p className="text-gray-600 mt-1">Manage student testimonials and reviews</p>
+                <h1 className="text-2xl font-bold text-white">Testimonial Management</h1>
+                <p className="text-gray-100 mt-1">Manage student testimonials and reviews</p>
               </div>
             </div>
             
@@ -2158,7 +2158,7 @@ export const TestimonialManagement = () => {
         {/* Page Content */}
         <div className="p-4 lg:p-6">
           {/* Search and Filters */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
+          <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Search */}
               <div className="relative lg:col-span-2">
@@ -2180,7 +2180,7 @@ export const TestimonialManagement = () => {
               >
                 <option value="all">All Instruments</option>
                 {instruments.map(instrument => (
-                  <option key={instrument} value={instrument}>
+                  <option className='text-black' key={instrument} value={instrument}>
                     {instrument}
                   </option>
                 ))}
@@ -2194,7 +2194,7 @@ export const TestimonialManagement = () => {
               >
                 <option value="all">All Ratings</option>
                 {ratingOptions.map(rating => (
-                  <option key={rating} value={rating}>
+                  <option className='text-black' key={rating} value={rating}>
                     {rating} Star{rating !== 1 ? 's' : ''}
                   </option>
                 ))}
@@ -2210,7 +2210,7 @@ export const TestimonialManagement = () => {
               >
                 <option value="all">All Status</option>
                 {statusOptions.map(status => (
-                  <option key={status.value} value={status.value}>
+                  <option className='text-black' key={status.value} value={status.value}>
                     {status.label}
                   </option>
                 ))}
@@ -2230,11 +2230,11 @@ export const TestimonialManagement = () => {
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Testimonials</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{totalTestimonials}</p>
+                  <p className="text-sm font-medium text-white">Total Testimonials</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{totalTestimonials}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
                   <FormatQuote className="text-indigo-600 text-lg lg:text-xl" />
@@ -2242,11 +2242,11 @@ export const TestimonialManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Published</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{publishedTestimonials}</p>
+                  <p className="text-sm font-medium text-white">Published</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{publishedTestimonials}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-xl flex items-center justify-center">
                   <ThumbUp className="text-green-600 text-lg lg:text-xl" />
@@ -2254,11 +2254,11 @@ export const TestimonialManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Average Rating</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{averageRating}/5</p>
+                  <p className="text-sm font-medium text-white">Average Rating</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{averageRating}/5</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
                   <Star className="text-yellow-600 text-lg lg:text-xl" />
@@ -2266,11 +2266,11 @@ export const TestimonialManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Showing</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{filteredTestimonials.length}</p>
+                  <p className="text-sm font-medium text-white">Showing</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{filteredTestimonials.length}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                   <FilterList className="text-blue-600 text-lg lg:text-xl" />
@@ -2280,7 +2280,7 @@ export const TestimonialManagement = () => {
           </div>
 
           {/* Testimonials Grid */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 gap-4 lg:gap-6">
             {filteredTestimonials.map((testimonial) => (
               <motion.div
                 key={testimonial.id}
@@ -2290,7 +2290,7 @@ export const TestimonialManagement = () => {
               >
                 <div className="p-4 lg:p-6">
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-4">
+                  <div className=" justify-between items-start mb-4">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-semibold text-lg">
                         {testimonial.name?.split(' ').map(n => n[0]).join('') || '??'}
@@ -2721,13 +2721,13 @@ export const TestimonialManagement = () => {
                 <h2 className="text-xl font-semibold text-gray-900">Edit Testimonial</h2>
                 <button
                   onClick={() => setShowEditModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="bg-gradient-to-t from-red-500 to-red-800 transition-colors duration-200"
                 >
                   <CloseIcon />
                 </button>
               </div>
 
-              <form onSubmit={handleEditSubmit} className="p-6 space-y-4">
+              <form onSubmit={handleEditSubmit} className="p-6 space-y-4 text-black">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
