@@ -2389,7 +2389,7 @@ export const Classes = () => {
       rating: 4.8,
       students: 9800,
       level: "Beginner",
-      publishedAt: "2024-01-09T13:45:00Z"
+      publishedAt: "2024-01-09T13:45:00Z",
       duration: "10 hours",
       students: 2890,
       language: "English",
@@ -2472,7 +2472,7 @@ export const Classes = () => {
       rating: 4.9,
       students: 6200,
       level: "Advanced",
-      publishedAt: "2024-01-04T14:15:00Z"
+      publishedAt: "2024-01-04T14:15:00Z",
       level: "All Levels",
       duration: "20 hours",
       students: 956,
@@ -2570,7 +2570,7 @@ export const Classes = () => {
       rating: 4.8,
       students: 11500,
       level: "Beginner",
-      publishedAt: "2024-01-06T10:45:00Z"
+      publishedAt: "2024-01-06T10:45:00Z",
       id: "class9",
       title: "Songwriting & Composition",
       shortDescription:
