@@ -3925,149 +3925,6 @@ export const useAuth = () => {
 // =============================================
 
 
-// export const AuthProvider = ({ children }) => {
-//   const [user, setUser] = useState(() => {
-//     try {
-//       const userCookie = Cookies.get("user");
-//       if (userCookie) return JSON.parse(userCookie);
-
-//       const savedUser = localStorage.getItem("user");
-//       if (savedUser) {
-//         Cookies.set("user", savedUser, { expires: 7 });
-//         return JSON.parse(savedUser);
-//       }
-
-//       return null;
-//     } catch (error) {
-//       console.error("Error parsing auth data:", error);
-//       return null;
-//     }
-//   });
-
-//   const [isAuthenticated, setIsAuthenticated] = useState(!!user);
-//   const [isLoading, setIsLoading] = useState(true);
-
-//   // LOGIN
-//   const login = async (email, password) => {
-//     try {
-//       setIsLoading(true);
-//       const response = await apiService.login(email, password);
-
-//       if (!response) throw new Error("No response from server");
-
-//       const userData = response.data?.user || response.user || response;
-//       const token = response.data?.token || response.token;
-
-//       if (!userData || !token) throw new Error("Invalid login response");
-
-//       const userStatus = userData.status || userData.role || "user";
-
-//       const savedUser = {
-//         email: userData.email,
-//         status: userStatus,
-//         token: token,
-//       };
-
-//       localStorage.setItem("user", JSON.stringify(savedUser));
-//       localStorage.setItem("userEmail", savedUser.email);
-//       localStorage.setItem("userRole", savedUser.status);
-//       localStorage.setItem("token", token);
-//       Cookies.set("user", JSON.stringify(savedUser), { expires: 1 });
-
-//       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-//       setUser(savedUser);
-//       setIsAuthenticated(true);
-
-//       return { success: true, user: savedUser, message: response.message || "Login successful" };
-//     } catch (error) {
-//       console.error("Login error:", error);
-//       return { success: false, error: error.message };
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   // REGISTER
-//   const register = async (name, email, password, confirmPassword) => {
-//     try {
-//       setIsLoading(true);
-//       const response = await apiService.register(name, email, password, confirmPassword);
-
-//       const userData = response.data?.user || response.user || response;
-//       const token = response.data?.token || response.token;
-
-//       if (!userData || !token) return { success: false, error: "Invalid registration response" };
-
-//       const userStatus = userData.status || userData.role || "user";
-
-//       const savedUser = {
-//         email: userData.email || email,
-//         status: userStatus,
-//         token: token,
-//       };
-
-//       localStorage.setItem("user", JSON.stringify(savedUser));
-//       localStorage.setItem("userEmail", savedUser.email);
-//       localStorage.setItem("userRole", savedUser.status);
-//       localStorage.setItem("token", token);
-//       Cookies.set("user", JSON.stringify(savedUser), { expires: 7 });
-
-//       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-//       setUser(savedUser);
-//       setIsAuthenticated(true);
-
-//       return { success: true, user: savedUser, message: response.message || "Registration successful" };
-//     } catch (error) {
-//       console.error("Registration error:", error);
-//       return { success: false, error: error.message };
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   // LOGOUT
-//   const logout = () => {
-//     setUser(null);
-//     setIsAuthenticated(false);
-
-//     localStorage.removeItem("user");
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("userEmail");
-//     localStorage.removeItem("userRole");
-//     Cookies.remove("user");
-
-//     delete axios.defaults.headers.common["Authorization"];
-//   };
-
-//   // INIT AUTH
-//   useEffect(() => {
-//     const userCookie = Cookies.get("user");
-//     const token = localStorage.getItem("token");
-
-//     if (userCookie && token) {
-//       try {
-//         const savedUser = JSON.parse(userCookie);
-//         setUser(savedUser);
-//         setIsAuthenticated(true);
-//         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-//       } catch (error) {
-//         console.error("Auth initialization error:", error);
-//         logout();
-//       }
-//     }
-
-//     setIsLoading(false);
-//   }, []);
-
-//   return (
-//     <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, register, logout, setUser }}>
-//       {children}
-//     </AuthContext.Provider>
-//   );
-// };
-
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     try {
@@ -4103,9 +3960,11 @@ export const AuthProvider = ({ children }) => {
 
       if (!userData || !token) throw new Error("Invalid login response");
 
+      const userStatus = userData.status || userData.role || "user";
+
       const savedUser = {
         email: userData.email,
-        status: userData.status || userData.role || "user",
+        status: userStatus,
         token: token,
       };
 
@@ -4140,9 +3999,11 @@ export const AuthProvider = ({ children }) => {
 
       if (!userData || !token) return { success: false, error: "Invalid registration response" };
 
+      const userStatus = userData.status || userData.role || "user";
+
       const savedUser = {
         email: userData.email || email,
-        status: userData.status || userData.role || "user",
+        status: userStatus,
         token: token,
       };
 

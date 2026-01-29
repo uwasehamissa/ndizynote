@@ -1561,7 +1561,7 @@ const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
     console.log("Path:", location.pathname);
     console.log("User:", user);
     console.log("User Status:", user?.status);
-    console.log("User has token:", !!user?.token);
+    // console.log("User has token:", !!user?.token);
     console.log("Allowed Statuses:", allowedStatuses);
   }, [location.pathname, user, allowedStatuses]);
 
