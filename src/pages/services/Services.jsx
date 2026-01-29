@@ -1,6 +1,5 @@
-
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import {
@@ -297,28 +296,28 @@ const ContactModal = ({ isOpen, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 xs:p-3 sm:p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-white rounded-lg xs:rounded-xl sm:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 w-full max-w-xs xs:max-w-sm sm:max-w-md mx-2 max-h-[85vh] xs:max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-4 xs:mb-5 sm:mb-6">
-          <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-800">Contact Us</h3>
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-2xl font-bold text-gray-800">Contact Us</h3>
           <button
             onClick={onClose}
-            className="p-1 xs:p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="bg-gradient-to-t from-red-400 to-red-500 transition-colors"
           >
-            <Close className="text-xl xs:text-2xl" />
+            <Close className="text-2xl" />
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-3 xs:space-y-4 text-black">
+        <form onSubmit={handleSubmit} className="space-y-4 text-black">
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Full Name *
             </label>
             <input
@@ -327,12 +326,12 @@ const ContactModal = ({ isOpen, onClose }) => {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               placeholder="Enter your full name"
             />
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Email Address *
             </label>
             <input
@@ -341,12 +340,12 @@ const ContactModal = ({ isOpen, onClose }) => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               placeholder="Enter your email"
             />
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number
             </label>
             <input
@@ -354,12 +353,12 @@ const ContactModal = ({ isOpen, onClose }) => {
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               placeholder="Enter your phone number"
             />
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Subject *
             </label>
             <select
@@ -367,7 +366,7 @@ const ContactModal = ({ isOpen, onClose }) => {
               required
               value={formData.subject}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
             >
               <option value="">Select a subject</option>
               <option value="general">General Inquiry</option>
@@ -378,24 +377,24 @@ const ContactModal = ({ isOpen, onClose }) => {
             </select>
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Message *
             </label>
             <textarea
               name="message"
               required
-              rows="3"
+              rows="4"
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
-              placeholder="Tell us about your musical interests..."
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
+              placeholder="Tell us about your musical interests and goals..."
             />
           </div>
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 xs:py-4 rounded-lg xs:rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg text-sm xs:text-base"
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg"
           >
             Send Message
           </motion.button>
@@ -437,30 +436,30 @@ const BookModal = ({ isOpen, onClose }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 xs:p-3 sm:p-4"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-white rounded-lg xs:rounded-xl sm:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 w-full max-w-xs xs:max-w-sm sm:max-w-md mx-2 max-h-[85vh] xs:max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-2xl p-6 sm:p-8 max-w-md w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between items-center mb-4 xs:mb-5 sm:mb-6">
-          <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-800">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-2xl font-bold text-gray-800">
             Book a Trial Lesson
           </h3>
           <button
             onClick={onClose}
-            className="p-1 xs:p-2 rounded-full hover:bg-gray-100 transition-colors"
+            className="bg-gradient-to-t from-red-400 to-red-500 transition-colors"
           >
-            <Close className="text-xl xs:text-2xl" />
+            <Close className="text-2xl" />
           </button>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-3 xs:space-y-4 text-black">
+        <form onSubmit={handleSubmit} className="space-y-4 text-black">
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Full Name *
             </label>
             <input
@@ -469,12 +468,12 @@ const BookModal = ({ isOpen, onClose }) => {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               placeholder="Enter your full name"
             />
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Email Address *
             </label>
             <input
@@ -483,12 +482,12 @@ const BookModal = ({ isOpen, onClose }) => {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               placeholder="Enter your email"
             />
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone Number *
             </label>
             <input
@@ -497,13 +496,13 @@ const BookModal = ({ isOpen, onClose }) => {
               required
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               placeholder="Enter your phone number"
             />
           </div>
-          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Instrument *
               </label>
               <select
@@ -511,7 +510,7 @@ const BookModal = ({ isOpen, onClose }) => {
                 required
                 value={formData.instrument}
                 onChange={handleChange}
-                className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               >
                 <option value="">Select</option>
                 <option value="piano">Piano</option>
@@ -521,7 +520,7 @@ const BookModal = ({ isOpen, onClose }) => {
               </select>
             </div>
             <div>
-              <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Experience Level *
               </label>
               <select
@@ -529,7 +528,7 @@ const BookModal = ({ isOpen, onClose }) => {
                 required
                 value={formData.experience}
                 onChange={handleChange}
-                className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               >
                 <option value="">Select</option>
                 <option value="beginner">Beginner</option>
@@ -538,9 +537,9 @@ const BookModal = ({ isOpen, onClose }) => {
               </select>
             </div>
           </div>
-          <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Preferred Date *
               </label>
               <input
@@ -549,11 +548,11 @@ const BookModal = ({ isOpen, onClose }) => {
                 required
                 value={formData.preferredDate}
                 onChange={handleChange}
-                className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               />
             </div>
             <div>
-              <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Preferred Time *
               </label>
               <select
@@ -561,7 +560,7 @@ const BookModal = ({ isOpen, onClose }) => {
                 required
                 value={formData.preferredTime}
                 onChange={handleChange}
-                className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
               >
                 <option value="">Select</option>
                 <option value="morning">Morning (9AM-12PM)</option>
@@ -571,7 +570,7 @@ const BookModal = ({ isOpen, onClose }) => {
             </div>
           </div>
           <div>
-            <label className="block text-xs xs:text-sm font-medium text-gray-700 mb-1 xs:mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Additional Notes
             </label>
             <textarea
@@ -579,7 +578,7 @@ const BookModal = ({ isOpen, onClose }) => {
               rows="3"
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-3 xs:px-4 py-2 xs:py-3 text-sm xs:text-base border border-gray-300 rounded-lg xs:rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all resize-none"
               placeholder="Any specific goals or preferences..."
             />
           </div>
@@ -587,7 +586,7 @@ const BookModal = ({ isOpen, onClose }) => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-3 xs:py-4 rounded-lg xs:rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg text-sm xs:text-base"
+            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold py-4 rounded-xl hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg"
           >
             Book Trial Lesson
           </motion.button>
@@ -608,7 +607,7 @@ export const Services = () => {
       icon: <PianoIcon />,
       title: "Piano & Keyboard",
       description:
-        "Master the piano with comprehensive training from classical to contemporary styles. Develop rhythm and coordination skills through structured exercises.",
+        "Master the piano with comprehensive training from classical to contemporary styles",
       levels: ["Beginner", "Intermediate", "Advanced", "Professional"],
       duration: "30, 45, or 60 minute sessions",
       features: [
@@ -617,18 +616,13 @@ export const Services = () => {
         "Repertoire development",
         "Improvisation and composition",
         "Performance preparation",
-        "Rhythm and coordination training",
       ],
-      pricing: {
-        individual: "$60-120/session",
-        group: "$40-80/session",
-      },
     },
     {
       icon: <GuitarIcon />,
       title: "Guitar & Bass",
       description:
-        "Comprehensive guitar training covering acoustic, electric, and bass guitar across all genres. Develop rhythm and coordination skills through pattern exercises.",
+        "Comprehensive guitar training covering acoustic, electric, and bass guitar across all genres",
       levels: ["Beginner", "Intermediate", "Advanced", "Professional"],
       duration: "30, 45, or 60 minute sessions",
       features: [
@@ -637,19 +631,14 @@ export const Services = () => {
         "Lead guitar and soloing",
         "Music reading and tablature",
         "Recording and performance skills",
-        "Rhythm development and strumming patterns",
       ],
-      pricing: {
-        individual: "$55-110/session",
-        group: "$35-70/session",
-      },
     },
   ];
 
   // Vocal Services
   const vocalServices = [
     {
-      icon: <Mic className="text-3xl xs:text-4xl text-pink-500" />,
+      icon: <Mic className="text-4xl text-pink-500" />,
       title: "Vocal Coaching",
       description:
         "Professional voice training to develop your unique vocal style and technique",
@@ -662,13 +651,9 @@ export const Services = () => {
         "Tone quality development",
         "Vocal health and maintenance",
       ],
-      pricing: {
-        individual: "$70-140/session",
-        group: "$50-100/session",
-      },
     },
     {
-      icon: <TheaterComedy className="text-3xl xs:text-4xl text-purple-500" />,
+      icon: <TheaterComedy className="text-4xl text-purple-500" />,
       title: "Performance Training",
       description:
         "Master stage presence, audience engagement, and live performance skills",
@@ -681,13 +666,9 @@ export const Services = () => {
         "Audience connection",
         "Professional rehearsal techniques",
       ],
-      pricing: {
-        individual: "$80-160/session",
-        masterclass: "$120-200/session",
-      },
     },
     {
-      icon: <GraphicEq className="text-3xl xs:text-4xl text-blue-500" />,
+      icon: <GraphicEq className="text-4xl text-blue-500" />,
       title: "Studio Recording",
       description:
         "Professional studio vocal recording, production, and post-production training",
@@ -700,13 +681,9 @@ export const Services = () => {
         "Mixing and mastering basics",
         "Home studio setup guidance",
       ],
-      pricing: {
-        individual: "$100-200/session",
-        production: "$150-300/session",
-      },
     },
     {
-      icon: <RecordVoiceOver className="text-3xl xs:text-4xl text-green-500" />,
+      icon: <RecordVoiceOver className="text-4xl text-green-500" />,
       title: "Musical Theater",
       description:
         "Specialized training for musical theater performance and acting through song",
@@ -719,22 +696,17 @@ export const Services = () => {
         "Dance and movement integration",
         "Audition preparation and techniques",
       ],
-      pricing: {
-        individual: "$75-150/session",
-        group: "$55-110/session",
-      },
     },
   ];
 
   // Specialized Programs
   const specializedPrograms = [
     {
-      icon: <QueueMusic className="text-2xl xs:text-3xl text-purple-500" />,
+      icon: <QueueMusic className="text-3xl text-purple-500" />,
       title: "Songwriting & Composition",
       description:
         "Learn to compose and arrange your own original music across all genres",
       duration: "8-week program",
-      price: "$600",
       features: [
         "Music theory",
         "Lyric writing",
@@ -743,21 +715,19 @@ export const Services = () => {
       ],
     },
     {
-      icon: <Psychology className="text-2xl xs:text-3xl text-blue-500" />,
+      icon: <Psychology className="text-3xl text-blue-500" />,
       title: "Music Theory Mastery",
       description:
         "Comprehensive music theory from fundamentals to advanced harmony",
       duration: "12-week program",
-      price: "$900",
       features: ["Ear training", "Harmony", "Counterpoint", "Analysis"],
     },
     {
-      icon: <Hearing className="text-2xl xs:text-3xl text-green-500" />,
+      icon: <Hearing className="text-3xl text-green-500" />,
       title: "Ear Training Intensive",
       description:
         "Develop perfect pitch and advanced aural skills for professional musicians",
       duration: "6-week program",
-      price: "$450",
       features: [
         "Interval recognition",
         "Chord progressions",
@@ -766,12 +736,11 @@ export const Services = () => {
       ],
     },
     {
-      icon: <AutoAwesome className="text-2xl xs:text-3xl text-orange-500" />,
+      icon: <AutoAwesome className="text-3xl text-orange-500" />,
       title: "Artist Development",
       description:
         "Build your artistic identity, brand, and professional music career",
       duration: "10-week program",
-      price: "$1200",
       features: [
         "Brand development",
         "Marketing",
@@ -787,13 +756,13 @@ export const Services = () => {
         {/* Hero Section */}
         <section className="relative py-12 xs:py-14 sm:py-16 lg:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
-          <div className="absolute top-5 xs:top-8 left-4 xs:left-8 opacity-10">
-            <MusicNote className="text-4xl xs:text-5xl sm:text-6xl" />
+          <div className="absolute top-10 left-10 opacity-10">
+            <MusicNote className="text-6xl" />
           </div>
-          <div className="absolute bottom-5 xs:bottom-8 right-4 xs:right-8 opacity-10">
-            <LibraryMusic className="text-4xl xs:text-5xl sm:text-6xl" />
+          <div className="absolute bottom-10 right-10 opacity-10">
+            <LibraryMusic className="text-6xl" />
           </div>
-          <div className="container mx-auto px-3 xs:px-4 sm:px-6 relative z-10">
+          <div className="container mx-auto px-4 relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -801,7 +770,7 @@ export const Services = () => {
               className="text-center max-w-4xl mx-auto"
             >
               <motion.h1
-                className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 xs:mb-5 sm:mb-6"
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -809,7 +778,7 @@ export const Services = () => {
                 Our <span className="text-cyan-300">Services</span>
               </motion.h1>
               <motion.p
-                className="text-sm xs:text-base sm:text-lg md:text-xl text-white/90 mb-6 xs:mb-8 leading-relaxed px-2"
+                className="text-xl sm:text-2xl text-white/90 mb-8 leading-relaxed"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -829,19 +798,19 @@ export const Services = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="flex flex-wrap justify-center gap-2 xs:gap-3 sm:gap-4 mb-6 xs:mb-8"
+              className="flex flex-wrap justify-center gap-4 mb-8"
             >
               {[
                 {
                   id: "instruments",
                   label: "Instrument Lessons",
-                  icon: <Piano className="text-lg xs:text-xl" />,
+                  icon: <Piano />,
                 },
-                { id: "vocal", label: "Vocal Training", icon: <Mic className="text-lg xs:text-xl" /> },
+                { id: "vocal", label: "Vocal Training", icon: <Mic /> },
                 {
                   id: "specialized",
                   label: "Specialized Programs",
-                  icon: <AutoAwesome className="text-lg xs:text-xl" />,
+                  icon: <AutoAwesome />,
                 },
               ].map((tab) => (
                 <motion.button
@@ -849,15 +818,14 @@ export const Services = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-1 xs:gap-2 px-3 xs:px-4 sm:px-6 py-2 xs:py-3 rounded-lg xs:rounded-xl font-semibold transition-all duration-300 text-sm xs:text-base ${
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
                     activeTab === tab.id
-                      ? "bg-gradient-to-l from-blue-400 to-indigo-300 text-white shadow-lg"
-                      : "bg-gradient-to-t from-indigo-300 to-violet-400 text-white"
+                      ? "bg-gradient-to-l from-blue-400 to-indigo-300  shadow-lg"
+                      : "bg-gradient-to-t from-indigo-300 to-violet-400"
                   }`}
                 >
                   {tab.icon}
-                  <span className="hidden xs:inline">{tab.label}</span>
-                  <span className="xs:hidden">{tab.label.split(" ")[0]}</span>
+                  {tab.label}
                 </motion.button>
               ))}
             </motion.div>
@@ -872,20 +840,19 @@ export const Services = () => {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-center mb-8 xs:mb-10 sm:mb-12"
+                className="text-center mb-12"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4">
-                  Instrument <span className="text-purple-400">Lessons</span>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+                  Instrument <span className="text-purple-600">Lessons</span>
                 </h2>
-                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-3xl mx-auto px-2">
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                   Master your instrument with personalized instruction from
                   world-class educators. From foundational techniques to
-                  advanced performance skills, including rhythm and coordination
-                  development.
+                  advanced performance skills.
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 xs:gap-6 sm:gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {instrumentServices.map((service, index) => (
                   <motion.div
                     key={index}
@@ -893,32 +860,30 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    <div className="flex items-start gap-3 xs:gap-4 mb-4 xs:mb-5 sm:mb-6">
-                      <div className="flex-shrink-0 w-10 h-10 xs:w-12 xs:h-12">
-                        {service.icon}
-                      </div>
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="flex-shrink-0">{service.icon}</div>
                       <div className="flex-1">
-                        <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white mb-1 xs:mb-2">
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
                           {service.title}
                         </h3>
-                        <p className="text-xs xs:text-sm text-gray-100 mb-3 xs:mb-4">
+                        <p className="text-gray-600 mb-4">
                           {service.description}
                         </p>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 mb-4 xs:mb-5 sm:mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                       <div>
-                        <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-gray-800 mb-3">
                           Skill Levels
                         </h4>
-                        <div className="flex flex-wrap gap-1 xs:gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {service.levels.map((level, levelIndex) => (
                             <span
                               key={levelIndex}
-                              className="px-2 xs:px-3 py-1 bg-purple-100 text-black rounded-full text-xs xs:text-sm font-medium"
+                              className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium"
                             >
                               {level}
                             </span>
@@ -926,24 +891,24 @@ export const Services = () => {
                         </div>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-gray-800 mb-3">
                           Session Duration
                         </h4>
-                        <p className="text-xs xs:text-sm text-gray-100">{service.duration}</p>
+                        <p className="text-gray-600">{service.duration}</p>
                       </div>
                     </div>
 
-                    <div className="mb-4 xs:mb-5 sm:mb-6">
-                      <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-gray-800 mb-3">
                         What You'll Learn
                       </h4>
-                      <ul className="space-y-1 xs:space-y-2">
+                      <ul className="space-y-2">
                         {service.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-start xs:items-center gap-1 xs:gap-2 text-gray-100 text-xs xs:text-sm"
+                            className="flex items-center gap-2 text-gray-600"
                           >
-                            <CheckCircle className="text-green-500 text-sm xs:text-lg flex-shrink-0 mt-0.5 xs:mt-0" />
+                            <CheckCircle className="text-green-500 text-lg" />
                             {feature}
                           </li>
                         ))}
@@ -958,26 +923,26 @@ export const Services = () => {
 
         {/* Vocal Services */}
         {activeTab === "vocal" && (
-          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
-            <div className="container mx-auto px-3 xs:px-4 sm:px-6">
+          <section className="py-16 bg-white">
+            <div className="container mx-auto px-4">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-center mb-8 xs:mb-10 sm:mb-12"
+                className="text-center mb-12"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
                   Professional <span className="text-pink-600">Vocal</span>{" "}
                   Training
                 </h2>
-                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-3xl mx-auto px-2">
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                   Transform your voice with our comprehensive vocal programs.
                   From basic technique to professional performance and
                   recording.
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 xs:gap-6 sm:gap-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {vocalServices.map((service, index) => (
                   <motion.div
                     key={index}
@@ -985,32 +950,30 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                    className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                   >
-                    <div className="flex items-start gap-3 xs:gap-4 mb-4 xs:mb-5 sm:mb-6">
-                      <div className="flex-shrink-0">
-                        {service.icon}
-                      </div>
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="flex-shrink-0">{service.icon}</div>
                       <div className="flex-1">
-                        <h3 className="text-lg xs:text-xl sm:text-2xl font-bold text-white mb-1 xs:mb-2">
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
                           {service.title}
                         </h3>
-                        <p className="text-xs xs:text-sm text-gray-100 mb-3 xs:mb-4">
+                        <p className="text-gray-600 mb-4">
                           {service.description}
                         </p>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 mb-4 xs:mb-5 sm:mb-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                       <div>
-                        <h4 className="font-bold text-white mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-gray-800 mb-3">
                           Skill Levels
                         </h4>
-                        <div className="flex flex-wrap gap-1 xs:gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {service.levels.map((level, levelIndex) => (
                             <span
                               key={levelIndex}
-                              className="px-2 xs:px-3 py-1 bg-pink-100 text-black rounded-full text-xs xs:text-sm font-medium"
+                              className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium"
                             >
                               {level}
                             </span>
@@ -1018,30 +981,29 @@ export const Services = () => {
                         </div>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
+                        <h4 className="font-semibold text-gray-800 mb-3">
                           Session Duration
                         </h4>
-                        <p className="text-xs xs:text-sm text-gray-100">{service.duration}</p>
+                        <p className="text-gray-600">{service.duration}</p>
                       </div>
                     </div>
 
-                    <div className="mb-4 xs:mb-5 sm:mb-6">
-                      <h4 className="font-semibold text-white mb-2 xs:mb-3 text-sm xs:text-base">
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-gray-800 mb-3">
                         Program Features
                       </h4>
-                      <ul className="space-y-1 xs:space-y-2">
+                      <ul className="space-y-2">
                         {service.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-start xs:items-center gap-1 xs:gap-2 text-gray-100 text-xs xs:text-sm"
+                            className="flex items-center gap-2 text-gray-600"
                           >
-                            <CheckCircle className="text-green-500 text-sm xs:text-lg flex-shrink-0 mt-0.5 xs:mt-0" />
+                            <CheckCircle className="text-green-500 text-lg" />
                             {feature}
                           </li>
                         ))}
                       </ul>
                     </div>
-
                   </motion.div>
                 ))}
               </div>
@@ -1051,25 +1013,25 @@ export const Services = () => {
 
         {/* Specialized Programs */}
         {activeTab === "specialized" && (
-          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
-            <div className="container mx-auto px-3 xs:px-4 sm:px-6">
+          <section className="py-16 bg-gray-50">
+            <div className="container mx-auto px-4">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-center mb-8 xs:mb-10 sm:mb-12"
+                className="text-center mb-12"
               >
-                <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-3 xs:mb-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
                   Specialized <span className="text-purple-600">Programs</span>
                 </h2>
-                <p className="text-xs xs:text-sm sm:text-base md:text-lg lg:text-xl text-gray-100 max-w-3xl mx-auto px-2">
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                   Intensive programs designed to take your musical skills to the
                   next level. Perfect for serious students and aspiring
                   professionals.
                 </p>
               </motion.div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 xs:gap-5 sm:gap-6 mb-8 xs:mb-10 sm:mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {specializedPrograms.map((program, index) => (
                   <motion.div
                     key={index}
@@ -1077,28 +1039,27 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl xs:rounded-2xl p-4 xs:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
+                    className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 text-center"
                   >
-                    <div className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16  rounded-lg xs:rounded-xl flex items-center justify-center text-white mx-auto mb-3 xs:mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center text-white mx-auto mb-4">
                       {program.icon}
                     </div>
-                    <h3 className="text-base xs:text-lg sm:text-xl font-bold text-white mb-1 xs:mb-2">
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">
                       {program.title}
                     </h3>
-                    <p className="text-xs text-gray-100 mb-3 xs:mb-4">
+                    <p className="text-gray-600 text-sm mb-4">
                       {program.description}
                     </p>
-
-                    <div className="text-xs text-gray-100 mb-3 xs:mb-4">
+                    <div className="text-sm text-gray-500 mb-4">
                       {program.duration}
                     </div>
-                    <ul className="space-y-1 xs:space-y-2 text-left">
+                    <ul className="space-y-2 text-left">
                       {program.features.map((feature, featureIndex) => (
                         <li
                           key={featureIndex}
-                          className="flex items-center gap-1 xs:gap-2 text-gray-100 text-xs"
+                          className="flex items-center gap-2 text-gray-600 text-sm"
                         >
-                          <CheckCircle className="text-green-500 text-xs xs:text-sm flex-shrink-0" />
+                          <CheckCircle className="text-green-500 text-sm" />
                           {feature}
                         </li>
                       ))}
@@ -1109,44 +1070,6 @@ export const Services = () => {
             </div>
           </section>
         )}
-
-        {/* Call to Action Section */}
-        <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
-          <div className="container mx-auto px-3 xs:px-4 sm:px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-center max-w-3xl mx-auto"
-            >
-              <h2 className="text-xl xs:text-2xl text-white sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 xs:mb-5 sm:mb-6">
-                Ready to Start Your Musical Journey?
-              </h2>
-              <p className="text-sm xs:text-base text-gray-100 sm:text-lg md:text-xl mb-6 xs:mb-8 opacity-90 px-2">
-                Book a free trial lesson today and discover your musical
-                potential with our expert instructors.
-              </p>
-              <div className="flex flex-col xs:flex-row gap-3 xs:gap-4 justify-center">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsBookModalOpen(true)}
-                  className="bg-white text-purple-600 font-bold px-6 xs:px-8 py-3 xs:py-4 rounded-lg xs:rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg text-sm xs:text-base"
-                >
-                  Book Free Trial
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsContactModalOpen(true)}
-                  className="bg-transparent border border-white text-white font-bold px-6 xs:px-8 py-3 xs:py-4 rounded-lg xs:rounded-xl hover:bg-white/10 transition-all duration-300 text-sm xs:text-base"
-                >
-                  Contact Us
-                </motion.button>
-              </div>
-            </motion.div>
-          </div>
-        </section>
 
         {/* Modals */}
         <ContactModal
