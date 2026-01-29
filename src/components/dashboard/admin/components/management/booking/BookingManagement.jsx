@@ -2456,12 +2456,12 @@ export const BookingManagement = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white flex">
       
       {/* Main Content */}
       <div className="flex-1 w-full">
         {/* Header with Menu Button */}
-        <div className="bg-white border-b border-gray-200 sticky top-0 z-0">
+        <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white border-b border-gray-200 sticky top-0 z-0">
           <div className="flex items-center justify-between p-4">
             <div className="flex items-center space-x-4">
               <button
@@ -2471,8 +2471,8 @@ export const BookingManagement = () => {
                 <MenuIcon className="text-gray-600" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Booking Management</h1>
-                <p className="text-gray-600 mt-1">Manage music lesson bookings and schedules</p>
+                <h1 className="text-2xl font-bold text-white">Booking Management</h1>
+                <p className="text-gray-100 mt-1">Manage music lesson bookings and schedules</p>
               </div>
             </div>
             
@@ -2491,7 +2491,7 @@ export const BookingManagement = () => {
         {/* Page Content */}
         <div className="p-4 lg:p-6">
           {/* Search and Filters */}
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
+          <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6 mb-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Search */}
               <div className="relative lg:col-span-2">
@@ -2537,7 +2537,7 @@ export const BookingManagement = () => {
             {/* Date Filter and Reset */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-100 mb-2">
                   Filter by Date
                 </label>
                 <input
@@ -2562,11 +2562,11 @@ export const BookingManagement = () => {
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-6">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Total Bookings</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{totalBookings}</p>
+                  <p className="text-sm font-medium text-white">Total Bookings</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{totalBookings}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
                   <CalendarToday className="text-indigo-600 text-lg lg:text-xl" />
@@ -2574,11 +2574,11 @@ export const BookingManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Pending</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{pendingBookings}</p>
+                  <p className="text-sm font-medium text-white">Pending</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{pendingBookings}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-yellow-100 rounded-xl flex items-center justify-center">
                   <Pending className="text-yellow-600 text-lg lg:text-xl" />
@@ -2586,11 +2586,11 @@ export const BookingManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Confirmed</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{confirmedBookings}</p>
+                  <p className="text-sm font-medium text-white">Confirmed</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{confirmedBookings}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-green-100 rounded-xl flex items-center justify-center">
                   <CheckCircle className="text-green-600 text-lg lg:text-xl" />
@@ -2598,11 +2598,11 @@ export const BookingManagement = () => {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
+            <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-4 lg:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-600">Today</p>
-                  <p className="text-xl lg:text-2xl font-bold text-gray-900">{todayBookings}</p>
+                  <p className="text-sm font-medium text-white">Today</p>
+                  <p className="text-xl lg:text-2xl font-bold text-gray-100">{todayBookings}</p>
                 </div>
                 <div className="w-10 h-10 lg:w-12 lg:h-12 bg-blue-100 rounded-xl flex items-center justify-center">
                   <Schedule className="text-blue-600 text-lg lg:text-xl" />
@@ -2612,7 +2612,7 @@ export const BookingManagement = () => {
           </div>
 
           {/* Bookings Grid */}
-          <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 lg:gap-6">
+          <div className="grid grid-cols-1 xl:grid-cols-3 2xl:grid-cols-4 gap-4 lg:gap-6">
             {filteredBookings.length > 0 ? filteredBookings.map((booking) => {
               const statusInfo = getStatusInfo(booking.status);
               return (
