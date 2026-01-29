@@ -3834,7 +3834,7 @@ const apiService = {
       });
       
       // Debug: Log response structure
-      console.log("Login API Response:", response.data);
+      // console.log("Login API Response:", response.data);
       
       return response.data;
     } catch (error) {
@@ -3934,14 +3934,14 @@ export const AuthProvider = ({ children }) => {
       const userCookie = Cookies.get("user");
       if (userCookie) {
         const parsed = JSON.parse(userCookie);
-        console.log("Loaded user from cookie:", parsed);
+        // console.log("Loaded user from cookie:", parsed);
         return parsed;
       }
       // Fallback to localStorage
       const savedUser = localStorage.getItem("user");
       if (savedUser) {
         const parsed = JSON.parse(savedUser);
-        console.log("Loaded user from localStorage:", parsed);
+        // console.log("Loaded user from localStorage:", parsed);
         // Sync to cookies
         Cookies.set("user", savedUser, { expires: 7 });
         return parsed;
