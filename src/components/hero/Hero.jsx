@@ -229,7 +229,7 @@ export const Hero = () => {
       <section className="w-full relative min-h-screen flex items-center justify-center overflow-hidden">
         <ToastContainer position="top-right" autoClose={5000} />
         {/* Background Image Slideshow */}
-        <div className="absolute inset-0">
+        <div className="absolute py-6 rounded-2xl inset-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentBgIndex}
@@ -282,7 +282,7 @@ export const Hero = () => {
           ))}
         </div>
 
-        <div className="container mx-auto px-3 xs:px-4 sm:px-6 relative z-10">
+        <div className="container mx-auto px-3 py-6 rounded-2xl max-h-max xs:px-4 sm:px-6 relative z-10">
           {/* Main Hero Content */}
           <div className="text-center mb-8 sm:mb-12 lg:mb-16 max-w-4xl mx-auto">
             <motion.div

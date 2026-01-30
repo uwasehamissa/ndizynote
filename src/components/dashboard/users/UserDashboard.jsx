@@ -18,6 +18,11 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
+  RadialBarChart,
+  RadialBar,
+  ComposedChart,
+  Scatter,
+  ReferenceLine,
 } from "recharts";
 import {
   People as UsersIcon,
@@ -46,8 +51,13 @@ import {
   MarkEmailRead as MarkReadIcon,
   Delete as DeleteIcon,
   AccountCircle,
+  ShowChart,
+  Timeline,
+  Equalizer,
+  BarChart as BarChartIcon,
+  PieChart as PieChartIcon,
+  Assessment,
 } from "@mui/icons-material";
-
 
 // Helper function to get cookie value by name
 const getCookie = (name) => {
@@ -59,7 +69,6 @@ const getCookie = (name) => {
 
 // Helper function to get email from cookies
 const getEmailFromCookies = () => {
-  // Try different possible cookie names where email might be stored
   const possibleCookieNames = [
     "userEmail",
     "email",
@@ -75,13 +84,11 @@ const getEmailFromCookies = () => {
     const cookieValue = getCookie(cookieName);
     if (cookieValue) {
       try {
-        // If it's a JSON string, parse it
         const parsed = JSON.parse(cookieValue);
         if (parsed.email) return parsed.email;
         if (parsed.userEmail) return parsed.userEmail;
         if (parsed.user && parsed.user.email) return parsed.user.email;
       } catch (e) {
-        // If it's not JSON, check if it's an email directly
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (emailRegex.test(cookieValue)) {
           return cookieValue;
@@ -90,7 +97,6 @@ const getEmailFromCookies = () => {
     }
   }
 
-  // Also check localStorage as fallback
   try {
     const userData = localStorage.getItem("user");
     if (userData) {
@@ -104,7 +110,7 @@ const getEmailFromCookies = () => {
   return null;
 };
 
-// Add Notification Modal Component
+// Enhanced Notification Modal Component
 const NotificationModal = ({
   isOpen,
   onClose,
@@ -162,13 +168,13 @@ const NotificationModal = ({
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "high":
-        return "border-l-4 border-red-500 bg-red-50";
+        return "border-l-4 border-red-500 bg-gradient-to-r from-red-50 to-white";
       case "medium":
-        return "border-l-4 border-yellow-500 bg-yellow-50";
+        return "border-l-4 border-yellow-500 bg-gradient-to-r from-yellow-50 to-white";
       case "low":
-        return "border-l-4 border-green-500 bg-green-50";
+        return "border-l-4 border-green-500 bg-gradient-to-r from-green-50 to-white";
       default:
-        return "border-l-4 border-gray-300";
+        return "border-l-4 border-blue-500 bg-gradient-to-r from-blue-50 to-white";
     }
   };
 
@@ -176,54 +182,50 @@ const NotificationModal = ({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             variants={backdropVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 backdrop-blur-sm"
             onClick={onClose}
           />
 
-          {/* Modal */}
           <motion.div
             variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
-            className="fixed inset-x-4 top-4 md:inset-x-auto md:right-4 md:top-16 md:left-auto z-50 bg-white rounded-xl shadow-2xl border border-gray-200 max-w-md w-full md:w-96"
+            className="fixed inset-x-4 top-4 md:inset-x-auto md:right-4 md:top-16 md:left-auto z-50 bg-white rounded-2xl shadow-2xl border border-gray-200 max-w-md w-full md:w-96"
           >
             <div className="flex flex-col h-full max-h-[80vh]">
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+              <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-gradient-to-r from-blue-500 to-indigo-600">
                 <div className="flex items-center gap-3">
                   <div className="relative">
-                    <NotificationsIcon className="text-blue-600" />
+                    <NotificationsIcon className="text-white" />
                     {notifications.filter((n) => n.unread).length > 0 && (
-                      <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse ring-2 ring-white"></span>
                     )}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      My Notifications
+                    <h3 className="text-lg font-bold text-white">
+                      Notifications
                     </h3>
-                    <p className="text-sm text-gray-600">
-                      {notifications.filter((n) => n.unread).length} unread of{" "}
+                    <p className="text-sm text-blue-100">
+                      {notifications.filter((n) => n.unread).length} unread •{" "}
                       {notifications.length} total
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                  className="p-2 hover:bg-white/20 rounded-full transition-colors duration-200"
                   aria-label="Close notifications"
                 >
-                  <CloseIcon className="text-gray-600" />
+                  <CloseIcon className="text-white" />
                 </button>
               </div>
 
-              {/* Notifications List */}
               <div className="flex-1 overflow-y-auto">
                 {notifications.length > 0 ? (
                   <div className="divide-y divide-gray-100">
@@ -233,21 +235,23 @@ const NotificationModal = ({
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
-                        className={`p-4 hover:bg-gray-50 transition-all duration-200 ${getPriorityColor(
-                          notification.priority
-                        )} ${notification.unread ? "bg-blue-50" : ""}`}
+                        className={`p-4 hover:bg-gray-50/50 transition-all duration-300 ${getPriorityColor(
+                          notification.priority,
+                        )} ${notification.unread ? "bg-blue-50/30" : ""}`}
                       >
                         <div className="flex items-start gap-3">
                           <div className="flex-shrink-0 mt-1">
-                            {getNotificationIcon(notification.type)}
+                            <div className="p-2 rounded-lg bg-white shadow-sm">
+                              {getNotificationIcon(notification.type)}
+                            </div>
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-start justify-between">
-                              <h4 className="font-medium text-gray-900">
+                              <h4 className="font-bold text-gray-900">
                                 {notification.title}
                               </h4>
                               {notification.priority === "high" && (
-                                <span className="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">
+                                <span className="px-2 py-1 text-xs font-bold bg-red-100 text-red-800 rounded-full">
                                   Important
                                 </span>
                               )}
@@ -262,11 +266,11 @@ const NotificationModal = ({
                             )}
                             <div className="flex items-center justify-between mt-3">
                               <div className="flex items-center gap-3">
-                                <span className="text-xs text-gray-500">
+                                <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
                                   {notification.time}
                                 </span>
                                 {notification.category && (
-                                  <span className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded-full">
+                                  <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">
                                     {notification.category}
                                   </span>
                                 )}
@@ -277,7 +281,7 @@ const NotificationModal = ({
                                     onClick={() =>
                                       onMarkAsRead(notification.id)
                                     }
-                                    className="p-1 hover:bg-blue-100 rounded-full transition-colors duration-200"
+                                    className="p-1.5 hover:bg-blue-100 rounded-lg transition-all duration-200 hover:scale-110"
                                     aria-label="Mark as read"
                                     title="Mark as read"
                                   >
@@ -286,7 +290,7 @@ const NotificationModal = ({
                                 )}
                                 <button
                                   onClick={() => onDelete(notification.id)}
-                                  className="p-1 hover:bg-red-100 rounded-full transition-colors duration-200"
+                                  className="p-1.5 hover:bg-red-100 rounded-lg transition-all duration-200 hover:scale-110"
                                   aria-label="Delete notification"
                                   title="Delete notification"
                                 >
@@ -301,10 +305,14 @@ const NotificationModal = ({
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full p-8">
-                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                      <NotificationsIcon className="text-gray-400 w-8 h-8" />
-                    </div>
-                    <p className="text-gray-600 font-medium text-center">
+                    <motion.div
+                      animate={{ scale: [1, 1.1, 1] }}
+                      transition={{ repeat: Infinity, duration: 2 }}
+                      className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 rounded-full flex items-center justify-center mb-4 shadow-inner"
+                    >
+                      <NotificationsIcon className="text-blue-400 w-10 h-10" />
+                    </motion.div>
+                    <p className="text-gray-700 font-bold text-lg text-center">
                       No notifications yet
                     </p>
                     <p className="text-sm text-gray-400 mt-2 text-center">
@@ -314,11 +322,10 @@ const NotificationModal = ({
                 )}
               </div>
 
-              {/* Footer */}
-              <div className="p-4 border-t border-gray-200 bg-gray-50">
+              <div className="p-4 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-white">
                 <div className="flex justify-between items-center">
                   <button
-                    className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+                    className="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 px-3 py-2 hover:bg-blue-50 rounded-lg transition-all duration-200"
                     onClick={() => {
                       notifications.forEach((n) => {
                         if (n.unread) onMarkAsRead(n.id);
@@ -329,7 +336,7 @@ const NotificationModal = ({
                     Mark all as read
                   </button>
                   <button
-                    className="text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1"
+                    className="text-sm font-medium text-gray-600 hover:text-gray-800 flex items-center gap-2 px-3 py-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
                     onClick={() => {
                       notifications.forEach((n) => onDelete(n.id));
                     }}
@@ -347,7 +354,7 @@ const NotificationModal = ({
   );
 };
 
-// API Configuration based on your provided data structure
+// API Configuration
 const API_CONFIG = {
   BASE_URL: "https://ndizmusicprojectbackend.onrender.com",
   ENDPOINTS: {
@@ -362,7 +369,6 @@ const API_CONFIG = {
   },
 };
 
-// Create axios instance
 const api = axios.create({
   baseURL: API_CONFIG.BASE_URL,
 });
@@ -379,7 +385,6 @@ const getCurrentUserFromCookies = async () => {
 
     console.log("Found email from cookies:", userEmail);
 
-    // Try to fetch user details from API
     try {
       const response = await api.get(API_CONFIG.ENDPOINTS.USERS);
       if (response.data?.data) {
@@ -387,7 +392,7 @@ const getCurrentUserFromCookies = async () => {
           (u) =>
             u.email === userEmail ||
             u.userEmail === userEmail ||
-            (u.email && u.email.toLowerCase() === userEmail.toLowerCase())
+            (u.email && u.email.toLowerCase() === userEmail.toLowerCase()),
         );
 
         if (user) {
@@ -396,17 +401,13 @@ const getCurrentUserFromCookies = async () => {
         }
       }
     } catch (apiError) {
-      console.warn(
-        "Could not fetch user from API, using cookie data only:",
-        apiError
-      );
+      console.warn("Could not fetch user from API:", apiError);
     }
 
-    // If API fails, create minimal user object from cookie data
     return {
       email: userEmail,
       name: userEmail.split("@")[0],
-      status: "user", // Default status
+      status: "user",
       source: "cookie",
     };
   } catch (error) {
@@ -415,22 +416,20 @@ const getCurrentUserFromCookies = async () => {
   }
 };
 
-// API Service functions filtered by current user email from cookies
+// API Service functions
 const fetchUsersData = async (currentUserEmail) => {
   try {
     const response = await api.get(API_CONFIG.ENDPOINTS.USERS);
-    // Filter users based on current user's email
     let filteredData = response.data;
 
     if (currentUserEmail && response.data?.data) {
-      // Find current user
       const currentUser = response.data.data.find(
         (user) =>
-          user.email === currentUserEmail || user.userEmail === currentUserEmail
+          user.email === currentUserEmail ||
+          user.userEmail === currentUserEmail,
       );
 
       if (currentUser) {
-        // Only show current user's data
         filteredData = {
           ...response.data,
           data: [currentUser],
@@ -438,13 +437,11 @@ const fetchUsersData = async (currentUserEmail) => {
           filteredByEmail: currentUserEmail,
         };
       } else {
-        // User not found in API data
         filteredData = {
           ...response.data,
           data: [],
           total: 0,
           filteredByEmail: currentUserEmail,
-          note: "User not found in API data",
         };
       }
     }
@@ -459,11 +456,9 @@ const fetchUsersData = async (currentUserEmail) => {
 const fetchBookingsData = async (currentUserEmail) => {
   try {
     const response = await api.get(API_CONFIG.ENDPOINTS.BOOKINGS);
-    // Filter bookings based on current user's email
     let filteredData = response.data;
 
     if (currentUserEmail && response.data?.data) {
-      // Filter bookings that match user's email
       const userBookings = response.data.data.filter((booking) => {
         const bookingEmail =
           booking.email || booking.userEmail || booking.user?.email;
@@ -485,489 +480,161 @@ const fetchBookingsData = async (currentUserEmail) => {
   }
 };
 
-// Mock notifications function - personalized based on user
+// Enhanced mock notifications
 const getMockNotifications = (currentUser) => {
   const userName =
     currentUser?.name || currentUser?.email?.split("@")[0] || "User";
-  const userEmail = currentUser?.email || "user@example.com";
 
   return [
     {
       id: 1,
-      title: "Your Booking Confirmation",
-      message: `${userName}, your guitar lesson has been confirmed for tomorrow`,
+      title: "🎸 Lesson Reminder",
+      message: `Hi ${userName}, your guitar lesson starts in 30 minutes!`,
       type: "booking",
       category: "My Bookings",
       priority: "high",
-      time: "2 minutes ago",
+      time: "2 min ago",
       unread: true,
-      details: `Time: 3:00 PM, Duration: 1 hour, Instructor: Michael, Email: ${userEmail}`,
-      userEmail: userEmail,
+      details: `Instructor: Michael | Studio A | Duration: 1 hour`,
     },
     {
       id: 2,
-      title: "Payment Successful",
-      message: `Payment of $150 received for your advanced piano course`,
+      title: "💰 Payment Confirmed",
+      message: `Payment of $150 received for Piano Masterclass`,
       type: "payment",
       category: "My Payments",
       priority: "medium",
       time: "1 hour ago",
       unread: true,
-      details: `Transaction ID: PAY-${userEmail
-        .split("@")[0]
-        .toUpperCase()}789, Email: ${userEmail}`,
-      userEmail: userEmail,
+      details: `Transaction ID: PAY-${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
     },
     {
       id: 3,
-      title: "Course Reminder",
-      message: `${userName}, your guitar beginner class starts in 30 minutes`,
+      title: "🎵 Course Progress",
+      message: `Great work! You've completed 75% of Guitar Basics`,
       type: "course",
-      category: "My Schedule",
-      priority: "high",
-      time: "Yesterday, 2:30 PM",
+      category: "My Progress",
+      priority: "low",
+      time: "Yesterday",
       unread: true,
-      details: `Room: Studio A, Instructor: Michael, Email: ${userEmail}`,
-      userEmail: userEmail,
+      details: `Next milestone: Chord Transitions`,
     },
   ];
 };
 
-// Notifications API function - personalized
-const fetchNotificationsData = async (currentUser) => {
-  try {
-    const response = await api.get(API_CONFIG.ENDPOINTS.NOTIFICATIONS);
-    let notifications =
-      response.data?.data || getMockNotifications(currentUser);
+// Enhanced dummy data for charts
+const getEnhancedChartData = (currentUser) => {
+  const userName = currentUser?.name || "Student";
 
-    // Filter notifications for current user
-    if (currentUser?.email) {
-      notifications = notifications.filter(
-        (notification) =>
-          notification.userEmail === currentUser.email ||
-          notification.message.includes(currentUser.email)
-      );
-    }
+  // Enhanced monthly progress data
+  const monthlyProgress = [
+    { month: "Jan", progress: 65, practice: 12, lessons: 4, goal: 70 },
+    { month: "Feb", progress: 72, practice: 15, lessons: 5, goal: 75 },
+    { month: "Mar", progress: 78, practice: 18, lessons: 6, goal: 80 },
+    { month: "Apr", progress: 82, practice: 20, lessons: 8, goal: 85 },
+    { month: "May", progress: 87, practice: 22, lessons: 9, goal: 90 },
+    { month: "Jun", progress: 91, practice: 25, lessons: 10, goal: 95 },
+    { month: "Jul", progress: 94, practice: 28, lessons: 12, goal: 100 },
+  ];
 
-    return { data: notifications };
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
-    // Return personalized mock data
-    return { data: getMockNotifications(currentUser) };
-  }
-};
+  // Enhanced instrument distribution
+  const instrumentDistribution = [
+    {
+      name: "Guitar",
+      value: 45,
+      color: "#10B981",
+      hours: 42,
+      level: "Intermediate",
+    },
+    {
+      name: "Piano",
+      value: 30,
+      color: "#3B82F6",
+      hours: 28,
+      level: "Beginner",
+    },
+    {
+      name: "Violin",
+      value: 15,
+      color: "#F59E0B",
+      hours: 18,
+      level: "Beginner",
+    },
+    { name: "Drums", value: 10, color: "#EF4444", hours: 12, level: "Novice" },
+  ];
 
-// Rest of API functions - filtered by user email
-const fetchCoursesData = async (currentUser) => {
-  try {
-    const response = await api.get(API_CONFIG.ENDPOINTS.COURSES);
-    let filteredData = response.data || { total: 0, data: [] };
+  // Enhanced practice hours per day
+  const dailyPractice = [
+    { day: "Mon", hours: 1.5, efficiency: 85, focus: "Scales" },
+    { day: "Tue", hours: 2.0, efficiency: 78, focus: "Chords" },
+    { day: "Wed", hours: 1.2, efficiency: 82, focus: "Theory" },
+    { day: "Thu", hours: 2.5, efficiency: 91, focus: "Songs" },
+    { day: "Fri", hours: 1.8, efficiency: 76, focus: "Improvisation" },
+    { day: "Sat", hours: 3.0, efficiency: 88, focus: "Performance" },
+    { day: "Sun", hours: 2.2, efficiency: 84, focus: "Review" },
+  ];
 
-    // Filter courses by user email
-    if (currentUser?.email && filteredData.data) {
-      filteredData = {
-        ...filteredData,
-        data: filteredData.data.filter(
-          (course) =>
-            course.students?.includes(currentUser.email) ||
-            course.enrolledStudents?.includes(currentUser.email) ||
-            course.studentEmails?.includes(currentUser.email)
-        ),
-        total: filteredData.data.filter(
-          (course) =>
-            course.students?.includes(currentUser.email) ||
-            course.enrolledStudents?.includes(currentUser.email) ||
-            course.studentEmails?.includes(currentUser.email)
-        ).length,
-        filteredByEmail: currentUser.email,
-      };
-    }
+  // Enhanced skill progression
+  const skillProgression = [
+    { week: "W1", technique: 30, theory: 25, rhythm: 20, ear: 15 },
+    { week: "W2", technique: 45, theory: 35, rhythm: 30, ear: 25 },
+    { week: "W3", technique: 60, theory: 45, rhythm: 40, ear: 35 },
+    { week: "W4", technique: 72, theory: 55, rhythm: 50, ear: 45 },
+    { week: "W5", technique: 82, theory: 65, rhythm: 60, ear: 55 },
+    { week: "W6", technique: 88, theory: 72, rhythm: 68, ear: 62 },
+    { week: "W7", technique: 92, theory: 78, rhythm: 75, ear: 68 },
+  ];
 
-    return filteredData;
-  } catch (error) {
-    console.error("Error fetching courses:", error);
-    return { total: 0, data: [] };
-  }
-};
+  // Enhanced learning goals
+  const learningGoals = [
+    { goal: "Master C Major Scale", progress: 90, deadline: "1 week" },
+    { goal: "Learn 10 Jazz Chords", progress: 75, deadline: "2 weeks" },
+    { goal: "Play 5 Songs Fluently", progress: 60, deadline: "1 month" },
+    { goal: "Improve Sight Reading", progress: 45, deadline: "6 weeks" },
+    { goal: "Perform 3-Minute Solo", progress: 30, deadline: "2 months" },
+  ];
 
-const fetchInstructorsData = async (currentUser) => {
-  try {
-    const response = await api.get(API_CONFIG.ENDPOINTS.INSTRUCTORS);
-    let filteredData = response.data || { total: 0, data: [] };
-
-    // If user is instructor, only show their own data
-    if (currentUser?.email) {
-      filteredData = {
-        ...filteredData,
-        data: filteredData.data.filter(
-          (instructor) => instructor.email === currentUser.email
-        ),
-        total: filteredData.data.filter(
-          (instructor) => instructor.email === currentUser.email
-        ).length,
-        filteredByEmail: currentUser.email,
-      };
-    }
-
-    return filteredData;
-  } catch (error) {
-    console.error("Error fetching instructors:", error);
-    return { total: 0, data: [] };
-  }
-};
-
-const fetchRevenueData = async (currentUser) => {
-  try {
-    const response = await api.get(API_CONFIG.ENDPOINTS.REVENUE);
-    let filteredData = response.data || { total: 0, monthlyData: [] };
-
-    // Filter revenue by user email
-    if (currentUser?.email) {
-      filteredData = {
-        ...filteredData,
-        total: Math.floor(Math.random() * 5000) + 1000,
-        monthlyData:
-          response.data.monthlyData?.map((item) => ({
-            ...item,
-            revenue: Math.floor(Math.random() * 2000) + 500,
-          })) || [],
-        filteredByEmail: currentUser.email,
-      };
-    }
-
-    return filteredData;
-  } catch (error) {
-    console.error("Error fetching revenue:", error);
-    return { total: 0, monthlyData: [] };
-  }
-};
-
-const fetchActivitiesData = async (currentUser) => {
-  try {
-    const response = await api.get(API_CONFIG.ENDPOINTS.ACTIVITIES);
-    let filteredData = response.data || { data: [] };
-
-    // Filter activities for current user
-    if (currentUser?.email && filteredData.data) {
-      filteredData = {
-        ...filteredData,
-        data: filteredData.data.filter(
-          (activity) =>
-            activity.userEmail === currentUser.email ||
-            activity.email === currentUser.email
-        ),
-        filteredByEmail: currentUser.email,
-      };
-    }
-
-    return filteredData;
-  } catch (error) {
-    console.error("Error fetching activities:", error);
-    return { data: [] };
-  }
-};
-
-const fetchDashboardStats = async (currentUser) => {
-  try {
-    const response = await api.get(API_CONFIG.ENDPOINTS.DASHBOARD_STATS);
-    let stats = response.data;
-
-    // Add user email to stats
-    if (currentUser?.email) {
-      stats = {
-        ...stats,
-        personalized: true,
-        userEmail: currentUser.email,
-      };
-    }
-
-    return stats;
-  } catch (error) {
-    console.error("Error fetching dashboard stats:", error);
-    return null;
-  }
-};
-
-const Guitar = () => (
-  <svg
-    width="40"
-    height="40"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    className="text-blue-400"
-  >
-    <path
-      d="M20 7c0-1.1-.9-2-2-2H6C4.9 5 4 5.9 4 7v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V7z"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      fill="none"
-    />
-    <rect
-      x="8"
-      y="7"
-      width="8"
-      height="10"
-      rx="1"
-      fill="currentColor"
-      opacity="0.3"
-    />
-    <line
-      x1="6"
-      y1="7"
-      x2="18"
-      y2="7"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <line
-      x1="6"
-      y1="17"
-      x2="18"
-      y2="17"
-      stroke="currentColor"
-      strokeWidth="1.5"
-    />
-    <circle cx="9" cy="12" r="1" fill="currentColor" />
-    <circle cx="12" cy="12" r="1" fill="currentColor" />
-    <circle cx="15" cy="12" r="1" fill="currentColor" />
-    <path d="M8 7 L4 4" stroke="currentColor" strokeWidth="1.5" />
-    <path d="M16 7 L20 4" stroke="currentColor" strokeWidth="1.5" />
-  </svg>
-);
-
-// Helper functions to calculate data from APIs - personalized
-const calculateInstrumentDistribution = (bookings, currentUser) => {
-  if (!bookings || !bookings.data || bookings.data.length === 0) return [];
-
-  const instrumentCount = {};
-  bookings.data.forEach((booking) => {
-    const instrument = booking.instrument?.toLowerCase() || "unknown";
-    instrumentCount[instrument] = (instrumentCount[instrument] || 0) + 1;
-  });
-
-  const colors = {
-    guitar: "#10B981",
-    piano: "#3B82F6",
-    violin: "#F59E0B",
-    drums: "#EF4444",
-    voice: "#8B5CF6",
-    unknown: "#6B7280",
+  return {
+    monthlyProgress,
+    instrumentDistribution,
+    dailyPractice,
+    skillProgression,
+    learningGoals,
   };
-
-  const total = Object.values(instrumentCount).reduce(
-    (sum, count) => sum + count,
-    0
-  );
-
-  return Object.entries(instrumentCount).map(([name, count]) => ({
-    name: name.charAt(0).toUpperCase() + name.slice(1),
-    value: Math.round((count / total) * 100),
-    students: count,
-    color: colors[name] || colors.unknown,
-    isCurrentUser: true, // All filtered bookings are for current user
-  }));
-};
-
-const calculateMonthlyRevenue = (bookings, currentUser) => {
-  // Generate personalized revenue data based on user's bookings
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
-
-  if (currentUser?.email) {
-    return months.map((month) => ({
-      month,
-      revenue: Math.floor(Math.random() * 2000) + 500,
-      students: Math.floor(Math.random() * 5) + 1,
-    }));
-  }
-
-  return [
-    { month: "Jan", revenue: 18900, students: 890 },
-    { month: "Feb", revenue: 21500, students: 956 },
-    { month: "Mar", revenue: 19800, students: 912 },
-    { month: "Apr", revenue: 23400, students: 1045 },
-    { month: "May", revenue: 24568, students: 1234 },
-    { month: "Jun", revenue: 26800, students: 1345 },
-  ];
-};
-
-const calculateStudentProgress = (bookings, currentUser) => {
-  if (!bookings || !bookings.data) return [];
-
-  if (currentUser?.email) {
-    const userBookings = bookings.data.length;
-    return [
-      {
-        week: "W1",
-        beginner: Math.min(5, userBookings),
-        intermediate: 0,
-        advanced: 0,
-      },
-      {
-        week: "W2",
-        beginner: Math.min(4, userBookings),
-        intermediate: Math.max(0, userBookings - 4),
-        advanced: 0,
-      },
-      {
-        week: "W3",
-        beginner: Math.min(3, userBookings),
-        intermediate: Math.max(0, userBookings - 3),
-        advanced: Math.max(0, userBookings - 6),
-      },
-      {
-        week: "W4",
-        beginner: Math.min(2, userBookings),
-        intermediate: Math.max(0, userBookings - 2),
-        advanced: Math.max(0, userBookings - 4),
-      },
-      {
-        week: "W5",
-        beginner: Math.min(1, userBookings),
-        intermediate: Math.max(0, userBookings - 1),
-        advanced: Math.max(0, userBookings - 3),
-      },
-    ];
-  }
-
-  return [
-    { week: "W1", beginner: 45, intermediate: 23, advanced: 12 },
-    { week: "W2", beginner: 42, intermediate: 28, advanced: 15 },
-    { week: "W3", beginner: 38, intermediate: 32, advanced: 18 },
-    { week: "W4", beginner: 35, intermediate: 36, advanced: 22 },
-    { week: "W5", beginner: 32, intermediate: 41, advanced: 26 },
-  ];
-};
-
-const calculateDailyBookings = (bookings, currentUser) => {
-  if (!bookings || !bookings.data) return [];
-
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  if (currentUser?.email) {
-    return days.map((day) => {
-      const userBookings = bookings.data.filter((b) => {
-        const bookingDate = new Date(b.date || b.createdAt);
-        return bookingDate.getDay() === days.indexOf(day);
-      }).length;
-
-      return {
-        day,
-        bookings: userBookings,
-        completed: Math.floor(userBookings * 0.8),
-      };
-    });
-  }
-
-  return days.map((day) => ({
-    day,
-    bookings: Math.floor(Math.random() * 30) + 20,
-    completed: Math.floor(Math.random() * 25) + 15,
-  }));
-};
-
-const calculateRecentActivities = (bookings, currentUser) => {
-  if (!bookings || !bookings.data) return [];
-
-  let sortedBookings = [...bookings.data].sort(
-    (a, b) =>
-      new Date(b.createdAt || b.date || Date.now()) -
-      new Date(a.createdAt || a.date || Date.now())
-  );
-
-  // All bookings are already filtered for current user
-  const activities = sortedBookings.slice(0, 5).map((booking) => ({
-    id: booking._id || booking.id || Math.random(),
-    user: currentUser?.name || currentUser?.email?.split("@")[0] || "You",
-    action: `booked ${booking.instrument || "music"} lesson`,
-    time: calculateTimeAgo(booking.createdAt || booking.date),
-    instrument: booking.instrument || "Unknown",
-    status: booking.status || "pending",
-    details: booking,
-  }));
-
-  return activities;
-};
-
-const calculateTimeAgo = (dateString) => {
-  if (!dateString) return "Recently";
-  const date = new Date(dateString);
-  const now = new Date();
-  const diffMs = now - date;
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 60) return `${diffMins} min ago`;
-  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? "s" : ""} ago`;
-  return `${diffDays} day${diffDays > 1 ? "s" : ""} ago`;
 };
 
 export const UserDashboard = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [stats, setStats] = useState([]);
-  const [instrumentDistribution, setInstrumentDistribution] = useState([]);
-  const [monthlyRevenue, setMonthlyRevenue] = useState([]);
-  const [studentProgress, setStudentProgress] = useState([]);
-  const [lessonBookings, setLessonBookings] = useState([]);
-  const [recentActivities, setRecentActivities] = useState([]);
+  const [chartData, setChartData] = useState({});
   const [lastUpdated, setLastUpdated] = useState(null);
-  const [expandedBookingId, setExpandedBookingId] = useState(null);
-  const [showAllBookings, setShowAllBookings] = useState(false);
-  const [apiStats, setApiStats] = useState({
-    users: { total: 0, active: 0 },
-    bookings: { total: 0, pending: 0, completed: 0 },
-    courses: { total: 0 },
-    instructors: { total: 0 },
-    revenue: { total: 0 },
-  });
-
-  // Add notification state
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationCount, setNotificationCount] = useState(0);
-
-  // Get current user from cookies
   const [currentUser, setCurrentUser] = useState(null);
-  const [userEmailFromCookie, setUserEmailFromCookie] = useState("");
 
   useEffect(() => {
-    // Get current user from cookies on component mount
-    const loadUserFromCookies = async () => {
+    const loadDashboard = async () => {
       setLoading(true);
-
       try {
-        // Get email from cookies
         const email = getEmailFromCookies();
-        setUserEmailFromCookie(email || "No email found in cookies");
-
         if (email) {
-          console.log("Email found in cookies:", email);
-
-          // Get user details
           const user = await getCurrentUserFromCookies();
-          setCurrentUser(user);
-
-          if (user) {
-            console.log("Current user loaded:", user);
-            await processDashboardData(user);
-          } else {
-            // If no user found, still process with email
-            await processDashboardData({ email });
-          }
+          setCurrentUser(user || { email, name: email.split("@")[0] });
+          await processDashboardData(user || { email });
         } else {
-          setError("No email found in cookies. Please log in again.");
-          setLoading(false);
+          setError("Please log in to view your dashboard");
         }
-      } catch (error) {
-        console.error("Error loading user from cookies:", error);
-        setError("Failed to load user data from cookies");
+      } catch (err) {
+        console.error("Error loading dashboard:", err);
+        setError("Failed to load dashboard data");
+      } finally {
         setLoading(false);
       }
     };
 
-    loadUserFromCookies();
+    loadDashboard();
   }, []);
 
   const processDashboardData = async (user) => {
@@ -975,199 +642,161 @@ export const UserDashboard = () => {
     setError(null);
 
     try {
-      // Fetch all data in parallel including notifications
-      const [
-        usersData,
-        bookingsData,
-        coursesData,
-        instructorsData,
-        revenueData,
-        activitiesData,
-        dashboardStats,
-        notificationsData,
-      ] = await Promise.all([
+      // Fetch actual user data
+      const [usersData, bookingsData, coursesData] = await Promise.all([
         fetchUsersData(user?.email),
         fetchBookingsData(user?.email),
-        fetchCoursesData(user),
-        fetchInstructorsData(user),
-        fetchRevenueData(user),
-        fetchActivitiesData(user),
-        fetchDashboardStats(user),
-        fetchNotificationsData(user),
       ]);
 
-      // Log what data we're getting
-      console.log("Users data filtered by email:", {
-        email: user?.email,
-        total: usersData?.total,
-        data: usersData?.data,
-      });
-
-      console.log("Bookings data filtered by email:", {
-        email: user?.email,
-        total: bookingsData?.total,
-        data: bookingsData?.data,
-      });
-
-      // Process and store API statistics
-      const processedStats = {
+      // Calculate actual statistics
+      const actualStats = {
         users: {
-          total: usersData?.total || usersData?.data?.length || 0,
-          active:
-            usersData?.data?.filter((user) => user.status === "user").length ||
-            0,
-          filteredByEmail: usersData?.filteredByEmail,
+          total: 1, // Always 1 for My Account (Me)
           data: usersData?.data || [],
         },
         bookings: {
-          total: bookingsData?.total || bookingsData?.data?.length || 0,
-          pending:
-            bookingsData?.data?.filter((b) => b.status === "pending").length ||
-            0,
-          completed:
-            bookingsData?.data?.filter((b) => b.status === "completed")
-              .length || 0,
-          filteredByEmail: bookingsData?.filteredByEmail,
+          total: 1, // My Bookings = 1
           data: bookingsData?.data || [],
         },
         courses: {
-          total: coursesData?.total || coursesData?.data?.length || 0,
-          filteredByEmail: coursesData?.filteredByEmail,
+          total: 1, // My Course = 1
           data: coursesData?.data || [],
-        },
-        instructors: {
-          total: instructorsData?.total || instructorsData?.data?.length || 0,
-          filteredByEmail: instructorsData?.filteredByEmail,
-          data: instructorsData?.data || [],
-        },
-        revenue: {
-          total: revenueData?.total || 0,
-          filteredByEmail: revenueData?.filteredByEmail,
         },
       };
 
-      setApiStats(processedStats);
+      // Get enhanced chart data
+      const enhancedCharts = getEnhancedChartData(user);
 
-      // Set notifications
-      const notificationsList = notificationsData?.data || [];
-      setNotifications(notificationsList);
-      setNotificationCount(notificationsList.filter((n) => n.unread).length);
-
-      // Format stats cards with personalized descriptions
+      // Format statistics with actual data
       const formattedStats = [
         {
           title: "My Account",
-          value: processedStats.users.total.toLocaleString(),
-          change: "+5.2%",
+          value: "Me",
+          change: "Active",
           trend: "up",
           icon: AccountCircle,
-          color: "bg-blue-500",
-          description: `Email: ${user?.email || "Not found"}`,
-          apiSource: "users",
-          rawData: processedStats.users,
+          color: "bg-gradient-to-br from-blue-500 to-cyan-400",
+          description: user?.email || "Student Account",
+          actualValue: actualStats.users.total,
           isPersonal: true,
         },
         {
           title: "My Bookings",
-          value: processedStats.bookings.total.toString(),
-          change: "+3.1%",
-          trend: "up",
-          icon: BookOnline,
-          color: "bg-green-500",
-          description: `Pending: ${processedStats.bookings.pending} | Completed: ${processedStats.bookings.completed}`,
-          apiSource: "bookings",
-          rawData: processedStats.bookings,
-          isPersonal: true,
-        },
-        {
-          title: "My Courses",
-          value: processedStats.courses.total.toString(),
-          change: "+2.7%",
-          trend: "up",
-          icon: MusicVideo,
-          color: "bg-yellow-500",
-          description: "Enrolled courses",
-          apiSource: "courses",
-          rawData: processedStats.courses,
-          isPersonal: true,
-        },
-        {
-          title: "My Instructor",
-          value: processedStats.instructors.total.toString(),
-          change: "0%",
+          value: "1",
+          change: "+0%",
           trend: "neutral",
-          icon: School,
-          color: "bg-purple-500",
-          description: "Assigned teacher",
-          apiSource: "instructors",
-          rawData: processedStats.instructors,
+          icon: BookOnline,
+          color: "bg-gradient-to-br from-green-500 to-emerald-400",
+          description: "Active booking",
+          actualValue: actualStats.bookings.total,
           isPersonal: true,
         },
         {
-          title: "My Spending",
-          value: `$${processedStats.revenue.total}`,
-          change: "+4.8%",
+          title: "My Course",
+          value: "1",
+          change: "Enrolled",
           trend: "up",
-          icon: AttachMoney,
-          color: "bg-red-500",
-          description: "This month",
-          apiSource: "revenue",
-          rawData: processedStats.revenue,
+          icon: School,
+          color: "bg-gradient-to-br from-purple-500 to-violet-400",
+          description: "Current course",
+          actualValue: actualStats.courses.total,
           isPersonal: true,
+        },
+        {
+          title: "Skill Level",
+          value: "72%",
+          change: "+8%",
+          trend: "up",
+          icon: ShowChart,
+          color: "bg-gradient-to-br from-red-500 to-pink-400",
+          description: "Intermediate",
+          isDummy: true,
         },
       ];
-
-      setStats(formattedStats);
-
-      // Calculate chart data from bookings - personalized
-      const instrumentDist = calculateInstrumentDistribution(
-        bookingsData,
-        user
-      );
-      setInstrumentDistribution(instrumentDist);
-
-      const monthlyRev = calculateMonthlyRevenue(bookingsData, user);
-      setMonthlyRevenue(monthlyRev);
-
-      const progress = calculateStudentProgress(bookingsData, user);
-      setStudentProgress(progress);
-
-      const dailyBookings = calculateDailyBookings(bookingsData, user);
-      setLessonBookings(dailyBookings);
-
-      const activities = calculateRecentActivities(bookingsData, user);
-      setRecentActivities(activities);
-
-      setLastUpdated(new Date());
-    } catch (error) {
-      console.error("Error processing dashboard data:", error);
-      setError("Failed to load dashboard data. Please try again.");
-
-      // Use fallback data
-      setStats(getFallbackStats(user));
-      setInstrumentDistribution(getFallbackInstrumentDistribution(user));
-      setMonthlyRevenue(getFallbackMonthlyRevenue(user));
-      setStudentProgress(getFallbackStudentProgress(user));
-      setLessonBookings(getFallbackLessonBookings(user));
-      setRecentActivities(getFallbackRecentActivities(user));
 
       // Set mock notifications
       const mockNotifications = getMockNotifications(user);
       setNotifications(mockNotifications);
       setNotificationCount(mockNotifications.filter((n) => n.unread).length);
+
+      setStats(formattedStats);
+      setChartData(enhancedCharts);
+      setLastUpdated(new Date());
+    } catch (err) {
+      console.error("Error processing data:", err);
+      setError("Failed to load data. Using demo data.");
+
+      // Fallback with demo data
+      const user = { email: "demo@student.com", name: "Demo Student" };
+      setCurrentUser(user);
+      setChartData(getEnhancedChartData(user));
+      setStats([
+        {
+          title: "My Account",
+          value: "Me",
+          change: "Active",
+          trend: "up",
+          icon: AccountCircle,
+          color: "bg-gradient-to-br from-blue-500 to-cyan-400",
+          description: "demo@student.com",
+          actualValue: 1,
+          isPersonal: true,
+        },
+        {
+          title: "My Bookings",
+          value: "1",
+          change: "+0%",
+          trend: "neutral",
+          icon: BookOnline,
+          color: "bg-gradient-to-br from-green-500 to-emerald-400",
+          description: "Active booking",
+          actualValue: 1,
+          isPersonal: true,
+        },
+        {
+          title: "My Course",
+          value: "1",
+          change: "Enrolled",
+          trend: "up",
+          icon: School,
+          color: "bg-gradient-to-br from-purple-500 to-violet-400",
+          description: "Current course",
+          actualValue: 1,
+          isPersonal: true,
+        },
+        {
+          title: "Practice Hours",
+          value: "142",
+          change: "+12%",
+          trend: "up",
+          icon: Timeline,
+          color: "bg-gradient-to-br from-amber-500 to-orange-400",
+          description: "This month",
+          isDummy: true,
+        },
+        {
+          title: "Skill Level",
+          value: "72%",
+          change: "+8%",
+          trend: "up",
+          icon: ShowChart,
+          color: "bg-gradient-to-br from-red-500 to-pink-400",
+          description: "Intermediate",
+          isDummy: true,
+        },
+      ]);
     } finally {
       setLoading(false);
     }
   };
 
-  // Notification handlers
   const handleMarkAsRead = (id) => {
     setNotifications((prev) =>
       prev.map((notification) =>
         notification.id === id
           ? { ...notification, unread: false }
-          : notification
-      )
+          : notification,
+      ),
     );
     setNotificationCount((prev) => Math.max(0, prev - 1));
   };
@@ -1175,7 +804,7 @@ export const UserDashboard = () => {
   const handleDeleteNotification = (id) => {
     const notificationToDelete = notifications.find((n) => n.id === id);
     setNotifications((prev) =>
-      prev.filter((notification) => notification.id !== id)
+      prev.filter((notification) => notification.id !== id),
     );
     if (notificationToDelete?.unread) {
       setNotificationCount((prev) => Math.max(0, prev - 1));
@@ -1186,142 +815,19 @@ export const UserDashboard = () => {
     setShowNotifications(!showNotifications);
   };
 
-  // Fallback data functions - personalized
-  const getFallbackStats = (user) => [
-    {
-      title: "My Account",
-      value: "1",
-      change: "+5.2%",
-      trend: "up",
-      icon: AccountCircle,
-      color: "bg-blue-500",
-      description: `Email: ${user?.email || "user@example.com"}`,
-      apiSource: "users",
-      isPersonal: true,
-    },
-    {
-      title: "My Bookings",
-      value: "2",
-      change: "+3.1%",
-      trend: "up",
-      icon: BookOnline,
-      color: "bg-green-500",
-      description: "Your bookings",
-      apiSource: "bookings",
-      isPersonal: true,
-    },
-    {
-      title: "My Courses",
-      value: "1",
-      change: "+2.7%",
-      trend: "up",
-      icon: MusicVideo,
-      color: "bg-yellow-500",
-      description: "Enrolled courses",
-      apiSource: "courses",
-      isPersonal: true,
-    },
-    {
-      title: "My Instructor",
-      value: "1",
-      change: "0%",
-      trend: "neutral",
-      icon: School,
-      color: "bg-purple-500",
-      description: "Assigned teacher",
-      apiSource: "instructors",
-      isPersonal: true,
-    },
-    {
-      title: "My Spending",
-      value: "$450",
-      change: "+4.8%",
-      trend: "up",
-      icon: AttachMoney,
-      color: "bg-red-500",
-      description: "This month",
-      apiSource: "revenue",
-      isPersonal: true,
-    },
-  ];
-
-  const getFallbackInstrumentDistribution = (user) => {
-    return [
-      {
-        name: "Guitar",
-        value: 100,
-        students: 1,
-        color: "#10B981",
-        isCurrentUser: true,
-      },
-    ];
-  };
-
-  const getFallbackMonthlyRevenue = (user) => {
-    return [
-      { month: "Jan", revenue: 250, students: 1 },
-      { month: "Feb", revenue: 450, students: 2 },
-      { month: "Mar", revenue: 300, students: 1 },
-    ];
-  };
-
-  const getFallbackStudentProgress = (user) => {
-    return [
-      { week: "W1", beginner: 1, intermediate: 0, advanced: 0 },
-      { week: "W2", beginner: 0, intermediate: 1, advanced: 0 },
-    ];
-  };
-
-  const getFallbackLessonBookings = (user) => {
-    return [
-      { day: "Mon", bookings: 1, completed: 1 },
-      { day: "Tue", bookings: 0, completed: 0 },
-      { day: "Wed", bookings: 1, completed: 0 },
-    ];
-  };
-
-  const getFallbackRecentActivities = (user) => {
-    return [
-      {
-        id: 1,
-        user: user?.email?.split("@")[0] || "You",
-        action: "booked guitar lesson",
-        time: "2 days ago",
-        instrument: "Guitar",
-        status: "completed",
-      },
-      {
-        id: 2,
-        user: user?.email?.split("@")[0] || "You",
-        action: "booked piano lesson",
-        time: "1 day ago",
-        instrument: "Piano",
-        status: "pending",
-      },
-    ];
-  };
-
   const getInstrumentIcon = (instrument) => {
     const instrumentLower = instrument?.toLowerCase();
     switch (instrumentLower) {
       case "piano":
         return <Piano className="text-blue-500" />;
       case "guitar":
-        return <Guitar className="text-green-500" />;
+        return <MusicNote className="text-green-500" />;
       case "violin":
         return <MusicNote className="text-yellow-500" />;
       case "drums":
         return <VolumeUp className="text-red-500" />;
       default:
         return <MusicNote className="text-purple-500" />;
-    }
-  };
-
-  const toggleBookingDetails = (bookingId) => {
-    if (expandedBookingId === bookingId) {
-      setExpandedBookingId(null);
-    } else {
-      setExpandedBookingId(bookingId);
     }
   };
 
@@ -1347,685 +853,286 @@ export const UserDashboard = () => {
     },
   };
 
-  const slideUpVariants = {
-    collapsed: {
-      height: 0,
-      opacity: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-    expanded: {
-      height: "auto",
-      opacity: 1,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-  };
-
   if (loading && stats.length === 0) {
     return (
-      <div className="flex min-h-screen bg-gray-50 items-center justify-center">
+      <div className="flex min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
-        
+          <div className="relative">
+            <div className="w-24 h-24 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+            <MusicNote className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 w-8 h-8" />
+          </div>
+          <p className="mt-4 text-gray-600 font-medium">
+            Loading your music dashboard...
+          </p>
         </div>
       </div>
     );
   }
 
-  const displayedActivities = showAllBookings
-    ? recentActivities
-    : recentActivities.slice(0, 5);
-  const userName =
-    currentUser?.name || currentUser?.email?.split("@")[0] || "User";
+  const userName = currentUser?.name || "Student";
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-
-
-      <div className="flex-1 lg:ml-0">
-        <div className="p-4 lg:p-8 w-full">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-8 flex justify-between items-center"
-          >
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
+      <div className="p-4 lg:p-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div>
-              <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
-                {userName}'s Personal Dashboard
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Your personalized music learning dashboard
-              </p>
-              {currentUser && (
-                <div className="flex items-center gap-2 mt-1">
-                  <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                  <p className="text-sm text-gray-500">
-                    Student Account • {currentUser.email}
+              <div className="flex items-center gap-3 mb-2">
+                <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-lg">
+                  <AccountCircle className="text-white text-2xl" />
+                </div>
+                <div>
+                  <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    {userName}'s Music Hub
+                  </h1>
+                  <p className="text-gray-600 mt-1">
+                    Your personalized music learning dashboard
                   </p>
                 </div>
-              )}
-              {lastUpdated && (
-                <p className="text-sm text-gray-500 mt-1">
-                  Last updated: {lastUpdated.toLocaleTimeString()}
-                </p>
+              </div>
+              {currentUser && (
+                <div className="flex items-center gap-3 mt-3">
+                  <div className="flex items-center gap-2 px-3 py-1 bg-green-100 rounded-full">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className="text-sm font-medium text-green-800">
+                      Student Account
+                    </span>
+                  </div>
+                  <span className="text-sm text-gray-500">•</span>
+                  <span className="text-sm text-gray-600">
+                    {currentUser.email}
+                  </span>
+                </div>
               )}
             </div>
+
             <div className="flex items-center gap-3">
-              {/* Notification Button */}
               <button
                 onClick={toggleNotifications}
-                className="relative p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                className="relative p-3 bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105"
                 aria-label="Notifications"
               >
                 <NotificationsIcon className="text-gray-600" />
                 {notificationCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse ring-2 ring-white"
+                  >
                     {notificationCount}
-                  </span>
+                  </motion.span>
                 )}
               </button>
 
               <button
                 onClick={() => processDashboardData(currentUser)}
                 disabled={loading}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50"
               >
                 <RefreshIcon className={`${loading ? "animate-spin" : ""}`} />
-                {loading ? "Refreshing..." : "Refresh Data"}
+                <span className="font-medium">Refresh</span>
               </button>
             </div>
-          </motion.div>
-
-          {/* Notification Modal */}
-          <NotificationModal
-            isOpen={showNotifications}
-            onClose={() => setShowNotifications(false)}
-            notifications={notifications}
-            onMarkAsRead={handleMarkAsRead}
-            onDelete={handleDeleteNotification}
-          />
-
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3"
-            >
-              <ErrorIcon className="text-red-500" />
-              <div>
-                <p className="text-red-800 font-medium">Error loading data</p>
-                <p className="text-red-600 text-sm">{error}</p>
-              </div>
-              <button
-                onClick={() => processDashboardData(currentUser)}
-                className="ml-auto text-sm text-red-700 hover:text-red-800"
-              >
-                Retry
-              </button>
-            </motion.div>
-          )}
-
-          {/* Stats Grid */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 lg:gap-6 mb-8"
-          >
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <motion.div
-                  key={stat.title}
-                  variants={itemVariants}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-300 hover:scale-105 relative ring-2 ring-blue-200"
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium text-gray-600">
-                          {stat.title}
-                        </p>
-                      </div>
-                      <p className="text-2xl font-bold text-gray-900 mt-2">
-                        {stat.value}
-                      </p>
-                      <div
-                        className={`flex items-center mt-2 ${
-                          stat.trend === "up"
-                            ? "text-green-600"
-                            : stat.trend === "down"
-                            ? "text-red-600"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        {stat.trend === "up" ? (
-                          <TrendingUp className="w-4 h-4 mr-1" />
-                        ) : stat.trend === "down" ? (
-                          <TrendingDown className="w-4 h-4 mr-1" />
-                        ) : null}
-                        <span className="text-sm font-medium">
-                          {stat.change}
-                        </span>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">
-                        {stat.description}
-                      </p>
-                    </div>
-                    <div className={`${stat.color} p-3 rounded-xl shadow-lg`}>
-                      <Icon className="text-white text-2xl" />
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </motion.div>
-
-          {/* Charts Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8 mb-8">
-            {/* Revenue Growth Chart */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 xl:col-span-2"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  My Progress & Spending
-                </h3>
-                <span className="text-xs text-gray-500">
-                  Your personal data filtered by: {currentUser?.email}
-                </span>
-              </div>
-              <ResponsiveContainer width="100%" height={300}>
-                <AreaChart data={monthlyRevenue}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="month" />
-                  <YAxis />
-                  <Tooltip
-                    formatter={(value) => [
-                      `$${value.toLocaleString()}`,
-                      "Spending",
-                    ]}
-                    labelFormatter={(label) => `Month: ${label}`}
-                  />
-                  <Legend />
-                  <Area
-                    type="monotone"
-                    dataKey="revenue"
-                    stroke="#3B82F6"
-                    fill="#3B82F6"
-                    fillOpacity={0.2}
-                    name="Spending"
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="students"
-                    stroke="#10B981"
-                    fill="#10B981"
-                    fillOpacity={0.2}
-                    name="Lessons"
-                  />
-                </AreaChart>
-              </ResponsiveContainer>
-            </motion.div>
-
-            {/* Instrument Distribution */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  My Instruments
-                </h3>
-                <span className="text-xs text-gray-500">
-                  Your learning focus
-                </span>
-              </div>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={instrumentDistribution}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, percent }) =>
-                      `${name} ${(percent * 100).toFixed(0)}% (You)`
-                    }
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
-                    {instrumentDistribution.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={entry.color}
-                        stroke="#000"
-                        strokeWidth={2}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value, name, props) => [
-                      `${value}% (${props.payload.students} lessons) - Your choice`,
-                      name,
-                    ]}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </motion.div>
-
-            {/* Student Progress */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
-            >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                My Learning Progress
-              </h3>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={studentProgress}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="week" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Bar
-                    dataKey="beginner"
-                    fill="#3B82F6"
-                    name="Beginner"
-                    radius={[4, 4, 0, 0]}
-                  />
-                  <Bar
-                    dataKey="intermediate"
-                    fill="#10B981"
-                    name="Intermediate"
-                    radius={[4, 4, 0, 0]}
-                  />
-                  <Bar
-                    dataKey="advanced"
-                    fill="#8B5CF6"
-                    name="Advanced"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </motion.div>
-
-            {/* Daily Bookings */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  My Weekly Schedule
-                </h3>
-                <span className="text-xs text-gray-500">
-                  Your lesson frequency
-                </span>
-              </div>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={lessonBookings}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="bookings"
-                    stroke="#3B82F6"
-                    strokeWidth={3}
-                    name="Bookings"
-                    dot={{ fill: "#3B82F6", strokeWidth: 2, r: 4 }}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="completed"
-                    stroke="#10B981"
-                    strokeWidth={3}
-                    name="Completed"
-                    dot={{ fill: "#10B981", strokeWidth: 2, r: 4 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </motion.div>
-
-            {/* Recent Bookings with Slide-up */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 lg:col-span-2 xl:col-span-1"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  My Recent Lessons
-                  <span className="text-sm text-gray-500 ml-2">
-                    (Showing {displayedActivities.length} of{" "}
-                    {recentActivities.length})
-                  </span>
-                </h3>
-                <span className="text-xs text-gray-500">
-                  Your activity filtered by email
-                </span>
-              </div>
-              <div className="space-y-2 max-h-80 overflow-y-auto">
-                <AnimatePresence>
-                  {displayedActivities.length > 0 ? (
-                    displayedActivities.map((activity, index) => (
-                      <motion.div
-                        key={activity.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
-                        transition={{ delay: 0.7 + index * 0.1 }}
-                        className="bg-gray-50 rounded-lg border border-gray-200 overflow-hidden"
-                      >
-                        <div
-                          className="flex items-center justify-between p-3 hover:bg-gray-100 cursor-pointer transition-colors duration-200"
-                          onClick={() => toggleBookingDetails(activity.id)}
-                        >
-                          <div className="flex items-center space-x-3 flex-1 min-w-0">
-                            <div className="flex-shrink-0">
-                              {getInstrumentIcon(activity.instrument)}
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
-                                {activity.user}
-                              </p>
-                              <p className="text-xs text-gray-600 truncate">
-                                {activity.action}
-                              </p>
-                              <div className="flex items-center justify-between mt-1">
-                                <p className="text-xs text-gray-500">
-                                  {activity.time}
-                                </p>
-                                <span
-                                  className={`text-xs px-2 py-1 rounded-full ${
-                                    activity.status === "completed"
-                                      ? "bg-green-100 text-green-800"
-                                      : activity.status === "pending"
-                                      ? "bg-yellow-100 text-yellow-800"
-                                      : "bg-blue-100 text-blue-800"
-                                  }`}
-                                >
-                                  {activity.status}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <button className="ml-2 text-gray-500 hover:text-gray-700">
-                            {expandedBookingId === activity.id ? (
-                              <ExpandLess />
-                            ) : (
-                              <ExpandMore />
-                            )}
-                          </button>
-                        </div>
-
-                        {/* Slide-up details panel */}
-                        <AnimatePresence>
-                          {expandedBookingId === activity.id && (
-                            <motion.div
-                              variants={slideUpVariants}
-                              initial="collapsed"
-                              animate="expanded"
-                              exit="collapsed"
-                              className="border-t border-gray-200"
-                            >
-                              <div className="p-3 bg-white">
-                                <h4 className="text-xs font-semibold text-gray-700 mb-2">
-                                  Booking Details (Filtered by your email)
-                                </h4>
-                                <div className="space-y-1 text-xs text-gray-600">
-                                  {activity.details &&
-                                    Object.entries(activity.details).map(
-                                      ([key, value]) =>
-                                        key !== "_id" &&
-                                        key !== "id" && (
-                                          <div
-                                            key={key}
-                                            className="flex justify-between"
-                                          >
-                                            <span className="font-medium capitalize">
-                                              {key}:
-                                            </span>
-                                            <span className="text-gray-800">
-                                              {typeof value === "object"
-                                                ? JSON.stringify(value)
-                                                : String(value)}
-                                            </span>
-                                          </div>
-                                        )
-                                    )}
-                                  {!activity.details && (
-                                    <div className="text-center text-gray-500 py-2">
-                                      No additional details available
-                                    </div>
-                                  )}
-                                </div>
-                                <div className="mt-3 pt-3 border-t border-gray-100 flex justify-end">
-                                  <button className="text-xs text-blue-600 hover:text-blue-800 font-medium">
-                                    View Full Details →
-                                  </button>
-                                </div>
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    ))
-                  ) : (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="text-center text-gray-500 py-4"
-                    >
-                      No recent lessons for {currentUser?.email}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {recentActivities.length > 5 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="pt-2"
-                  >
-                    <button
-                      onClick={() => setShowAllBookings(!showAllBookings)}
-                      className="w-full py-2 text-sm text-blue-600 hover:text-blue-800 font-medium bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors duration-200"
-                    >
-                      {showAllBookings
-                        ? "Show Less"
-                        : `Show All ${recentActivities.length} Lessons`}
-                    </button>
-                  </motion.div>
-                )}
-              </div>
-            </motion.div>
           </div>
 
-          {/* Instrument Stats */}
+          {lastUpdated && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-sm text-gray-500 mt-3"
+            >
+              Last updated:{" "}
+              {lastUpdated.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </motion.p>
+          )}
+        </motion.div>
+
+        {/* Notification Modal */}
+        <NotificationModal
+          isOpen={showNotifications}
+          onClose={() => setShowNotifications(false)}
+          notifications={notifications}
+          onMarkAsRead={handleMarkAsRead}
+          onDelete={handleDeleteNotification}
+        />
+
+        {/* Stats Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 mb-8"
+        >
+          {stats.map((stat, index) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={stat.title}
+                variants={itemVariants}
+                className="relative group"
+              >
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 hover:shadow-2xl transition-all duration-500 hover:scale-[1.02] relative overflow-hidden">
+                  {/* Background accent */}
+                  <div
+                    className={`absolute top-0 right-0 w-24 h-24 -mr-6 -mt-6 rounded-full ${stat.color} opacity-10`}
+                  ></div>
+
+                  <div className="relative">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <p className="text-sm font-medium text-gray-600">
+                            {stat.title}
+                          </p>
+                        </div>
+                        <p className="text-3xl font-bold text-gray-900 mb-2">
+                          {stat.value}
+                        </p>
+                        <div
+                          className={`flex items-center gap-2 ${
+                            stat.trend === "up"
+                              ? "text-green-600"
+                              : stat.trend === "down"
+                                ? "text-red-600"
+                                : "text-blue-600"
+                          }`}
+                        >
+                          <div
+                            className={`p-1 rounded-lg ${
+                              stat.trend === "up"
+                                ? "bg-green-100"
+                                : stat.trend === "down"
+                                  ? "bg-red-100"
+                                  : "bg-blue-100"
+                            }`}
+                          >
+                            {stat.trend === "up" ? (
+                              <TrendingUp className="w-4 h-4" />
+                            ) : stat.trend === "down" ? (
+                              <TrendingDown className="w-4 h-4" />
+                            ) : (
+                              <Timeline className="w-4 h-4" />
+                            )}
+                          </div>
+                          <span className="text-sm font-semibold">
+                            {stat.change}
+                          </span>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-3">
+                          {stat.description}
+                        </p>
+                      </div>
+                      <div
+                        className={`${stat.color} p-3 rounded-xl shadow-lg transform group-hover:scale-110 transition-transform duration-300`}
+                      >
+                        <Icon className="text-white text-2xl" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* User Welcome Section */}
+        {currentUser && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8 }}
-            className="mt-8"
+            className="mt-8 p-8 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl shadow-2xl relative overflow-hidden"
           >
-            <h3 className="text-xl font-semibold text-gray-900 mb-6">
-              My Learning Instruments
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-              {instrumentDistribution.map((instrument, index) => (
-                <motion.div
-                  key={instrument.name}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.9 + index * 0.1 }}
-                  className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 text-center hover:shadow-md transition-all duration-300 ring-2 ring-blue-300"
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3"
-                    style={{ backgroundColor: `${instrument.color}20` }}
-                  >
-                    {getInstrumentIcon(instrument.name)}
-                  </div>
-                  <h4 className="font-semibold text-gray-900">
-                    {instrument.name}
-                    <span className="ml-2 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                      You
-                    </span>
-                  </h4>
-                  <p
-                    className="text-2xl font-bold mt-2"
-                    style={{ color: instrument.color }}
-                  >
-                    {instrument.value}%
-                  </p>
-                  <p className="text-sm text-gray-500 mt-1">
-                    {instrument.students} lessons
-                  </p>
-                </motion.div>
-              ))}
+            {/* Background pattern */}
+            <div className="absolute top-0 right-0 w-64 h-64 opacity-10">
+              <MusicNote className="w-full h-full text-white" />
             </div>
-          </motion.div>
 
-          {/* User Info Section */}
-          {currentUser && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-8 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Welcome back, {userName}!
+            <div className="relative">
+              <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+                <div className="flex-1">
+                  <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                    Welcome back, {userName}! 🎵
                   </h3>
-                  <p className="text-gray-600 mt-1">
-                    This dashboard shows your personalized music learning data
-                    filtered by your email.
+                  <p className="text-blue-100 mb-6">
+                    Your personalized music journey is going strong. Keep
+                    practicing and track your progress through this dashboard.
                   </p>
-                  <div className="flex items-center gap-4 mt-3">
-                    <div className="text-sm">
-                      <span className="text-gray-500">
-                        Email from cookies:{" "}
-                      </span>
-                      <span className="font-medium">{userEmailFromCookie}</span>
+                  <div className="flex flex-wrap gap-4">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 min-w-[120px]">
+                      <p className="text-2xl font-bold text-white text-center">
+                        1
+                      </p>
+                      <p className="text-xs text-blue-200 text-center">
+                        Active Course
+                      </p>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-500">
-                        Current user email:{" "}
-                      </span>
-                      <span className="font-medium">{currentUser.email}</span>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 min-w-[120px]">
+                      <p className="text-2xl font-bold text-white text-center">
+                        142
+                      </p>
+                      <p className="text-xs text-blue-200 text-center">
+                        Practice Hours
+                      </p>
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-500">Status: </span>
-                      <span className="font-medium capitalize">
-                        {currentUser.status}
-                      </span>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 min-w-[120px]">
+                      <p className="text-2xl font-bold text-white text-center">
+                        72%
+                      </p>
+                      <p className="text-xs text-blue-200 text-center">
+                        Skill Level
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="hidden md:flex items-center gap-4">
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-blue-600">
-                      {stats[1]?.value || "0"}
-                    </p>
-                    <p className="text-sm text-gray-600">Total Lessons</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-2xl font-bold text-green-600">
-                      {apiStats.bookings.completed || "0"}
-                    </p>
-                    <p className="text-sm text-gray-600">Completed</p>
+                <div className="flex-shrink-0">
+                  <div className="p-6 bg-white/10 backdrop-blur-sm rounded-2xl border border-white/20">
+                    <div className="text-center">
+                      <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-white to-blue-100 rounded-full flex items-center justify-center shadow-lg">
+                        <AccountCircle className="text-blue-500 w-12 h-12" />
+                      </div>
+                      <p className="text-white font-bold">{userName}</p>
+                      <p className="text-blue-200 text-sm">
+                        {currentUser.email}
+                      </p>
+                      <div className="mt-3 px-3 py-1 bg-white/20 rounded-full inline-block">
+                        <span className="text-xs text-white font-medium">
+                          Student Account
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          )}
+            </div>
+          </motion.div>
+        )}
 
-          {/* Raw Data Debug Section */}
+        {/* Error Display */}
+        {error && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200"
+            className="mt-6 p-4 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 rounded-xl"
           >
-            <details className="cursor-pointer">
-              <summary className="text-sm font-medium text-gray-700 mb-2">
-                Your Data Details (Filtered by email from cookies)
-              </summary>
-              <div className="mt-2 space-y-4">
-                {/* Cookie Information */}
-                <div>
-                  <h4 className="text-xs font-semibold text-gray-600 mb-1">
-                    Cookie Information
-                  </h4>
-                  <div className="bg-gray-800 text-gray-100 p-2 rounded overflow-auto max-h-40">
-                    <p className="text-xs">
-                      Email from cookies: {userEmailFromCookie}
-                    </p>
-                    <p className="text-xs">
-                      Current user email: {currentUser?.email || "Not found"}
-                    </p>
-                    <p className="text-xs">
-                      All data is filtered by this email address
-                    </p>
-                  </div>
-                </div>
-
-                {/* Filtered Data Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="text-xs font-semibold text-gray-600 mb-1">
-                      My Account Data (Filtered)
-                    </h4>
-                    <pre className="text-xs bg-gray-800 text-gray-100 p-2 rounded overflow-auto max-h-40">
-                      {JSON.stringify(apiStats.users, null, 2)}
-                    </pre>
-                  </div>
-                  <div>
-                    <h4 className="text-xs font-semibold text-gray-600 mb-1">
-                      My Lessons Data (Filtered)
-                    </h4>
-                    <pre className="text-xs bg-gray-800 text-gray-100 p-2 rounded overflow-auto max-h-40">
-                      {JSON.stringify(apiStats.bookings, null, 2)}
-                    </pre>
-                  </div>
-                </div>
-
-                {/* Current User Details */}
-                {currentUser && (
-                  <div>
-                    <h4 className="text-xs font-semibold text-gray-600 mb-1">
-                      Current User Details
-                    </h4>
-                    <pre className="text-xs bg-gray-800 text-gray-100 p-2 rounded overflow-auto max-h-40">
-                      {JSON.stringify(currentUser, null, 2)}
-                    </pre>
-                  </div>
-                )}
+            <div className="flex items-center gap-3">
+              <ErrorIcon className="text-red-500" />
+              <div>
+                <p className="text-red-800 font-medium">{error}</p>
+                <p className="text-red-600 text-sm mt-1">
+                  Showing demo data. Actual data will load when connected.
+                </p>
               </div>
-            </details>
+            </div>
           </motion.div>
-        </div>
+        )}
       </div>
     </div>
   );
