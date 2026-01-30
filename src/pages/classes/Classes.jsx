@@ -11,94 +11,56 @@ const PlayIcon = ({ className = "w-6 h-6" }) => (
   </svg>
 );
 
-const PauseIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
-  </svg>
-);
 
-const VolumeIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-  </svg>
-);
 
-const VolumeOffIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
-  </svg>
-);
 
-const FullscreenIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
-  </svg>
-);
 
-const SettingsIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-  </svg>
-);
 
-const CloseIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-  </svg>
-);
 
-const StarIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-  </svg>
-);
 
-const MusicNoteIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-  </svg>
-);
 
-const LibraryIcon = ({ className = "w-6 h-6" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z" />
-  </svg>
-);
 
-const PianoIcon = ({ className = "w-8 h-8" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 11.5h.25V19h-4.5v-4.5H10c.55 0 1-.45 1-1V5h2v8.5c0 .55.45 1 1 1zM5 5h2v8.5c0 .55.45 1 1 1h.25V19H5V5zm14 14h-3.25v-4.5H16c.55 0 1-.45 1-1V5h2v14z" />
-  </svg>
-);
 
-const GuitarIcon = ({ className = "w-8 h-8" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.21c.28-.26.36-.65.25-1C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1zM12 3v10l3-3h6V3h-9z" />
-  </svg>
-);
 
-const MicIcon = ({ className = "w-8 h-8" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 14c1.66 0 2.99-1.34 2.99-3L15 5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3-2.54 5.1-5.3 5.1S6.7 14 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.48 6-3.3 6-6.72h-1.7z" />
-  </svg>
-);
 
-const DrumsIcon = ({ className = "w-8 h-8" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M6 13c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm6-10C9.8 3 8 4.8 8 7s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm6 10c-2.2 0-4 1.8-4 4s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4z" />
-  </svg>
-);
 
-const ChevronLeftIcon = ({ className = "w-5 h-5" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
-  </svg>
-);
 
-const ChevronRightIcon = ({ className = "w-5 h-5" }) => (
-  <svg className={className} fill="currentColor" viewBox="0 0 24 24">
-    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
-  </svg>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+
+// Material Icons
+const PlayArrow = ({ className = "w-6 h-6" }) => (
+  <span className={`material-icons ${className}`}>play_arrow</span>
 );
 
 const LoadingIcon = ({ className = "w-6 h-6" }) => (
@@ -191,32 +153,13 @@ const CustomVideoPlayer = ({
     }
   };
 
-  const loadYouTubePlayer = () => {
-    if (playerRef.current) {
-      playerRef.current.destroy();
-    }
+const Close = ({ className = "w-6 h-6" }) => (
+  <span className={`material-icons ${className}`}>close</span>
+);
 
-    playerRef.current = new window.YT.Player('youtube-player', {
-      videoId: videoId,
-      playerVars: {
-        autoplay: autoPlay ? 1 : 0,
-        controls: 0,
-        disablekb: 0,
-        fs: 0,
-        modestbranding: 1,
-        rel: 0,
-        showinfo: 0,
-        iv_load_policy: 3,
-        playsinline: 1,
-        enablejsapi: 1,
-      },
-      events: {
-        onReady: onPlayerReady,
-        onStateChange: onPlayerStateChange,
-        onError: onPlayerError,
-      },
-    });
-  };
+const Star = ({ className = "w-6 h-6" }) => (
+  <span className={`material-icons ${className}`}>star</span>
+);
 
   const onPlayerReady = (event) => {
     setDuration(event.target.getDuration());
@@ -244,18 +187,13 @@ const CustomVideoPlayer = ({
     }
   };
 
-  const onPlayerError = (event) => {
-    console.error('YouTube Player Error:', event.data);
-  };
+const Guitar = ({ className = "w-8 h-8" }) => (
+  <span className={`material-icons ${className}`}>piano</span>
+);
 
-  const startTimeUpdateInterval = () => {
-    const interval = setInterval(() => {
-      if (playerRef.current && playerRef.current.getCurrentTime) {
-        setCurrentTime(playerRef.current.getCurrentTime());
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  };
+const Mic = ({ className = "w-8 h-8" }) => (
+  <span className={`material-icons ${className}`}>mic</span>
+);
 
   const hideControlsAfterDelay = () => {
     if (controlsTimeoutRef.current) {
@@ -280,42 +218,44 @@ const CustomVideoPlayer = ({
     }
   };
 
-  const toggleMute = () => {
-    if (playerRef.current) {
-      if (isMuted) {
-        playerRef.current.unMute();
-        setVolume(1);
-      } else {
-        playerRef.current.mute();
-        setVolume(0);
-      }
-      setIsMuted(!isMuted);
-    }
-  };
+  return (
+    <div className="relative cursor-pointer group" onClick={onClick}>
+      <img
+        src={getYouTubeThumbnail(youtubeId)}
+        alt={title}
+        className="w-full h-48 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105"
+        onError={(e) => {
+          e.target.src = `https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=300&h=200&fit=crop`;
+        }}
+      />
 
-  const handleVolumeChange = (e) => {
-    const newVolume = parseFloat(e.target.value);
-    if (playerRef.current) {
-      playerRef.current.setVolume(newVolume * 100);
-      setVolume(newVolume);
-      setIsMuted(newVolume === 0);
-    }
-  };
+      <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+        >
+          <PlayArrow className="text-white w-8 h-8" />
+        </motion.div>
+      </div>
+      
+      <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+        ▶ Play
+      </div>
+    </div>
+  );
+};
 
-  const handleTimeChange = (e) => {
-    const newTime = parseFloat(e.target.value);
-    if (playerRef.current) {
-      playerRef.current.seekTo(newTime, true);
-      setCurrentTime(newTime);
-    }
-  };
+// Simple YouTube Player Component
+const SimpleYouTubePlayer = ({ videoId, title, onClose }) => {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const playerContainerRef = useRef(null);
+  const settingsRef = useRef(null);
 
-  const changePlaybackRate = (rate) => {
-    if (playerRef.current && playerRef.current.setPlaybackRate) {
-      playerRef.current.setPlaybackRate(rate);
-      setPlaybackRate(rate);
-      setShowSettings(false);
-    }
+  // Generate YouTube embed URL
+  const getYouTubeEmbedUrl = () => {
+    return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&controls=1&showinfo=0&playsinline=1`;
   };
 
   const toggleFullscreen = () => {
@@ -540,13 +480,29 @@ const CustomVideoPlayer = ({
               </div>
             </div>
 
-            <div className="flex items-center gap-2 text-white text-sm">
-              <span>HD</span>
-              <span>•</span>
-              <span>1080p</span>
-            </div>
-          </div>
-        </div>
+      <div className="absolute top-4 right-4 flex gap-2">
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={toggleFullscreen}
+          className="w-10 h-10 bg-black/50 rounded-full flex items-center justify-center backdrop-blur-sm"
+          title="Fullscreen"
+        >
+          {isFullscreen ? (
+            <FullscreenExit className="text-white w-5 h-5" />
+          ) : (
+            <Fullscreen className="text-white w-5 h-5" />
+          )}
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={onClose}
+          className="w-10 h-10 bg-red-600/50 rounded-full flex items-center justify-center backdrop-blur-sm"
+          title="Close"
+        >
+          <Close className="text-white w-5 h-5" />
+        </motion.button>
       </div>
     </div>
   );
@@ -872,6 +828,7 @@ export const Classes = () => {
     }
   };
 
+  // Categories for filtering
   const categories = [
     { id: "all", name: "All Videos", icon: <LibraryIcon className="w-5 h-5" />, count: videos.length },
     { id: "Ndizy", name: "Ndizy Music", icon: <MusicNoteIcon className="w-5 h-5" />, count: videos.length },
@@ -903,21 +860,28 @@ export const Classes = () => {
     setIsVideoModalOpen(true);
   };
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
+  const handleCloseModal = () => {
+    setIsVideoModalOpen(false);
+    setSelectedVideo(null);
+  };
 
   return (
-    <>
-      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-20">
-        {/* Hero Section */}
-        <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
-          <div className="absolute inset-0"></div>
-          <div className="absolute top-10 left-10 opacity-10">
-            <MusicNoteIcon className="w-16 h-16" />
-          </div>
-          <div className="absolute bottom-10 right-10 opacity-10">
-            <LibraryIcon className="w-16 h-16" />
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 pt-20">
+      {/* Hero Section */}
+      <section className="relative py-12 sm:py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+              Free Music Tutorials
+            </h1>
+            <p className="text-lg sm:text-xl text-white/90 mb-6">
+              Watch free music videos by category. Click any video to play!
+            </p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 inline-block">
+              <p className="text-sm">
+                <span className="font-bold">{musicClasses.length}</span> Free Videos Available
+              </p>
+            </div>
           </div>
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
