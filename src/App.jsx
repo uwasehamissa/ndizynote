@@ -1556,14 +1556,14 @@ const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
   const location = useLocation();
 
   // Debug logging
-  useEffect(() => {
-    console.log("PrivateRoute Debug:");
-    console.log("Path:", location.pathname);
-    console.log("User:", user);
-    console.log("User Status:", user?.status);
-    // console.log("User has token:", !!user?.token);
-    console.log("Allowed Statuses:", allowedStatuses);
-  }, [location.pathname, user, allowedStatuses]);
+  // useEffect(() => {
+  //   console.log("PrivateRoute Debug:");
+  //   console.log("Path:", location.pathname);
+  //   console.log("User:", user);
+  //   console.log("User Status:", user?.status);
+  //   // console.log("User has token:", !!user?.token);
+  //   console.log("Allowed Statuses:", allowedStatuses);
+  // }, [location.pathname, user, allowedStatuses]);
 
   // If no user or no token, redirect to home
   if (!user || !user.token) {
