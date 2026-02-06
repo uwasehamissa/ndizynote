@@ -24,6 +24,8 @@ import {
   Person,
   MusicNote,
 } from "@mui/icons-material";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 // Custom SVG Icons (same as before)
 const PianoIcon = () => (
@@ -372,13 +374,23 @@ const ContactModal = ({ isOpen, onClose }) => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Contact form submitted:", formData);
-    onClose();
-  };
+    try {
+      await axios.post(
+        "https://ndizmusicprojectbackend.onrender.com/api/contacts/contact",
+        formData,
+      );
+      toast.success(
+        "📧 Message sent successfully! We will reply within 24 hours.",
+      );
 
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+      onClose();
+    } catch (error) {
+      toast.error("❌ Failed to send message. Please try again.", error);
+    }
+  };
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -519,11 +531,27 @@ const BookModal = ({ isOpen, onClose }) => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle booking submission here
-    console.log("Booking submitted:", formData);
-    onClose();
+    try {
+      await axios.post(
+        "https://ndizmusicprojectbackend.onrender.com/herobooking",
+        formData,
+      );
+      toast.success(
+        "🎉 Booking request sent successfully! We will contact you soon.",
+      );
+      onClose();
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        instrument: "",
+        experience: "beginner",
+      });
+    } catch (error) {
+      toast.error("❌ Failed to submit booking. Please try again.", error);
+    }
   };
 
   const handleChange = (e) => {
@@ -902,7 +930,7 @@ export const About = () => {
         ? "..."
         : error
           ? "N/A"
-          : `${((studentsTrained)+200).toLocaleString()}+`, // NEW: API data
+          : `${(studentsTrained + 200).toLocaleString()}+`, // NEW: API data
       label: "Students Trained",
       icon: <Groups className="text-2xl" />,
     },
@@ -1322,7 +1350,7 @@ export const About = () => {
                   <Phone className="text-2xl" />
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">Call Us</h3>
-                <p className="text-gray-100">+1 (555) 123-4567</p>
+                <p className="text-gray-100">+250 788 284509</p>
               </motion.div>
 
               <motion.div
@@ -1352,7 +1380,7 @@ export const About = () => {
                 <h3 className="text-lg font-semibold text-white mb-2">
                   Visit Us
                 </h3>
-                <p className="text-gray-100">123 Music Avenue, Creative City</p>
+                <p className="text-gray-100">Gisimenti, Remera - Kigali</p>
               </motion.div>
             </div>
           </div>

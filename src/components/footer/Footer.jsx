@@ -38,58 +38,99 @@ import { Link } from "react-router-dom";
 
 // API Configuration
 const API_CONFIG = {
-  BASE_URL: "https://ndizmusicprojectbackend.onrender.com/",
-  NEWSLETTER_ENDPOINT: "/newsletter",
+  BASE_URL: "https://ndizmusicprojectbackend.onrender.com",
+ 
 };
 
 // Create Axios instance with default configuration
 const apiClient = axios.create({
   baseURL: API_CONFIG.BASE_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-  },
-  timeout: 10000, // 10 seconds timeout
 });
 
 // Utility function to handle API requests with Axios
-const apiRequest = async (endpoint, method = "POST", data = null) => {
-  try {
-    const config = {
-      method,
-      url: endpoint,
-      ...(data && { data }),
-    };
+// const apiRequest = async (endpoint, method = "POST", data = null) => {
+//   try {
+//     const config = {
+//       method,
+//       url: endpoint,
+//       ...(data && { data }),
+//     };
 
-    const response = await apiClient(config);
-    return response.data;
-  } catch (error) {
-    console.error("API Request Error:", error);
+//     const response = await apiClient(config);
+//     return response.data;
+//   } catch (error) {
+//     console.error("API Request Error:", error);
     
+//     if (error.response) {
+//       // The request was made and the server responded with a status code
+//       const errorData = error.response.data || {};
+//       throw new Error(errorData.message || `API Error: ${error.response.status}`);
+//     } else if (error.request) {
+//       // The request was made but no response was received
+//       throw new Error("No response received from server. Please check your connection.");
+//     } else {
+//       // Something happened in setting up the request
+//       throw new Error(error.message || "Request setup error");
+//     }
+//   }
+// };
+ const apiRequest = async (
+  endpoint,
+  method = "POST",
+  data = null
+) => {
+  try {
+    const response = await apiClient({
+      url: endpoint,
+      method,
+      data,
+    });
+
+    return {
+      success: true,
+      message: response.data?.message || "Request successful",
+      data: response.data?.data || response.data,
+    };
+  } catch (error) {
+    let message = "Something went wrong";
+
     if (error.response) {
-      // The request was made and the server responded with a status code
-      const errorData = error.response.data || {};
-      throw new Error(errorData.message || `API Error: ${error.response.status}`);
+      message =
+        error.response.data?.message ||
+        `Request failed with status ${error.response.status}`;
     } else if (error.request) {
-      // The request was made but no response was received
-      throw new Error("No response received from server. Please check your connection.");
+      message = "No response from server. Check your internet connection.";
     } else {
-      // Something happened in setting up the request
-      throw new Error(error.message || "Request setup error");
+      message = error.message;
     }
+
+    return {
+      success: false,
+      message,
+    };
   }
 };
 
-// Newsletter subscription API call
-const subscribeToNewsletter = async (email, metadata = {}) => {
-  const data = {
+// // Newsletter subscription API call
+// const subscribeToNewsletter = async (email, metadata = {}) => {
+//   const data = {
+//     email,
+//     timestamp: new Date().toISOString(),
+//     userAgent: navigator.userAgent,
+//     ...metadata,
+//   };
+
+//   return apiRequest(API_CONFIG.NEWSLETTER_ENDPOINT, "POST", data);
+// };
+ const subscribeToNewsletter = async (email, metadata = {}) => {
+  const payload = {
     email,
     timestamp: new Date().toISOString(),
     userAgent: navigator.userAgent,
     ...metadata,
   };
 
-  return apiRequest(API_CONFIG.NEWSLETTER_ENDPOINT, "POST", data);
+  return apiRequest("/newsletter/newsletter", "POST", payload);
 };
 
 // Back to Top Component
@@ -429,7 +470,7 @@ export const Footer = () => {
                 </div>
                 <div>
                   <h3 className="text-xl text-white xsm:text-2xl font-bold">
-                    NdizNote Academy
+                    NdizyNote Academy
                   </h3>
                   <p className="text-gray-100 text-sm xsm:text-base">
                     Music Excellence
@@ -448,7 +489,7 @@ export const Footer = () => {
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-purple-400 flex-shrink-0" />
                   <span className="text-gray-100 text-sm xsm:text-base">
-                    +1 (555) 123-4567
+                    +250 788 284509
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
@@ -460,7 +501,7 @@ export const Footer = () => {
                 <div className="flex items-center gap-3">
                   <LocationOn className="w-5 h-5 text-purple-400 flex-shrink-0" />
                   <span className="text-gray-100 text-sm xsm:text-base">
-                    123 Music Avenue, Creative City
+                    Gisimenti, Remera - Kigali
                   </span>
                 </div>
               </div>
@@ -577,7 +618,7 @@ export const Footer = () => {
           <div className="container mx-auto px-3 xsm:px-4 sm:px-6 py-6 xsm:py-8">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <p className="text-gray-400 text-sm xsm:text-base text-center md:text-left">
-                © {currentYear} NdziNote Academy. All rights reserved.
+               <span className="font-bold text-amber-200"> © {currentYear}</span> NdziNote Academy. All rights reserved.
               </p>
 
               <div className="flex items-center gap-6 text-sm xsm:text-base">
@@ -611,7 +652,7 @@ export const Footer = () => {
               <div className="flex items-center justify-center space-x-2">
                 <span className="text-xs text-white">Designed by</span>
                 <span className="text-xs font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                  Leon
+                  Leon & Hamissa
                 </span>
               </div>
             </motion.div>

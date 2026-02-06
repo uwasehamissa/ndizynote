@@ -229,7 +229,7 @@ export const Hero = () => {
       <section className="w-full relative min-h-screen flex items-center justify-center overflow-hidden">
         <ToastContainer position="top-right" autoClose={5000} />
         {/* Background Image Slideshow */}
-        <div className="absolute py-6 rounded-2xl inset-0">
+        <div className="absolute py-2 rounded-2xl inset-0">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentBgIndex}
@@ -242,7 +242,7 @@ export const Hero = () => {
               <img
                 src={backgroundSlides[currentBgIndex].image}
                 alt=""
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover rounded-2xl"
               />
               {/* Overlay with gradient */}
               <div
@@ -282,7 +282,7 @@ export const Hero = () => {
           ))}
         </div>
 
-        <div className="container mx-auto px-3 py-6 rounded-2xl max-h-max xs:px-4 sm:px-6 relative z-10">
+        <div className=" mx-auto px-3 py-2 rounded-2xl max-h-max xs:px-4 sm:px-6 relative z-10">
           {/* Main Hero Content */}
           <div className="text-center mb-8 sm:mb-12 lg:mb-16 max-w-4xl mx-auto">
             <motion.div
@@ -294,7 +294,7 @@ export const Hero = () => {
 
               {/* Main Heading */}
               <motion.h2
-                className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
+                className="text-2xl xs:text-3xl sm:text-4xl py-4 md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
