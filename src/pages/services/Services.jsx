@@ -30,6 +30,8 @@ import {
   Mic,
   Piano,
 } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 // Custom SVG Icons (reused from About page)
 const PianoIcon = () => (
@@ -275,11 +277,29 @@ const ContactModal = ({ isOpen, onClose }) => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Contact form submitted:", formData);
-    onClose();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Contact form submitted:", formData);
+  //   onClose();
+  // };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await axios.post(
+          "https://ndizmusicprojectbackend.onrender.com/api/contacts/contact",
+          formData,
+        );
+        toast.success(
+          "📧 Message sent successfully! We will reply within 24 hours.",
+        );
+  
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+        onClose();
+      } catch (error) {
+        toast.error("❌ Failed to send message. Please try again.", error);
+      }
+    };
 
   const handleChange = (e) => {
     setFormData({
@@ -415,12 +435,34 @@ const BookModal = ({ isOpen, onClose }) => {
     message: "",
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Booking submitted:", formData);
-    onClose();
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("Booking submitted:", formData);
+  //   onClose();
+  // };
 
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await axios.post(
+          "https://ndizmusicprojectbackend.onrender.com/herobooking",
+          formData,
+        );
+        toast.success(
+          "🎉 Booking request sent successfully! We will contact you soon.",
+        );
+        onClose();
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          instrument: "",
+          experience: "beginner",
+        });
+      } catch (error) {
+        toast.error("❌ Failed to submit booking. Please try again.", error);
+      }
+    };
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -841,10 +883,10 @@ export const Services = () => {
                 transition={{ duration: 0.8 }}
                 className="text-center mb-12"
               >
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
                   Instrument <span className="text-purple-600">Lessons</span>
                 </h2>
-                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                <p className="text-xl text-gray-100 max-w-3xl mx-auto">
                   Master your instrument with personalized instruction from
                   world-class educators. From foundational techniques to
                   advanced performance skills.

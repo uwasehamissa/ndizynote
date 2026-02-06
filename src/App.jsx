@@ -1,5 +1,3 @@
-
-
 // /* eslint-disable react-hooks/rules-of-hooks */
 // /* eslint-disable react-hooks/set-state-in-effect */
 // /* eslint-disable react-refresh/only-export-components */
@@ -1062,32 +1060,19 @@
 //   );
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Routes, Route, Navigate, useLocation, Link, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import "./App.css";
 import Cookies from "js-cookie";
@@ -1112,6 +1097,7 @@ import { MyContactManagement } from "./components/dashboard/users/components/man
 import { Navbar } from "./components/navigation/Navigation";
 import { Footer } from "./components/footer/Footer";
 import { useAuth } from "./components/navigation/Navigation";
+import axios from "axios";
 import {
   ArrowUpward,
   Home as HomeIcon,
@@ -1145,6 +1131,7 @@ import {
   Payment,
   RequestQuote,
 } from "@mui/icons-material";
+import { toast } from "react-toastify";
 
 // RESPONSIVE CONTAINER COMPONENT - REMOVED ALL PADDING
 const ResponsiveContainer = ({
@@ -1340,10 +1327,100 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
   // Get menu based on user status (admin or user)
   const menuItems = user?.status === "admin" ? adminMenuItems : userMenuItems;
 
-  const handleLogout = () => {
-    setUser(null);
-    Cookies.remove("user");
-    window.location.href = "/";
+  // const handleLogout = () => {
+  //   setUser(null);
+  //   Cookies.remove("user");
+  //   window.location.href = "/";
+  // };
+
+  // const handleLogout = async () => {
+  //   try {
+  //     // Call backend logout API
+  //     await axios.post(
+  //       "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
+
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           // Optionally send auth token if required
+  //           Authorization: `Bearer ${Cookies.get("token") || ""}`,
+  //         },
+  //       },
+  //     );
+
+  //     // Clear frontend state
+  //     setUser(null);
+  //     Cookies.remove("user");
+  //     Cookies.remove("token"); // if you store JWT token
+
+  //     // Redirect to home
+  //     window.location.href = "/";
+  //   } catch (error) {
+  //     toast.warning("Logout failed:", error.response?.data || error);
+
+  //     // Optionally show error message
+  //     alert(
+  //       error.response?.data?.message || "Failed to log out. Please try again.",
+  //     );
+  //   }
+  // };
+
+  const handleLogout = async () => {
+    const token = Cookies.get("token");
+
+    if (!token) {
+      // No token, just clear frontend and redirect
+      setUser(null);
+      Cookies.remove("user");
+      Cookies.remove("token");
+      window.location.href = "/";
+      return;
+    }
+
+    try {
+      // Send logout request to backend
+      const response = await axios.post(
+        "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
+        {}, // no body
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true, // IMPORTANT if backend uses cookies for session
+        },
+      );
+
+      // Check backend response
+      if (response.status === 200 || response.status === 204) {
+        // Backend successfully invalidated session
+        setUser(null);
+        Cookies.remove("user");
+        Cookies.remove("token");
+
+        toast.success("Logged out successfully!");
+
+        // Navigate to home AFTER session cleared
+        window.location.href = "/";
+      } else {
+        throw new Error("Logout failed on server");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error.response?.data || error);
+
+      // Always clear frontend as a fallback
+      setUser(null);
+      Cookies.remove("user");
+      Cookies.remove("token");
+
+      toast.warning(
+        error.response?.data?.message ||
+          "Logout failed on server. Session cleared locally.",
+      );
+
+      // Navigate home
+      window.location.href = "/";
+    }
   };
 
   // Set page title on mount and route change
@@ -1376,13 +1453,15 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
           {/* Sidebar Header */}
           <div className="p-4 border-b border-blue-700 flex items-center justify-between">
             {sidebarOpen ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="flex items-center space-x-2"
-              >
-                <span className="font-bold text-sm">Dashboard</span>
-              </motion.div>
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center md:mt-6 space-x-2"
+                >
+                  <span className="font-bold text-sm">Dashboard</span>
+                </motion.div>
+              </>
             ) : (
               <div className=" rounded-lg flex items-center justify-center"></div>
             )}
@@ -1413,7 +1492,7 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">{user?.name}</p>
-                  <p className="text-xs font-bold text-blue-700 capitalize">
+                  <p className="text-xs font-bold text-white capitalize">
                     {user?.status || "user"}
                   </p>
                 </div>
@@ -1429,9 +1508,12 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
 
           {/* Navigation Menu */}
           <nav className="flex-1 overflow-y-auto py-4">
-            <ul className="space-y-6 px-2">
+            <ul className="space-y-8 px-2">
               {menuItems.map((category, categoryIndex) => (
-                <li key={`category-${categoryIndex}-${category.category}`}>
+                <li
+                  className="space-y-8"
+                  key={`category-${categoryIndex}-${category.category}`}
+                >
                   {/* Category Header (only shown when sidebar is open) */}
                   {sidebarOpen && (
                     <div className="mb-2 px-3">
@@ -1454,10 +1536,10 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
                         <li key={`${item.path}-${itemIndex}`}>
                           <Link to={item.path}>
                             <button
-                              className={`flex w-full items-center px-3 py-2.5 rounded-lg my-4 transition-all ${
+                              className={`flex w-full bg-blue-600/10 items-center px-3 py-2.5 rounded-lg my-4 transition-all ${
                                 isActive
-                                  ? "bg-blue-800 text-white shadow-md"
-                                  : "hover:bg-blue-800/50 text-blue-100"
+                                  ? "bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-md"
+                                  : "hover:bg-blue-500/50 text-blue-100"
                               }`}
                             >
                               <Icon className="text-lg" />
@@ -1482,7 +1564,7 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
           </nav>
 
           {/* Logout Button */}
-          <div className="p-4 border-t border-blue-700">
+          <div className="p-4 md:mt-10 sm:mt-4 border-t border-blue-700">
             <button
               onClick={handleLogout}
               className={`flex items-center justify-center w-full px-3 py-2.5 rounded-lg bg-gradient-to-t from-red-600 to-red-400  text-white transition-colors ${
@@ -1555,19 +1637,9 @@ const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
   const { user } = useAuth();
   const location = useLocation();
 
-  // Debug logging
-  // useEffect(() => {
-  //   console.log("PrivateRoute Debug:");
-  //   console.log("Path:", location.pathname);
-  //   console.log("User:", user);
-  //   console.log("User Status:", user?.status);
-  //   // console.log("User has token:", !!user?.token);
-  //   console.log("Allowed Statuses:", allowedStatuses);
-  // }, [location.pathname, user, allowedStatuses]);
-
   // If no user or no token, redirect to home
   if (!user || !user.token) {
-    console.log("No user token, redirecting to home");
+    toast.warning("No user token, redirecting to home");
     return <Navigate to="/" replace state={{ from: location }} />;
   }
 
@@ -1576,7 +1648,7 @@ const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
     allowedStatuses.length === 0 || allowedStatuses.includes(user.status);
 
   if (!hasAllowedStatus) {
-    console.log(`User status "${user.status}" not allowed, redirecting...`);
+    toast.warning(`User status "${user.status}" not allowed, redirecting...`);
 
     // Redirect based on status
     if (user.status === "admin") {
@@ -1587,7 +1659,7 @@ const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
   }
 
   // User is authenticated and allowed
-  console.log("Access granted, rendering DashboardLayout");
+  toast.success("Access granted, rendering DashboardLayout");
   return (
     <DashboardLayout user={user} pageTitle={pageTitle}>
       {children}
@@ -1933,9 +2005,9 @@ function MobileMenu({ isOpen, onClose, user }) {
                 const isActive = location.pathname === item.path;
 
                 return (
-                  <motion.a
+                  <Link
                     key={`mobile-${item.path}-${index}`}
-                    href={item.path}
+                    to={item.path}
                     className={`flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 md:p-4 rounded-lg transition-all ${
                       isActive
                         ? "bg-white/25 shadow-lg backdrop-blur-sm text-white"
@@ -1957,7 +2029,7 @@ function MobileMenu({ isOpen, onClose, user }) {
                     >
                       {item.type.toUpperCase()}
                     </span>
-                  </motion.a>
+                  </Link>
                 );
               })}
             </div>
@@ -2009,7 +2081,7 @@ export default function App() {
         const parsedUser = JSON.parse(savedUser);
         // Only update if user is different
         if (!user || JSON.stringify(parsedUser) !== JSON.stringify(user)) {
-          console.log("Setting user from cookie:", parsedUser);
+          // console.log("Setting user from cookie:", parsedUser);
           setUser(parsedUser);
         }
       } catch (error) {
@@ -2018,14 +2090,6 @@ export default function App() {
     }
   }, []);
 
-  // Debug: Log current user and path
-  useEffect(() => {
-    console.log("App Debug:");
-    console.log("Current User:", user);
-    console.log("Current Path:", location.pathname);
-    console.log("User Status:", user?.status);
-    console.log("User has token:", !!user?.token);
-  }, [user, location.pathname]);
 
   // Get current page info
   const currentPageInfo = useMemo(() => {

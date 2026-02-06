@@ -50,7 +50,6 @@ import {
   ArrowDownward,
 } from "@mui/icons-material";
 
-
 // Add Notification Modal Component
 const NotificationModal = ({
   isOpen,
@@ -163,7 +162,7 @@ const NotificationModal = ({
                 </div>
                 <button
                   onClick={onClose}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+                  className="p-2 bg-gradient-to-t from-red-500 to-red-700 rounded-full transition-colors duration-200"
                   aria-label="Close notifications"
                 >
                   <CloseIcon className="text-gray-600" />
@@ -181,7 +180,7 @@ const NotificationModal = ({
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
                         className={`p-4 hover:bg-gray-50 transition-all duration-200 ${getPriorityColor(
-                          notification.priority
+                          notification.priority,
                         )} ${notification.unread ? "bg-blue-50" : ""}`}
                       >
                         <div className="flex items-start gap-3">
@@ -404,7 +403,7 @@ const fetchUnreadNotificationsCount = async () => {
   } catch (error) {
     console.error("Error fetching unread notifications count:", error);
     // Return mock count if API fails
-    return getMockNotifications().filter(n => n.unread).length;
+    return getMockNotifications().filter((n) => n.unread).length;
   }
 };
 
@@ -530,7 +529,7 @@ const calculateInstrumentDistribution = (bookings) => {
 
   const total = Object.values(instrumentCount).reduce(
     (sum, count) => sum + count,
-    0
+    0,
   );
 
   return Object.entries(instrumentCount).map(([name, count]) => ({
@@ -580,7 +579,7 @@ const calculateBookingTrends = (bookings) => {
   bookings.data.forEach((booking) => {
     const date = new Date(booking.createdAt || booking.date || Date.now());
     const day = dayMap[date.getDay()];
-    
+
     if (dayCounts[day]) {
       dayCounts[day].bookings += 1;
       if (booking.status === "completed") {
@@ -612,9 +611,18 @@ const calculateUserGrowth = (users) => {
 
   // Group users by month
   const monthMap = {
-    0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 
-    4: "May", 5: "Jun", 6: "Jul", 7: "Aug",
-    8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec",
   };
 
   const monthlyCounts = {};
@@ -624,7 +632,7 @@ const calculateUserGrowth = (users) => {
     const month = monthMap[date.getMonth()];
     const year = date.getFullYear();
     const key = `${month} ${year}`;
-    
+
     if (!monthlyCounts[key]) {
       monthlyCounts[key] = 0;
     }
@@ -634,12 +642,12 @@ const calculateUserGrowth = (users) => {
   // Convert to array and calculate cumulative totals
   const months = Object.keys(monthlyCounts);
   let cumulativeTotal = 0;
-  
+
   return months.slice(-6).map((month) => {
     const newUsers = monthlyCounts[month];
     cumulativeTotal += newUsers;
     return {
-      month: month.split(' ')[0],
+      month: month.split(" ")[0],
       newUsers,
       totalUsers: cumulativeTotal,
     };
@@ -650,9 +658,18 @@ const calculateUserGrowth = (users) => {
 const calculateMonthlyRevenue = (bookings, courses, courseStats) => {
   const monthlyRevenue = {};
   const monthMap = {
-    0: "Jan", 1: "Feb", 2: "Mar", 3: "Apr", 
-    4: "May", 5: "Jun", 6: "Jul", 7: "Aug",
-    8: "Sep", 9: "Oct", 10: "Nov", 11: "Dec"
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec",
   };
 
   // Calculate from bookings if available
@@ -663,7 +680,7 @@ const calculateMonthlyRevenue = (bookings, courses, courseStats) => {
         const month = monthMap[date.getMonth()];
         const year = date.getFullYear();
         const key = `${month}`;
-        
+
         if (!monthlyRevenue[key]) {
           monthlyRevenue[key] = { revenue: 0, bookings: 0 };
         }
@@ -674,15 +691,20 @@ const calculateMonthlyRevenue = (bookings, courses, courseStats) => {
   }
 
   // If no booking revenue, use course stats or generate realistic data
-  const defaultRevenue = courseStats?.data?.revenuePotential?.[0]?.totalRevenue || 210;
-  
+  const defaultRevenue =
+    courseStats?.data?.revenuePotential?.[0]?.totalRevenue || 210;
+
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
   return months.map((month, index) => {
-    const baseRevenue = index === months.length - 1 ? defaultRevenue : Math.floor(defaultRevenue * (0.6 + (index * 0.1)));
+    const baseRevenue =
+      index === months.length - 1
+        ? defaultRevenue
+        : Math.floor(defaultRevenue * (0.6 + index * 0.1));
     return {
       month,
       revenue: monthlyRevenue[month]?.revenue || baseRevenue,
-      bookings: monthlyRevenue[month]?.bookings || Math.floor(baseRevenue / 100),
+      bookings:
+        monthlyRevenue[month]?.bookings || Math.floor(baseRevenue / 100),
       target: Math.floor(baseRevenue * 1.2),
     };
   });
@@ -712,25 +734,25 @@ const calculateBookingStatus = (bookings) => {
   });
 
   const total = Object.values(statusCount).reduce((a, b) => a + b, 0);
-  
+
   return [
-    { 
-      status: "Completed", 
+    {
+      status: "Completed",
       value: total > 0 ? Math.round((statusCount.completed / total) * 100) : 0,
       count: statusCount.completed,
-      color: "#10B981" 
+      color: "#10B981",
     },
-    { 
-      status: "Pending", 
+    {
+      status: "Pending",
       value: total > 0 ? Math.round((statusCount.pending / total) * 100) : 0,
       count: statusCount.pending,
-      color: "#F59E0B" 
+      color: "#F59E0B",
     },
-    { 
-      status: "Cancelled", 
+    {
+      status: "Cancelled",
       value: total > 0 ? Math.round((statusCount.cancelled / total) * 100) : 0,
       count: statusCount.cancelled,
-      color: "#EF4444" 
+      color: "#EF4444",
     },
   ];
 };
@@ -745,7 +767,7 @@ const calculateStudentProgress = (bookings) => {
       acc[level] = (acc[level] || 0) + 1;
       return acc;
     },
-    { beginner: 0, intermediate: 0, advanced: 0 }
+    { beginner: 0, intermediate: 0, advanced: 0 },
   );
 
   return [
@@ -765,7 +787,7 @@ const calculateRecentActivities = (bookings) => {
     .sort(
       (a, b) =>
         new Date(b.createdAt || b.date || Date.now()) -
-        new Date(a.createdAt || a.date || Date.now())
+        new Date(a.createdAt || a.date || Date.now()),
     )
     .slice(0, 5);
 
@@ -863,8 +885,10 @@ export const Dashboard = () => {
       const processedCourseStats = {
         totalCourses: courseStatsData?.data?.totalCourses?.[0]?.count || 0,
         activeCourses: courseStatsData?.data?.activeCourses?.[0]?.count || 0,
-        revenuePotential: courseStatsData?.data?.revenuePotential?.[0]?.totalRevenue || 0,
-        averagePrice: courseStatsData?.data?.averagePrice?.[0]?.averagePrice || 0,
+        revenuePotential:
+          courseStatsData?.data?.revenuePotential?.[0]?.totalRevenue || 0,
+        averagePrice:
+          courseStatsData?.data?.averagePrice?.[0]?.averagePrice || 0,
         topCourses: courseStatsData?.data?.topCourses || [],
       };
 
@@ -872,24 +896,34 @@ export const Dashboard = () => {
 
       // Calculate user stats
       const today = new Date();
-      const todayStr = today.toISOString().split('T')[0];
-      const newToday = usersData?.data?.filter(user => 
-        new Date(user.createdAt).toISOString().split('T')[0] === todayStr
-      ).length || 0;
+      const todayStr = today.toISOString().split("T")[0];
+      const newToday =
+        usersData?.data?.filter(
+          (user) =>
+            new Date(user.createdAt).toISOString().split("T")[0] === todayStr,
+        ).length || 0;
 
       // Calculate booking stats
       const bookingStats = {
         total: bookingsData?.data?.length || 0,
-        pending: bookingsData?.data?.filter(b => b.status === "pending").length || 0,
-        completed: bookingsData?.data?.filter(b => b.status === "completed").length || 0,
-        cancelled: bookingsData?.data?.filter(b => b.status === "cancelled").length || 0,
+        pending:
+          bookingsData?.data?.filter((b) => b.status === "pending").length || 0,
+        completed:
+          bookingsData?.data?.filter((b) => b.status === "completed").length ||
+          0,
+        cancelled:
+          bookingsData?.data?.filter((b) => b.status === "cancelled").length ||
+          0,
       };
 
       // Process API statistics
       const processedStats = {
         users: {
           total: usersData?.total || usersData?.data?.length || 0,
-          active: usersData?.data?.filter(user => user.status === "active" || user.status === "user").length || 0,
+          active:
+            usersData?.data?.filter(
+              (user) => user.status === "active" || user.status === "user",
+            ).length || 0,
           newToday: newToday,
         },
         bookings: bookingStats,
@@ -912,13 +946,28 @@ export const Dashboard = () => {
       // Set notifications
       const notificationsList = notificationsData?.data || [];
       setNotifications(notificationsList);
-      
+
       // Use the unread count from the new endpoint
-      setNotificationCount(unreadCount || notificationsList.filter((n) => n.unread).length);
+      setNotificationCount(
+        unreadCount || notificationsList.filter((n) => n.unread).length,
+      );
 
       // Calculate growth percentages
-      const userGrowthPct = processedStats.users.newToday > 0 ? Math.round((processedStats.users.newToday / processedStats.users.total) * 100) : 12.5;
-      const bookingGrowthPct = processedStats.bookings.completed > 0 ? Math.round((processedStats.bookings.completed / processedStats.bookings.total) * 100) : 8.2;
+      const userGrowthPct =
+        processedStats.users.newToday > 0
+          ? Math.round(
+              (processedStats.users.newToday / processedStats.users.total) *
+                100,
+            )
+          : 12.5;
+      const bookingGrowthPct =
+        processedStats.bookings.completed > 0
+          ? Math.round(
+              (processedStats.bookings.completed /
+                processedStats.bookings.total) *
+                100,
+            )
+          : 8.2;
       const revenueGrowthPct = processedStats.revenue.total > 0 ? 18.2 : 0;
 
       // Format stats cards
@@ -974,7 +1023,7 @@ export const Dashboard = () => {
           trend: "up",
           icon: AttachMoney,
           color: "bg-red-500",
-          description: `Avg: $${processedCourseStats.averagePrice}`,
+          description: `Avg: ${processedCourseStats.averagePrice.toString().slice(0, 6)}`,
           apiSource: "revenue",
           rawData: processedStats.revenue,
         },
@@ -992,7 +1041,11 @@ export const Dashboard = () => {
       const userGrowthData = calculateUserGrowth(usersData);
       setUserGrowth(userGrowthData);
 
-      const revenueData = calculateMonthlyRevenue(bookingsData, coursesData, courseStatsData);
+      const revenueData = calculateMonthlyRevenue(
+        bookingsData,
+        coursesData,
+        courseStatsData,
+      );
       setMonthlyRevenue(revenueData);
 
       const bookingStatusData = calculateBookingStatus(bookingsData);
@@ -1008,7 +1061,7 @@ export const Dashboard = () => {
     } catch (error) {
       console.error("Error processing dashboard data:", error);
       setError("Failed to load dashboard data. Please try again.");
-      
+
       // Use fallback data
       setStats(getFallbackStats());
       setInstrumentDistribution(getFallbackInstrumentDistribution());
@@ -1048,16 +1101,15 @@ export const Dashboard = () => {
         prev.map((notification) =>
           notification.id === id
             ? { ...notification, unread: false }
-            : notification
-        )
+            : notification,
+        ),
       );
-      
+
       // Update notification count
       setNotificationCount((prev) => Math.max(0, prev - 1));
-      
+
       // In a real implementation, you would call an API to mark as read
-      // await api.patch(`/api/notifications/${id}/read`);
-      
+      await api.patch(`/api/notifications/${id}/read`);
     } catch (error) {
       console.error("Error marking notification as read:", error);
     }
@@ -1067,17 +1119,16 @@ export const Dashboard = () => {
     try {
       const notificationToDelete = notifications.find((n) => n.id === id);
       setNotifications((prev) =>
-        prev.filter((notification) => notification.id !== id)
+        prev.filter((notification) => notification.id !== id),
       );
-      
+
       // Update notification count if deleted notification was unread
       if (notificationToDelete?.unread) {
         setNotificationCount((prev) => Math.max(0, prev - 1));
       }
-      
+
       // In a real implementation, you would call an API to delete
-      // await api.delete(`/api/notifications/${id}`);
-      
+      await api.delete(`/api/notifications/${id}`);
     } catch (error) {
       console.error("Error deleting notification:", error);
     }
@@ -1288,7 +1339,6 @@ export const Dashboard = () => {
 
   return (
     <div className="w-full flex min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
-
       <div className="flex-1 lg:ml-0">
         <div className="p-4 lg:p-8 w-full">
           {/* Header */}
@@ -1370,7 +1420,7 @@ export const Dashboard = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 lg:gap-6 mb-8"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 xl:gap-6 mb-8"
           >
             {stats.map((stat, index) => {
               const Icon = stat.icon;
@@ -1403,11 +1453,12 @@ export const Dashboard = () => {
                           <TrendingDown className="w-4 h-4 mr-1" />
                         )}
                         <span className="text-sm font-medium">
-                          {stat.change}
+                          {stat.change.slice(0, 5)}{" "}
+                          {/* shows first 5 characters */}
                         </span>
                       </div>
                       <p className="text-xs text-gray-100 mt-1">
-                        {stat.description}
+                        {stat.description.slice(0, 15)}{" "}
                       </p>
                     </div>
                     <div className={`${stat.color} p-3 rounded-xl shadow-lg`}>
@@ -1462,7 +1513,10 @@ export const Dashboard = () => {
                   <div className="text-center">
                     <p className="text-sm text-gray-600">Total This Week</p>
                     <p className="text-2xl font-bold text-gray-900">
-                      {bookingTrends.reduce((sum, day) => sum + day.bookings, 0)}
+                      {bookingTrends.reduce(
+                        (sum, day) => sum + day.bookings,
+                        0,
+                      )}
                     </p>
                   </div>
                   <div className="text-center">
@@ -1470,9 +1524,15 @@ export const Dashboard = () => {
                     <p className="text-2xl font-bold text-green-600">
                       {bookingTrends.length > 0
                         ? Math.round(
-                            (bookingTrends.reduce((sum, day) => sum + day.completed, 0) /
-                              bookingTrends.reduce((sum, day) => sum + day.bookings, 0)) *
-                              100
+                            (bookingTrends.reduce(
+                              (sum, day) => sum + day.completed,
+                              0,
+                            ) /
+                              bookingTrends.reduce(
+                                (sum, day) => sum + day.bookings,
+                                0,
+                              )) *
+                              100,
                           )
                         : 0}
                       %
@@ -1539,7 +1599,6 @@ export const Dashboard = () => {
               </motion.div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

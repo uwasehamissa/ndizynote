@@ -185,3 +185,29 @@
     padding: 0.5rem 0.5rem;
   }
 }
+
+/* Navbar stays fixed at top */
+nav.sticky-navbar {
+  position: fixed;   /* stick to top */
+  top: 0;            /* top edge */
+  left: 0;           /* left edge */
+  width: 100%;       /* full width */
+  z-index: 50;       /* above all other content */
+}
+
+/* Main content starts below navbar */
+main.content-below-navbar {
+  padding-top: 64px; /* adjust to your navbar height */
+}
+
+/* Optional: adjust for responsive navbar height */
+@media (min-width: 640px) {
+  main.content-below-navbar {
+    padding-top: 64px; /* sm */
+  }
+}
+@media (min-width: 1024px) {
+  main.content-below-navbar {
+    padding-top: 64px; /* lg */
+  }
+}

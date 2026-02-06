@@ -832,7 +832,7 @@ const TestimonialCard = ({ testimonial, index }) => {
 
       {/* Testimonial Text */}
       <p className="text-gray-100 text-sm xsm:text-base leading-relaxed mb-4 xsm:mb-5 flex-grow">
-        "{testimonial.content || testimonial.testimonial || testimonial.review || "No testimonial content available."}"
+        "{testimonial.text || testimonial.testimonial || testimonial.review }"
       </p>
 
       {/* Student Info */}
@@ -1003,7 +1003,7 @@ export const Testimonials = () => {
   const fetchTestimonials = async () => {
     try {
       setLoading(true);
-      console.log("🔍 Fetching testimonials from API...");
+      // console.log("🔍 Fetching testimonials from API...");
 
       const response = await axios.get(`${API_URL}/testimonials`);
       // console.log("📥 API Response:", response.data);
@@ -1013,12 +1013,12 @@ export const Testimonials = () => {
       // Handle response format
       if (response.data && Array.isArray(response.data)) {
         testimonialData = response.data;
-        console.log(`✅ Received ${testimonialData.length} testimonials`);
+        // console.log(`✅ Received ${testimonialData.length} testimonials`);
       } else if (response.data?.data && Array.isArray(response.data.data)) {
         testimonialData = response.data.data;
-        console.log(`✅ Received ${testimonialData.length} testimonials`);
+        // console.log(`✅ Received ${testimonialData.length} testimonials`);
       } else {
-        console.warn("Unexpected API response format:", response.data);
+        // console.warn("Unexpected API response format:", response.data);
         toast.warning("Unexpected data format from server");
       }
 
