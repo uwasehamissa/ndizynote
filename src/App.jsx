@@ -1132,6 +1132,9 @@ import {
   RequestQuote,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
+import { UserClassesManagement } from "./components/dashboard/users/components/classes/UserClassesManagement";
+import { UserSubscriptionManagement } from "./components/dashboard/users/components/management/subscription/UserSubscriptionManagement";
+import { UserRequestManagement } from "./components/dashboard/users/components/management/request/UserRequestManagement";
 
 // RESPONSIVE CONTAINER COMPONENT - REMOVED ALL PADDING
 const ResponsiveContainer = ({
@@ -1270,6 +1273,60 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
   ];
 
   // USER DASHBOARD MENU ITEMS
+  // const userMenuItems = [
+  //   {
+  //     category: "Dashboard",
+  //     items: [
+  //       {
+  //         path: "/dashboard/user",
+  //         name: "My Dashboard",
+  //         icon: DashboardIcon,
+  //         exact: true,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     category: "My Profile",
+  //     items: [
+  //       {
+  //         path: "/dashboard/me",
+  //         name: "Profile",
+  //         icon: AccountCircle,
+  //       },
+  //       {
+  //         path: "/dashboard/me/testimony",
+  //         name: "My Testimonials",
+  //         icon: RateReview,
+  //       },
+  //       {
+  //         path: "/dashboard/me/contacts",
+  //         name: "My Contacts",
+  //         icon: Email,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     category: "Music",
+  //     items: [
+  //       {
+  //         path: "/dashboard/classes",
+  //         name: "My Classes",
+  //         icon: School,
+  //       },
+  //       {
+  //         path: "/dashboard/schedule",
+  //         name: "Schedule",
+  //         icon: CalendarMonth,
+  //       },
+  //       {
+  //         path: "/dashboard/payments",
+  //         name: "Payments",
+  //         icon: Payment,
+  //       },
+  //     ],
+  //   },
+  // ];
+  // USER DASHBOARD MENU ITEMS
   const userMenuItems = [
     {
       category: "Dashboard",
@@ -1311,13 +1368,13 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
           icon: School,
         },
         {
-          path: "/dashboard/schedule",
-          name: "Schedule",
+          path: "/dashboard/subscription",
+          name: "My Subscription",
           icon: CalendarMonth,
         },
         {
-          path: "/dashboard/payments",
-          name: "Payments",
+          path: "/dashboard/me/request", // Consistent with profile routes
+          name: "My Request",
           icon: Payment,
         },
       ],
@@ -1326,44 +1383,6 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
 
   // Get menu based on user status (admin or user)
   const menuItems = user?.status === "admin" ? adminMenuItems : userMenuItems;
-
-  // const handleLogout = () => {
-  //   setUser(null);
-  //   Cookies.remove("user");
-  //   window.location.href = "/";
-  // };
-
-  // const handleLogout = async () => {
-  //   try {
-  //     // Call backend logout API
-  //     await axios.post(
-  //       "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
-
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           // Optionally send auth token if required
-  //           Authorization: `Bearer ${Cookies.get("token") || ""}`,
-  //         },
-  //       },
-  //     );
-
-  //     // Clear frontend state
-  //     setUser(null);
-  //     Cookies.remove("user");
-  //     Cookies.remove("token"); // if you store JWT token
-
-  //     // Redirect to home
-  //     window.location.href = "/";
-  //   } catch (error) {
-  //     toast.warning("Logout failed:", error.response?.data || error);
-
-  //     // Optionally show error message
-  //     alert(
-  //       error.response?.data?.message || "Failed to log out. Please try again.",
-  //     );
-  //   }
-  // };
 
   const handleLogout = async () => {
     const token = Cookies.get("token");
@@ -1764,21 +1783,28 @@ const dashboardRoutes = [
   {
     path: "/dashboard/classes",
     name: "My Classes",
-    element: <Classes />,
+    element: <UserClassesManagement />,
     icon: School,
     allowedStatuses: ["user"],
   },
   {
-    path: "/dashboard/schedule",
-    name: "My Schedule",
-    element: <Classes />,
+    path: "/dashboard/subscription",
+    name: "My Subscription",
+    element: <UserSubscriptionManagement />,
     icon: CalendarMonth,
     allowedStatuses: ["user"],
   },
   {
-    path: "/dashboard/payments",
-    name: "My Payments",
-    element: <Classes />,
+    path: "/dashboard/request",
+    name: "My Request",
+    element: <UserRequestManagement />,
+    icon: Payment,
+    allowedStatuses: ["user"],
+  },
+  {
+    path: "/dashboard/me/request",
+    name: "My Request",
+    element: <UserRequestManagement />,
     icon: Payment,
     allowedStatuses: ["user"],
   },
@@ -2089,7 +2115,6 @@ export default function App() {
       }
     }
   }, []);
-
 
   // Get current page info
   const currentPageInfo = useMemo(() => {

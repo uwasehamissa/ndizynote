@@ -815,22 +815,6 @@ export const UserDashboard = () => {
     setShowNotifications(!showNotifications);
   };
 
-  const getInstrumentIcon = (instrument) => {
-    const instrumentLower = instrument?.toLowerCase();
-    switch (instrumentLower) {
-      case "piano":
-        return <Piano className="text-blue-500" />;
-      case "guitar":
-        return <MusicNote className="text-green-500" />;
-      case "violin":
-        return <MusicNote className="text-yellow-500" />;
-      case "drums":
-        return <VolumeUp className="text-red-500" />;
-      default:
-        return <MusicNote className="text-purple-500" />;
-    }
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
