@@ -1060,6 +1060,21 @@
 //   );
 // }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable react-refresh/only-export-components */
@@ -1190,7 +1205,7 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
   const [isMobile, setIsMobile] = useState(false);
   const location = useLocation();
   const { setUser } = useAuth();
-
+const { logout } = useAuth();
   // Check if mobile screen
   useEffect(() => {
     const checkMobile = () => {
@@ -1363,12 +1378,12 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
       category: "Music",
       items: [
         {
-          path: "/dashboard/classes",
+          path: "/dashboard/me/classes",
           name: "My Classes",
           icon: School,
         },
         {
-          path: "/dashboard/subscription",
+          path: "/dashboard/me/subscription",
           name: "My Subscription",
           icon: CalendarMonth,
         },
@@ -1384,63 +1399,62 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
   // Get menu based on user status (admin or user)
   const menuItems = user?.status === "admin" ? adminMenuItems : userMenuItems;
 
-  const handleLogout = async () => {
-    const token = Cookies.get("token");
+  // const handleLogout = async () => {
+  //   const token = Cookies.get("token");
 
-    if (!token) {
-      // No token, just clear frontend and redirect
-      setUser(null);
-      Cookies.remove("user");
-      Cookies.remove("token");
-      window.location.href = "/";
-      return;
-    }
+  //   if (!token) {
+  //     // No token, just clear frontend and redirect
+  //     setUser(null);
+  //     Cookies.remove("user");
+  //     Cookies.remove("token");
+  //     return;
+  //   }
 
-    try {
-      // Send logout request to backend
-      const response = await axios.post(
-        "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
-        {}, // no body
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          withCredentials: true, // IMPORTANT if backend uses cookies for session
-        },
-      );
+  //   try {
+  //     // Send logout request to backend
+  //     const response = await axios.post(
+  //       "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
+  //       {}, // no body
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //         withCredentials: true, // IMPORTANT if backend uses cookies for session
+  //       },
+  //     );
 
-      // Check backend response
-      if (response.status === 200 || response.status === 204) {
-        // Backend successfully invalidated session
-        setUser(null);
-        Cookies.remove("user");
-        Cookies.remove("token");
+  //     // Check backend response
+  //     if (response.status === 200 || response.status === 204) {
+  //       // Backend successfully invalidated session
+  //       setUser(null);
+  //       Cookies.remove("user");
+  //       Cookies.remove("token");
 
-        toast.success("Logged out successfully!");
+  //       toast.success("Logged out successfully!");
 
-        // Navigate to home AFTER session cleared
-        window.location.href = "/";
-      } else {
-        throw new Error("Logout failed on server");
-      }
-    } catch (error) {
-      console.error("Logout failed:", error.response?.data || error);
+  //       // Navigate to home AFTER session cleared
+  //       window.location.href = "/";
+  //     } else {
+  //       throw new Error("Logout failed on server");
+  //     }
+  //   } catch (error) {
+  //     console.error("Logout failed:", error.response?.data || error);
 
-      // Always clear frontend as a fallback
-      setUser(null);
-      Cookies.remove("user");
-      Cookies.remove("token");
+  //     // Always clear frontend as a fallback
+  //     setUser(null);
+  //     Cookies.remove("user");
+  //     Cookies.remove("token");
 
-      toast.warning(
-        error.response?.data?.message ||
-          "Logout failed on server. Session cleared locally.",
-      );
+  //     toast.warning(
+  //       error.response?.data?.message ||
+  //         "Logout failed on server. Session cleared locally.",
+  //     );
 
-      // Navigate home
-      window.location.href = "/";
-    }
-  };
+  //     // Navigate home
+  //     window.location.href = "/";
+  //   }
+  // };
 
   // Set page title on mount and route change
   useEffect(() => {
@@ -1585,7 +1599,8 @@ const DashboardLayout = ({ children, user, pageTitle }) => {
           {/* Logout Button */}
           <div className="p-4 md:mt-10 sm:mt-4 border-t border-blue-700">
             <button
-              onClick={handleLogout}
+              // onClick={handleLogout}
+              onClick={logout}
               className={`flex items-center justify-center w-full px-3 py-2.5 rounded-lg bg-gradient-to-t from-red-600 to-red-400  text-white transition-colors ${
                 !sidebarOpen && "justify-center"
               }`}
@@ -1677,8 +1692,6 @@ const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
     }
   }
 
-  // User is authenticated and allowed
-  toast.success("Access granted, rendering DashboardLayout");
   return (
     <DashboardLayout user={user} pageTitle={pageTitle}>
       {children}
@@ -1781,21 +1794,21 @@ const dashboardRoutes = [
   },
   // User music routes
   {
-    path: "/dashboard/classes",
+    path: "/dashboard/me/classes",
     name: "My Classes",
     element: <UserClassesManagement />,
     icon: School,
     allowedStatuses: ["user"],
   },
   {
-    path: "/dashboard/subscription",
+    path: "/dashboard/me/subscription",
     name: "My Subscription",
     element: <UserSubscriptionManagement />,
     icon: CalendarMonth,
     allowedStatuses: ["user"],
   },
   {
-    path: "/dashboard/request",
+    path: "/dashboard/me/request",
     name: "My Request",
     element: <UserRequestManagement />,
     icon: Payment,

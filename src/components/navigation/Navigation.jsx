@@ -341,18 +341,58 @@ export const AuthProvider = ({ children }) => {
   };
 
   // LOGOUT
-  const logout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
+  // const logout = () => {
+  //   setUser(null);
+  //   setIsAuthenticated(false);
 
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("userRole");
-    Cookies.remove("user");
+  //   localStorage.removeItem("user");
+  //   localStorage.removeItem("token");
+  //   localStorage.removeItem("userEmail");
+  //   localStorage.removeItem("userRole");
+  //   Cookies.remove("user");
 
-    delete axios.defaults.headers.common["Authorization"];
-  };
+  //   delete axios.defaults.headers.common["Authorization"];
+  // };
+
+  const logout = async () => {
+  const token = Cookies.get("token") || localStorage.getItem("token");
+
+  try {
+    if (token) {
+      await axios.post(
+        "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+    }
+  } catch (error) {
+    console.error("Backend logout failed:", error.response?.data || error);
+    // Do NOT block logout
+  }
+
+  // ✅ frontend cleanup ALWAYS
+  setUser(null);
+  setIsAuthenticated(false);
+
+  localStorage.removeItem("user");
+  localStorage.removeItem("token");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userRole");
+
+  Cookies.remove("user");
+  Cookies.remove("token");
+
+  delete axios.defaults.headers.common["Authorization"];
+
+  // ✅ redirect last
+  window.location.href = "/";
+};
+
 
   // INIT AUTH
   useEffect(() => {
@@ -915,19 +955,30 @@ const ContactForm = ({ form, onChange, onSubmit, isSubmitting }) => (
 /**
  * Get the correct dashboard path based on user role
  */
+// const getDashboardPath = (user) => {
+//   const userStatus = user?.status || user?.role;
+//   switch (userStatus) {
+//     case "admin":
+//       return "/dashboard";
+//     case "manager":
+//       return "/dashboard/manager";
+//     case "user":
+//       return "/dashboard/user";
+//     default:
+//       return "/dashboard";
+//   }
+// };
+
 const getDashboardPath = (user) => {
-  const userStatus = user?.status || user?.role;
-  switch (userStatus) {
-    case "admin":
-      return "/dashboard";
-    case "manager":
-      return "/dashboard/manager";
-    case "user":
-      return "/dashboard/user";
-    default:
-      return "/dashboard";
-  }
+  const status = user?.status || user?.role;
+
+  if (status === "admin") return "/dashboard";
+  if (status === "user") return "/dashboard/user";
+  if (status === "manager") return "/dashboard/manager";
+
+  return "/";
 };
+
 
 /**
  * Get display-friendly user status
@@ -975,7 +1026,31 @@ export const Navbar = () => {
 
   // Authentication hooks
   const { isAuthenticated, user, login, register: registerUser, logout } = useAuth();
+  const [User, setUser] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+  const userCookie = Cookies.get("user");
+  if (!userCookie) {
+    setUser(null);
+    return;
+  }
+
+  try {
+    const parsedUser = JSON.parse(userCookie);
+
+    // optional safety check
+    if (parsedUser?.status || parsedUser?.role) {
+      setUser(parsedUser);
+    } else {
+      setUser(null);
+    }
+  } catch (err) {
+    console.error("Invalid user cookie", err);
+    setUser(null);
+  }
+}, []);
+
 
   // =============================================
   // MODAL MANAGEMENT FUNCTIONS
@@ -1208,14 +1283,34 @@ export const Navbar = () => {
     navigate("/");
   };
 
-  const handleDashboardNavigation = () => {
-    if (user) {
-      const dashboardPath = getDashboardPath(user);
-      navigate(dashboardPath);
-    } else {
-      navigate("/dashboard");
-    }
-  };
+  // const handleDashboardNavigation = () => {
+  //   if (user) {
+  //     const dashboardPath = getDashboardPath(user);
+  //     navigate(dashboardPath);
+  //   } else {
+  //     navigate("/dashboard");
+  //   }
+  // };
+
+const handleDashboardNavigation = () => {
+  const userCookie = Cookies.get("user");
+
+  if (!userCookie) {
+    navigate("/");
+    return;
+  }
+
+  try {
+    const parsedUser = JSON.parse(userCookie);
+    navigate(getDashboardPath(parsedUser));
+  } catch (err) {
+    console.error("Invalid user cookie", err);
+    navigate("/");
+  }
+};
+
+
+
 
   return (
     <>
