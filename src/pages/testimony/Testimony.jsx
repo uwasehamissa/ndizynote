@@ -818,7 +818,7 @@ const TestimonialCard = ({ testimonial, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
       whileHover={{ scale: 1.02, y: -5 }}
-      className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] rounded-2xl p-4 xsm:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 h-full flex flex-col"
+      className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl p-4 xsm:p-5 sm:p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 h-full flex flex-col"
     >
       {/* Quote Icon */}
       <div className="text-purple-100 mb-3 xsm:mb-4">
@@ -921,7 +921,7 @@ const TestimonialCarousel = ({ testimonials, autoPlay = true }) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="text-center py-12 xsm:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772]"
+        className="text-center py-12 xsm:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white"
       >
         <QuoteIcon className="w-12 h-12 xsm:w-16 xsm:h-16 text-gray-100 mx-auto mb-4" />
         <h3 className="text-xl xsm:text-2xl font-bold text-white mb-2">
@@ -935,7 +935,7 @@ const TestimonialCarousel = ({ testimonials, autoPlay = true }) => {
   }
 
   return (
-    <div className="relative bg-gradient-to-t from-[#1e4c9c] to-[#183772] py-4">
+    <div className="relative bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white py-4">
       {/* Carousel Container */}
       <div className="relative overflow-hidden rounded-2xl">
         <AnimatePresence mode="wait">
@@ -1157,7 +1157,7 @@ export const Testimonials = () => {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] pt-20 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white pt-20 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
           <p className="text-gray-100">Loading testimonials...</p>
@@ -1167,12 +1167,12 @@ export const Testimonials = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-20">
+    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white pt-20">
       <ToastContainer position="top-right" autoClose={3000} />
       
       {/* Hero Section */}
-      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white  overflow-hidden">
+        <div className="absolute inset-0 "></div>
         <div className="absolute top-4 xsm:top-6 left-4 xsm:left-6 opacity-10">
           <MusicNoteIcon className="w-8 h-8 xsm:w-12 xsm:h-12 sm:w-16 sm:h-16" />
         </div>
@@ -1209,7 +1209,7 @@ export const Testimonials = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-8 xsm:py-12 sm:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+      <section className="py-8 xsm:py-12 sm:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white text-white">
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -1221,7 +1221,7 @@ export const Testimonials = () => {
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="text-center p-4 xsm:p-6 bg-gradient-to-t from-[#1e4c9c] to-[#183772] rounded-2xl shadow-lg"
+                className="text-center p-4 xsm:p-6 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl shadow-lg"
               >
                 <div className="text-2xl xsm:text-3xl sm:text-4xl font-bold text-gray-100 mb-1 xsm:mb-2">
                   {stat.number}
@@ -1239,7 +1239,7 @@ export const Testimonials = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772]">
+      <section className="py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           {/* Section Header */}
           <motion.div

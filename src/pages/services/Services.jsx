@@ -29,6 +29,7 @@ import {
   VolumeUp,
   Mic,
   Piano,
+  NewLabel,
 } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -793,10 +794,10 @@ export const Services = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-16 xs:pt-18 sm:pt-20">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white pt-16 xs:pt-18 sm:pt-20">
         {/* Hero Section */}
-        <section className="relative py-12 xs:py-14 sm:py-16 lg:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
-          <div className="absolute inset-0 bg-black/20"></div>
+        <section className="relative py-12 xs:py-14 sm:py-16 lg:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white overflow-hidden">
+          <div className="absolute inset-0"></div>
           <div className="absolute top-10 left-10 opacity-10">
             <MusicNote className="text-6xl" />
           </div>
@@ -833,7 +834,7 @@ export const Services = () => {
         </section>
 
         {/* Service Tabs */}
-        <section className="py-8 xs:py-10 sm:py-12 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+        <section className="py-8 xs:py-10 sm:py-12 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
           <div className="container mx-auto px-3 xs:px-4 sm:px-6">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -851,7 +852,7 @@ export const Services = () => {
                 {
                   id: "specialized",
                   label: "Specialized Programs",
-                  icon: <AutoAwesome />,
+                  icon: <NewLabel />,
                 },
               ].map((tab) => (
                 <motion.button
@@ -859,11 +860,8 @@ export const Services = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
-                    activeTab === tab.id
-                      ? "bg-gradient-to-l from-blue-400 to-indigo-300  shadow-lg"
-                      : "bg-gradient-to-t from-indigo-300 to-violet-400"
-                  }`}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all duration-300
+                    `}
                 >
                   {tab.icon}
                   {tab.label}
@@ -875,7 +873,7 @@ export const Services = () => {
 
         {/* Instrument Services */}
         {activeTab === "instruments" && (
-          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+          <section className="py-10 xs:py-12 sm:py-14 md:py-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
             <div className="container mx-auto px-3 xs:px-4 sm:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -901,15 +899,15 @@ export const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     whileHover={{ scale: 1.02, y: -5 }}
-                    className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300"
+                    className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group "
                   >
                     <div className="flex items-start gap-4 mb-6">
                       <div className="flex-shrink-0">{service.icon}</div>
                       <div className="flex-1">
-                        <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                        <h3 className="text-2xl font-bold text-white mb-2">
                           {service.title}
                         </h3>
-                        <p className="text-gray-600 mb-4">
+                        <p className="text-gray-100 mb-4">
                           {service.description}
                         </p>
                       </div>
@@ -917,14 +915,14 @@ export const Services = () => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-3">
+                        <h4 className="font-semibold text-white mb-3">
                           Skill Levels
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {service.levels.map((level, levelIndex) => (
                             <span
                               key={levelIndex}
-                              className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium"
+                              className="px-3 py-1 bg-blue-400 text-white rounded-full text-sm font-medium"
                             >
                               {level}
                             </span>
@@ -932,22 +930,22 @@ export const Services = () => {
                         </div>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-800 mb-3">
+                        <h4 className="font-semibold text-white mb-3">
                           Session Duration
                         </h4>
-                        <p className="text-gray-600">{service.duration}</p>
+                        <p className="text-gray-100">{service.duration}</p>
                       </div>
                     </div>
 
                     <div className="mb-6">
-                      <h4 className="font-semibold text-gray-800 mb-3">
+                      <h4 className="font-semibold text-white mb-3">
                         What You'll Learn
                       </h4>
                       <ul className="space-y-2">
                         {service.features.map((feature, featureIndex) => (
                           <li
                             key={featureIndex}
-                            className="flex items-center gap-2 text-gray-600"
+                            className="flex items-center gap-2 text-gray-100"
                           >
                             <CheckCircle className="text-green-500 text-lg" />
                             {feature}

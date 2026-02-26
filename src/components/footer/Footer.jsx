@@ -524,7 +524,7 @@ export const Footer = () => {
                       to={link.href}
                       className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm xsm:text-base flex items-center gap-2 group"
                     >
-                      <button>
+                      <button className="w-full">
                         <span className="flex items-center gap-2">
                           {link.icon}
                           {link.name}
@@ -707,7 +707,7 @@ export const NewsletterSignup = ({ className = "", compact = false }) => {
 
   return (
     <div
-      className={`bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 xsm:p-8 text-white ${className}`}
+      className={` rounded-2xl p-6 xsm:p-8 text-white ${className}`}
     >
       <div className="text-center max-w-2xl mx-auto">
         <h3 className="text-2xl xsm:text-3xl font-bold mb-3 xsm:mb-4">
@@ -763,7 +763,7 @@ export const NewsletterSignup = ({ className = "", compact = false }) => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isSubmitting || !email}
-                className="bg-white text-purple-600 font-bold py-4 px-6 xsm:px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                className="bg-gradient-to-t from-blue-500 to-indigo-500 font-bold py-4 px-6 xsm:px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
               >
                 {isSubmitting ? (
                   <>

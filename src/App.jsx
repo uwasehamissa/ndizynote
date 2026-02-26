@@ -270,7 +270,7 @@
 //   }, [pageTitle, location.pathname]);
 
 //   return (
-//     <div className="flex min-h-screen bg-gradient-to-t from-[#102a58] to-[#0c2658]">
+//     <div className="flex min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
 //       {/* Sidebar Overlay for Mobile */}
 //       {isMobile && sidebarOpen && (
 //         <div
@@ -281,7 +281,7 @@
 
 //       {/* Sidebar */}
 //       <motion.aside
-//         className={`fixed md:relative h-full bg-gradient-to-t from-[#102a58] to-[#0c2658] text-white z-40 ${
+//         className={`fixed md:relative h-full bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white z-40 ${
 //           sidebarOpen ? "w-64" : "w-20"
 //         } transition-all duration-300 ease-in-out`}
 //         initial={{ x: -300 }}
@@ -455,7 +455,7 @@
 //         </header>
 
 //         {/* Page Content */}
-//         <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gradient-to-t from-[#102a58] to-[#0c2658]">
+//         <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
 //           <div className="max-w-7xl mx-auto">
 //             <div className="space-y-8">{children}</div>
 //           </div>
@@ -693,7 +693,7 @@
 
 //   return (
 //     <motion.div
-//       className="fixed inset-0 bg-gradient-to-t from-[#102a58] to-[#0c2658] z-50 flex flex-col items-center justify-center"
+//       className="fixed inset-0 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] z-50 flex flex-col items-center justify-center"
 //       initial={{ opacity: 0 }}
 //       animate={{ opacity: 1 }}
 //       exit={{ opacity: 0 }}
@@ -832,7 +832,7 @@
 //           animate={{ opacity: 1, x: 0 }}
 //           exit={{ opacity: 0, x: "100%" }}
 //           transition={{ type: "spring", damping: 25 }}
-//           className="fixed inset-0 z-40 bg-gradient-to-t from-[#102a58] to-[#0c2658] md:hidden"
+//           className="fixed inset-0 z-40 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] md:hidden"
 //         >
 //           <div className="flex flex-col h-full">
 //             <div className="flex justify-between items-center mb-4 sm:mb-6 md:mb-8">
@@ -989,7 +989,7 @@
 //   }, []);
 
 //   return (
-//     <div className="min-h-screen bg-gradient-to-t from-[#102a58] to-[#0c2658] text-gray-900 transition-colors duration-300 overflow-x-hidden">
+//     <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-gray-900 transition-colors duration-300 overflow-x-hidden">
 //       {/* Initial App Loading */}
 //       {loading ? (
 //         <PageLoader
@@ -1288,60 +1288,6 @@ const { logout } = useAuth();
   ];
 
   // USER DASHBOARD MENU ITEMS
-  // const userMenuItems = [
-  //   {
-  //     category: "Dashboard",
-  //     items: [
-  //       {
-  //         path: "/dashboard/user",
-  //         name: "My Dashboard",
-  //         icon: DashboardIcon,
-  //         exact: true,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     category: "My Profile",
-  //     items: [
-  //       {
-  //         path: "/dashboard/me",
-  //         name: "Profile",
-  //         icon: AccountCircle,
-  //       },
-  //       {
-  //         path: "/dashboard/me/testimony",
-  //         name: "My Testimonials",
-  //         icon: RateReview,
-  //       },
-  //       {
-  //         path: "/dashboard/me/contacts",
-  //         name: "My Contacts",
-  //         icon: Email,
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     category: "Music",
-  //     items: [
-  //       {
-  //         path: "/dashboard/classes",
-  //         name: "My Classes",
-  //         icon: School,
-  //       },
-  //       {
-  //         path: "/dashboard/schedule",
-  //         name: "Schedule",
-  //         icon: CalendarMonth,
-  //       },
-  //       {
-  //         path: "/dashboard/payments",
-  //         name: "Payments",
-  //         icon: Payment,
-  //       },
-  //     ],
-  //   },
-  // ];
-  // USER DASHBOARD MENU ITEMS
   const userMenuItems = [
     {
       category: "Dashboard",
@@ -1464,7 +1410,7 @@ const { logout } = useAuth();
   }, [pageTitle, location.pathname]);
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-t from-[#102a58] to-[#0c2658]">
+    <div className="flex min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
       {/* Sidebar Overlay for Mobile */}
       {isMobile && sidebarOpen && (
         <div
@@ -1475,7 +1421,7 @@ const { logout } = useAuth();
 
       {/* Sidebar */}
       <motion.aside
-        className={`fixed md:relative h-full bg-gradient-to-t from-[#102a58] to-[#0c2658] text-white z-40 ${
+        className={`fixed md:relative h-full bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white z-40 ${
           sidebarOpen ? "w-64" : "w-20"
         } transition-all duration-300 ease-in-out`}
         initial={{ x: -300 }}
@@ -1655,7 +1601,7 @@ const { logout } = useAuth();
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gradient-to-t from-[#102a58] to-[#0c2658]">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
           <div className="max-w-7xl mx-auto">
             <div className="space-y-8">{children}</div>
           </div>
@@ -1883,7 +1829,7 @@ const PageLoader = ({
 
   return (
     <motion.div
-      className="fixed inset-0 bg-gradient-to-t from-[#102a58] to-[#0c2658] z-50 flex flex-col items-center justify-center"
+      className="fixed inset-0 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] z-50 flex flex-col items-center justify-center"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -2022,7 +1968,7 @@ function MobileMenu({ isOpen, onClose, user }) {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: "100%" }}
           transition={{ type: "spring", damping: 25 }}
-          className="fixed inset-0 z-40 bg-gradient-to-t from-[#102a58] to-[#0c2658] md:hidden"
+          className="fixed inset-0 z-40 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] md:hidden"
         >
           <div className="flex flex-col h-full">
             <div className="flex justify-between items-center mb-4 sm:mb-6 md:mb-8">
@@ -2180,7 +2126,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-t from-[#102a58] to-[#0c2658] text-gray-900 transition-colors duration-300 overflow-x-hidden">
+    <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white transition-colors duration-300 overflow-x-hidden">
       {/* Initial App Loading */}
       {loading ? (
         <PageLoader
@@ -2218,7 +2164,7 @@ export default function App() {
                 element={
                   <>
                     <Navbar />
-                    <main className="w-full pt-12 sm:pt-14 md:pt-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772]">
+                    <main className="w-full pt-12 sm:pt-14 md:pt-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
                       <ResponsiveContainer>
                         <PageTransition>{route.element}</PageTransition>
                       </ResponsiveContainer>

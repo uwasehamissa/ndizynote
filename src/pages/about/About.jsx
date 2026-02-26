@@ -23,6 +23,7 @@ import {
   CalendarMonth,
   Person,
   MusicNote,
+  ArtTrack,
 } from "@mui/icons-material";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -793,7 +794,7 @@ export const About = () => {
   // Music Teaching Services
   const teachingServices = [
     {
-      icon: <PianoIcon />,
+      icon: <PianoIcon className="text-white" />,
       title: "Piano Lessons",
       description:
         "Comprehensive piano training from classical to contemporary styles",
@@ -806,7 +807,7 @@ export const About = () => {
       ],
     },
     {
-      icon: <GuitarIcon />,
+      icon: <GuitarIcon className="text-white"/>,
       title: "Guitar Training",
       description:
         "Acoustic, electric, and bass guitar mastery across all genres",
@@ -949,25 +950,25 @@ export const About = () => {
   // Enhanced Mission Features
   const missionFeatures = [
     {
-      icon: <MusicNote className="text-2xl text-purple-500" />,
+      icon: <MusicNote className="text-2xl text-white" />,
       title: "Accelerated Learning",
       description: "Proprietary methods that fast-track musical proficiency",
       gradient: "from-purple-500 to-pink-500",
     },
     {
-      icon: <Person className="text-2xl text-blue-500" />,
+      icon: <Person className="text-2xl text-white" />,
       title: "Personal Mastery",
       description: "Tailored instruction for individual artistic development",
       gradient: "from-blue-500 to-cyan-500",
     },
     {
-      icon: <AutoAwesome className="text-2xl text-green-500" />,
+      icon: <ArtTrack className="text-2xl text-white" />,
       title: "Artistic Expression",
       description: "Nurturing creativity and personal musical voice",
       gradient: "from-green-500 to-emerald-500",
     },
     {
-      icon: <School className="text-2xl text-orange-500" />,
+      icon: <School className="text-2xl text-white" />,
       title: "Master Instruction",
       description: "Learn from accomplished musicians and educators",
       gradient: "from-orange-500 to-red-500",
@@ -976,9 +977,9 @@ export const About = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl pt-4">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl pt-4">
         {/* Hero Section */}
-        <section className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
+        <section className="relative py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white overflow-hidden">
           <div className="absolute inset-0"></div>
           {/* Animated background elements */}
           <div className="absolute top-10 left-10 opacity-10">
@@ -992,7 +993,7 @@ export const About = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="text-center max-w-4xl mx-auto"
+              className="text-center max-w-5xl mx-auto"
             >
               <motion.h1
                 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
@@ -1000,8 +1001,9 @@ export const About = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Where <span className="text-cyan-300">Technical Precision</span>{" "}
-                Meets <span className="text-pink-300">Artistic Expression</span>
+                Where Technical Precision Meets Artistic 
+                Expression
+                
               </motion.h1>
               <motion.p
                 className="text-xl sm:text-2xl text-white/90 mb-8 leading-relaxed"
@@ -1018,7 +1020,7 @@ export const About = () => {
         </section>
 
         {/* Enhanced Mission Section */}
-        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1045,7 +1047,7 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
                 >
                   <div
                     className={`w-12 h-12 bg-gradient-to-r ${feature.gradient} rounded-xl flex items-center justify-center text-white mb-4`}
@@ -1067,7 +1069,7 @@ export const About = () => {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-3xl p-8 sm:p-12"
+              className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-3xl p-8 sm:p-12"
             >
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                 {stats.map((stat, index) => (
@@ -1105,7 +1107,7 @@ export const About = () => {
         </section>
 
         {/* Enhanced Music Teaching Services */}
-        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1131,10 +1133,10 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 group"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 "
                 >
                   <div className="flex items-start gap-4 mb-4">
-                    <div className="flex-shrink-0 text-blue-500 transform group-hover:scale-110 transition-transform duration-300">
+                    <div className="flex-shrink-0 text-white transform group-hover:scale-110 transition-transform duration-300">
                       {service.icon}
                     </div>
                     <div>
@@ -1153,7 +1155,7 @@ export const About = () => {
                       {service.levels.map((level, levelIndex) => (
                         <span
                           key={levelIndex}
-                          className="px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 rounded-full text-sm font-medium"
+                          className="px-3 py-1 text-white bg-blue-400 rounded-full text-sm font-medium"
                         >
                           {level}
                         </span>
@@ -1169,7 +1171,7 @@ export const About = () => {
                           key={featureIndex}
                           className="flex items-center gap-2 text-gray-100"
                         >
-                          <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                           {feature}
                         </li>
                       ))}
@@ -1182,7 +1184,7 @@ export const About = () => {
         </section>
 
         {/* Enhanced Vocal Services */}
-        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
           <div className="container mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -1207,7 +1209,7 @@ export const About = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   whileHover={{ scale: 1.02, y: -5 }}
-                  className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group"
+                  className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 group"
                 >
                   <div className="flex items-start gap-4 mb-6">
                     <div className="flex-shrink-0 transform group-hover:scale-110 transition-transform duration-300">
@@ -1275,7 +1277,7 @@ export const About = () => {
                   <motion.div
                     key={index}
                     whileHover={{ scale: 1.05, y: -5 }}
-                    className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-center group"
+                    className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-center group"
                   >
                     <div className="text-purple-600 mb-4 flex justify-center transform group-hover:scale-110 transition-transform duration-300">
                       {program.icon}
@@ -1294,7 +1296,7 @@ export const About = () => {
         </section>
 
         {/* Enhanced CTA Section */}
-        <section className="py-16 sm:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white relative overflow-hidden">
+        <section className="py-16 sm:py-20 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white relative overflow-hidden">
           <div className="absolute inset-0">
             <div className="absolute top-0 left-0 w-32 h-32 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
             <div className="absolute bottom-0 right-0 w-48 h-48 bg-white/10 rounded-full translate-x-1/2 translate-y-1/2"></div>
@@ -1318,7 +1320,7 @@ export const About = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsBookModalOpen(true)}
-                  className="bg-white text-purple-600 font-bold py-4 px-8 rounded-xl hover:bg-gray-100 transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
+                  className=" font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg flex items-center justify-center gap-2"
                 >
                   <CalendarMonth className="text-lg" />
                   Book a Trial Lesson
@@ -1327,7 +1329,7 @@ export const About = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setIsContactModalOpen(true)}
-                  className="bg-transparent border-2 bg-gradient-to-b from-blue-400 to-indigo-400 font-bold py-4 px-8 rounded-xl hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="bg-transparent border-2  font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <Email className="text-lg" />
                   Contact Us
@@ -1338,7 +1340,7 @@ export const About = () => {
         </section>
 
         {/* Contact Information Section */}
-        <section className="py-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+        <section className="py-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <motion.div

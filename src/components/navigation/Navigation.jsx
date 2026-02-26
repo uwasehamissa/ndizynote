@@ -34,6 +34,7 @@ import {
   Send,
 } from "@mui/icons-material";
 import Button from "@mui/material/Button";
+import logos from "../../assets/images/03_24_19 AM.png";
 
 // =============================================
 // CONFIGURATION SECTION - Easy to modify settings
@@ -51,7 +52,9 @@ const navigationConfig = {
     { name: "Classes", path: "/classes", icon: <School /> },
     { name: "FAQ", path: "/faq", icon: <Help /> },
   ],
-  authenticated: [{ name: "Dashboard", path: "/dashboard", icon: <Dashboard /> }],
+  authenticated: [
+    { name: "Dashboard", path: "/dashboard", icon: <Dashboard /> },
+  ],
 };
 
 // =============================================
@@ -136,7 +139,7 @@ export const useAuth = () => {
 // API SERVICE FUNCTIONS - All backend communications
 // =============================================
 
- const apiService = {
+const apiService = {
   /**
    * Login user with email and password
    */
@@ -186,7 +189,7 @@ export const useAuth = () => {
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/users/forgot-password`,
-        { email }
+        { email },
       );
       return response.data;
     } catch (error) {
@@ -203,10 +206,13 @@ export const useAuth = () => {
    */
   resetPassword: async (token, password) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/users/reset-password`, {
-        token,
-        password,
-      });
+      const response = await axios.post(
+        `${API_BASE_URL}/api/users/reset-password`,
+        {
+          token,
+          password,
+        },
+      );
       return response.data;
     } catch (error) {
       const errorMessage =
@@ -222,21 +228,23 @@ export const useAuth = () => {
    */
   contact: async (formData) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/api/contacts/contact`, formData);
+      const response = await axios.post(
+        `${API_BASE_URL}/api/contacts/contact`,
+        formData,
+      );
       return response.data;
     } catch (error) {
       throw new Error(
-        error.response?.data?.message || "Message sending failed. Please try again."
+        error.response?.data?.message ||
+          "Message sending failed. Please try again.",
       );
     }
   },
 };
 
-
 // =============================================
 // AUTH PROVIDER - Manages user authentication state
 // =============================================
-
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
@@ -292,7 +300,11 @@ export const AuthProvider = ({ children }) => {
       setUser(savedUser);
       setIsAuthenticated(true);
 
-      return { success: true, user: savedUser, message: response.message || "Login successful" };
+      return {
+        success: true,
+        user: savedUser,
+        message: response.message || "Login successful",
+      };
     } catch (error) {
       console.error("Login error:", error);
       return { success: false, error: error.message };
@@ -305,12 +317,18 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password, confirmPassword) => {
     try {
       setIsLoading(true);
-      const response = await apiService.register(name, email, password, confirmPassword);
+      const response = await apiService.register(
+        name,
+        email,
+        password,
+        confirmPassword,
+      );
 
       const userData = response.data?.user || response.user || response;
       const token = response.data?.token || response.token;
 
-      if (!userData || !token) return { success: false, error: "Invalid registration response" };
+      if (!userData || !token)
+        return { success: false, error: "Invalid registration response" };
 
       const userStatus = userData.status || userData.role || "user";
 
@@ -331,7 +349,11 @@ export const AuthProvider = ({ children }) => {
       setUser(savedUser);
       setIsAuthenticated(true);
 
-      return { success: true, user: savedUser, message: response.message || "Registration successful" };
+      return {
+        success: true,
+        user: savedUser,
+        message: response.message || "Registration successful",
+      };
     } catch (error) {
       console.error("Registration error:", error);
       return { success: false, error: error.message };
@@ -340,59 +362,44 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // LOGOUT
-  // const logout = () => {
-  //   setUser(null);
-  //   setIsAuthenticated(false);
-
-  //   localStorage.removeItem("user");
-  //   localStorage.removeItem("token");
-  //   localStorage.removeItem("userEmail");
-  //   localStorage.removeItem("userRole");
-  //   Cookies.remove("user");
-
-  //   delete axios.defaults.headers.common["Authorization"];
-  // };
-
   const logout = async () => {
-  const token = Cookies.get("token") || localStorage.getItem("token");
+    const token = Cookies.get("token") || localStorage.getItem("token");
 
-  try {
-    if (token) {
-      await axios.post(
-        "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+    try {
+      if (token) {
+        await axios.post(
+          "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
           },
-          withCredentials: true,
-        }
-      );
+        );
+      }
+    } catch (error) {
+      console.error("Backend logout failed:", error.response?.data || error);
+      // Do NOT block logout
     }
-  } catch (error) {
-    console.error("Backend logout failed:", error.response?.data || error);
-    // Do NOT block logout
-  }
 
-  // ✅ frontend cleanup ALWAYS
-  setUser(null);
-  setIsAuthenticated(false);
+    // ✅ frontend cleanup ALWAYS
+    setUser(null);
+    setIsAuthenticated(false);
 
-  localStorage.removeItem("user");
-  localStorage.removeItem("token");
-  localStorage.removeItem("userEmail");
-  localStorage.removeItem("userRole");
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
 
-  Cookies.remove("user");
-  Cookies.remove("token");
+    Cookies.remove("user");
+    Cookies.remove("token");
 
-  delete axios.defaults.headers.common["Authorization"];
+    delete axios.defaults.headers.common["Authorization"];
 
-  // ✅ redirect last
-  window.location.href = "/";
-};
-
+    // ✅ redirect last
+    window.location.href = "/";
+  };
 
   // INIT AUTH
   useEffect(() => {
@@ -415,7 +422,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, register, logout, setUser }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isAuthenticated,
+        isLoading,
+        login,
+        register,
+        logout,
+        setUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -616,11 +633,7 @@ const LoginForm = ({
       disabled={isSubmitting}
       className="w-full bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-700 text-white py-4 px-4 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-800 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
     >
-      {isSubmitting ? (
-        <LoadingSpinner size="sm" />
-      ) : (
-        "Sign In"
-      )}
+      {isSubmitting ? <LoadingSpinner size="sm" /> : "Sign In"}
     </motion.button>
 
     <div className="mt-8 text-center">
@@ -720,11 +733,7 @@ const RegisterForm = ({
       disabled={isSubmitting}
       className="w-full bg-gradient-to-tr from-green-500 via-emerald-500 to-teal-600 text-white py-4 px-4 rounded-xl hover:from-green-600 hover:via-emerald-600 hover:to-teal-700 transition-all duration-200 font-semibold shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
     >
-      {isSubmitting ? (
-        <LoadingSpinner size="sm" />
-      ) : (
-        "Create Account"
-      )}
+      {isSubmitting ? <LoadingSpinner size="sm" /> : "Create Account"}
     </motion.button>
 
     <div className="mt-8 text-center">
@@ -979,7 +988,6 @@ const getDashboardPath = (user) => {
   return "/";
 };
 
-
 /**
  * Get display-friendly user status
  */
@@ -1025,32 +1033,37 @@ export const Navbar = () => {
   });
 
   // Authentication hooks
-  const { isAuthenticated, user, login, register: registerUser, logout } = useAuth();
+  const {
+    isAuthenticated,
+    user,
+    login,
+    register: registerUser,
+    logout,
+  } = useAuth();
   const [User, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-  const userCookie = Cookies.get("user");
-  if (!userCookie) {
-    setUser(null);
-    return;
-  }
+    const userCookie = Cookies.get("user");
+    if (!userCookie) {
+      setUser(null);
+      return;
+    }
 
-  try {
-    const parsedUser = JSON.parse(userCookie);
+    try {
+      const parsedUser = JSON.parse(userCookie);
 
-    // optional safety check
-    if (parsedUser?.status || parsedUser?.role) {
-      setUser(parsedUser);
-    } else {
+      // optional safety check
+      if (parsedUser?.status || parsedUser?.role) {
+        setUser(parsedUser);
+      } else {
+        setUser(null);
+      }
+    } catch (err) {
+      console.error("Invalid user cookie", err);
       setUser(null);
     }
-  } catch (err) {
-    console.error("Invalid user cookie", err);
-    setUser(null);
-  }
-}, []);
-
+  }, []);
 
   // =============================================
   // MODAL MANAGEMENT FUNCTIONS
@@ -1155,14 +1168,14 @@ export const Navbar = () => {
       registerForm.name,
       registerForm.email,
       registerForm.password,
-      registerForm.confirmPassword
+      registerForm.confirmPassword,
     );
 
     if (result.success) {
       if (result.autoLoggedIn) {
         // Auto-login successful
         toast.success(
-          `Welcome to NdizNote Musics hub, ${result.user.name}! 🚀`
+          `Welcome to NdizNote Musics hub, ${result.user.name}! 🚀`,
         );
         setTimeout(() => {
           closeModals();
@@ -1172,7 +1185,7 @@ export const Navbar = () => {
       } else {
         // Registration successful, need to login
         toast.success(
-          "Account created successfully! Please login with your credentials. ✅"
+          "Account created successfully! Please login with your credentials. ✅",
         );
         setTimeout(() => {
           setIsRegisterOpen(false);
@@ -1206,12 +1219,12 @@ export const Navbar = () => {
         }, 2000);
       } else {
         toast.error(
-          result.error || "Failed to send reset email. Please try again."
+          result.error || "Failed to send reset email. Please try again.",
         );
       }
     } catch (error) {
       toast.error(
-        error.message || "Failed to send reset email. Please try again."
+        error.message || "Failed to send reset email. Please try again.",
       );
     }
     setIsSubmitting(false);
@@ -1229,7 +1242,7 @@ export const Navbar = () => {
     try {
       const result = await apiService.resetPassword(
         resetPasswordForm.token,
-        resetPasswordForm.password
+        resetPasswordForm.password,
       );
       if (result.success) {
         toast.success("Password reset successfully! ✅");
@@ -1239,12 +1252,12 @@ export const Navbar = () => {
         }, 2000);
       } else {
         toast.error(
-          result.error || "Failed to reset password. Please try again."
+          result.error || "Failed to reset password. Please try again.",
         );
       }
     } catch (error) {
       toast.error(
-        error.message || "Failed to reset password. Please try again."
+        error.message || "Failed to reset password. Please try again.",
       );
     }
     setIsSubmitting(false);
@@ -1262,14 +1275,14 @@ export const Navbar = () => {
         setContactForm({ name: "", email: "", subject: "", message: "" });
       } else {
         setErrorMessage(
-          result.error || "Failed to send message. Please try again."
+          result.error || "Failed to send message. Please try again.",
         );
         setIsContactOpen(false);
         setIsFailModalOpen(true);
       }
     } catch (error) {
       setErrorMessage(
-        error.message || "Failed to send message. Please try again."
+        error.message || "Failed to send message. Please try again.",
       );
       setIsContactOpen(false);
       setIsFailModalOpen(true);
@@ -1283,52 +1296,33 @@ export const Navbar = () => {
     navigate("/");
   };
 
-  // const handleDashboardNavigation = () => {
-  //   if (user) {
-  //     const dashboardPath = getDashboardPath(user);
-  //     navigate(dashboardPath);
-  //   } else {
-  //     navigate("/dashboard");
-  //   }
-  // };
+  const handleDashboardNavigation = () => {
+    const userCookie = Cookies.get("user");
 
-const handleDashboardNavigation = () => {
-  const userCookie = Cookies.get("user");
+    if (!userCookie) {
+      navigate("/");
+      return;
+    }
 
-  if (!userCookie) {
-    navigate("/");
-    return;
-  }
-
-  try {
-    const parsedUser = JSON.parse(userCookie);
-    navigate(getDashboardPath(parsedUser));
-  } catch (err) {
-    console.error("Invalid user cookie", err);
-    navigate("/");
-  }
-};
-
-
-
+    try {
+      const parsedUser = JSON.parse(userCookie);
+      navigate(getDashboardPath(parsedUser));
+    } catch (err) {
+      console.error("Invalid user cookie", err);
+      navigate("/");
+    }
+  };
 
   return (
     <>
       {/* Navigation Bar */}
-      <nav className="w-full bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white backdrop-blur-md shadow-lg sticky top-0 border-b border-gray-200 overflow-visible">
+      <nav className="w-full bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white backdrop-blur-md shadow-lg sticky top-0 border-b border-gray-200 overflow-visible">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between h-16">
             {/* Logo Section */}
             <div className="flex items-center">
               <Link to="/" className="flex-shrink-0 flex items-center">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="flex items-center space-x-3"
-                >
-                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    NdizyNote
-                  </span>
-                </motion.div>
+                <img src={logos} alt="" className="w-24 h-20 rounded-2xl" />
               </Link>
             </div>
 
@@ -1341,21 +1335,21 @@ const handleDashboardNavigation = () => {
                   to={item.path}
                   className="flex items-center space-x-2 transition-all duration-200 font-medium group"
                 >
-                  <Button className="bg-gradient-to-t from-blue-300 to-indigo-300 hover:from-blue-400 hover:to-indigo-400 transition-all duration-300">
+                  <button className=" transition-all duration-300">
                     <span className="relative">
                       {item.name}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 group-hover:w-full transition-all duration-300"></span>
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5  group-hover:w-full transition-all duration-300"></span>
                     </span>
-                  </Button>
+                  </button>
                 </Link>
               ))}
 
               {/* Contact Button */}
               <button
                 onClick={openContact}
-                className="flex items-center p-2 rounded-sm space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 font-medium group"
-              >  
-                  Contact
+                className="flex items-center p-2 rounded-sm space-x-2 transition-all duration-200 font-medium group"
+              >
+                Contact
               </button>
 
               {/* Dashboard Button for Logged-in Users */}
@@ -1364,9 +1358,9 @@ const handleDashboardNavigation = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={handleDashboardNavigation}
-                  className="bg-gradient-to-tr from-blue-600 via-purple-600 to-indigo-700 text-white px-6 py-2.5 rounded-xl hover:from-blue-700 hover:via-purple-700 hover:to-indigo-800 transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 flex items-center space-x-2"
+                  className="bg-gradient-to-tr from-blue-400 via-purple-400 to-indigo-400 text-white px-6 py-2.5 rounded-xl transition-all duration-200 font-semibold shadow-lg shadow-blue-500/25 flex items-center space-x-2"
                 >
-                  <Dashboard className="w-5 h-5" />
+                  <Dashboard className="w-5 h-5 text-white" />
                 </motion.button>
               )}
             </div>
@@ -1379,17 +1373,17 @@ const handleDashboardNavigation = () => {
                   <div className="flex items-center space-x-3 min-w-0 bg-white backdrop-blur-sm rounded-xl px-3 py-2 border border-gray-200/50">
                     <img
                       src={
-                        user?.avatar ||
-                        `https://getdrawings.com/free-icon-bw/red-person-icon-8.png`
+                        user?.avatar
+                          ? user.avatar // Use custom avatar if available
+                          : user?.status === "admin"
+                            ? `https://getdrawings.com/free-icon-bw/admin-icon-8.png` // Default admin image
+                            : `https://getdrawings.com/free-icon-bw/red-person-icon-8.png` // Default user image
                       }
                       alt=""
                       className="w-8 h-8 rounded-full border-2 border-blue-500 flex-shrink-0"
                     />
                     <div className="text-right min-w-0">
-                      <p className="text-sm font-medium text-blue-400 truncate max-w-32">
-                        {user?.name}
-                      </p>
-                      <p className="text-xs text-purple-600 capitalize font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text">
+                      <p className="text-xs text-purple-600 capitalize font-semibold bg-clip-text">
                         {getUserDisplayStatus(user)}
                       </p>
                     </div>
@@ -1399,7 +1393,7 @@ const handleDashboardNavigation = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleLogout}
-                    className="bg-gradient-to-tr from-gray-600 via-green-700 to-blue-800 text-white px-4 py-2.5 rounded-xl hover:from-blue-700 hover:via-gray-800 hover:to-green-900 transition-all duration-200 font-semibold shadow-lg flex items-center space-x-2"
+                    className="bg-gradient-to-tr from-red-600 via-red-500 to-red-700 text-white px-4 py-2.5 rounded-xl hover:from-blue-700 hover:via-gray-800 hover:to-green-900 transition-all duration-200 font-semibold shadow-lg flex items-center space-x-2"
                   >
                     <Logout className="w-5 h-5" />
                   </motion.button>
@@ -1434,7 +1428,11 @@ const handleDashboardNavigation = () => {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 className="bg-gradient-to-tr from-blue-500 to-purple-600 text-white p-2.5 rounded-xl shadow-lg"
               >
-                {isMobileMenuOpen ? <MaterialIcons.Close /> : <MaterialIcons.Menu />}
+                {isMobileMenuOpen ? (
+                  <MaterialIcons.Close />
+                ) : (
+                  <MaterialIcons.Menu />
+                )}
               </motion.button>
             </div>
           </div>
@@ -1461,7 +1459,9 @@ const handleDashboardNavigation = () => {
                     }}
                     className="w-full flex items-center space-x-3 px-4 py-3 text-left text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 hover:text-blue-600 rounded-xl transition-all duration-200 font-medium"
                   >
-                    {item.icon && <span className="text-blue-500">{item.icon}</span>}
+                    {item.icon && (
+                      <span className="text-blue-500">{item.icon}</span>
+                    )}
                     <Button className="w-full bg-gradient-to-r from-blue-200 to-violet-200 justify-start">
                       <span>{item.name}</span>
                     </Button>

@@ -71,7 +71,7 @@ const FAQItem = ({ faq, isOpen, onClick, index }) => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-white overflow-hidden bg-gradient-to-t from-[#1e4c9c] to-[#183772]"
+      className="rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 text-white overflow-hidden bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white"
     >
       <button
         onClick={onClick}
@@ -96,14 +96,14 @@ const FAQItem = ({ faq, isOpen, onClick, index }) => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="overflow-hidden bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white"
+            className="overflow-hidden bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white"
           >
             <div className="px-4 xsm:px-6 sm:px-8 pb-4 xsm:pb-5 sm:pb-6">
               <p className="leading-relaxed text-sm xsm:text-base text-gray-100">
                 {faq.answer}
               </p>
               {faq.additionalInfo && (
-                <div className="mt-3 xsm:mt-4 p-3 xsm:p-4 rounded-lg border bg-gradient-to-t from-[#1e4c9c] to-[#183772]">
+                <div className="mt-3 xsm:mt-4 p-3 xsm:p-4 rounded-lg border bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
                   <p className="text-xs xsm:text-sm font-medium text-white">
                     {faq.additionalInfo}
                   </p>
@@ -371,10 +371,10 @@ export const FAQ = () => {
   };
 
   return (
-    <div className="min-h-screen transition-colors duration-300 pt-20 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+    <div className="min-h-screen transition-colors duration-300 pt-20 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
       {/* Hero Section */}
-      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
-        <div className="absolute inset-0 bg-black/20"></div>
+      <section className="relative py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white overflow-hidden">
+        <div className="absolute inset-0"></div>
         <div className="absolute top-4 xsm:top-6 left-4 xsm:left-6 opacity-10">
           <SupportIcon className="w-8 h-8 xsm:w-12 xsm:h-12 sm:w-16 sm:h-16" />
         </div>
@@ -410,7 +410,7 @@ export const FAQ = () => {
       </section>
 
       {/* Search Section */}
-      <section className="py-8 xsm:py-12 sm:py-16 transition-colors duration-300 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
+      <section className="py-8 xsm:py-12 sm:py-16 transition-colors duration-300 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -445,7 +445,7 @@ export const FAQ = () => {
       </section>
 
       {/* FAQ Content */}
-      <section className="py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#183772]">
+      <section className="py-12 xsm:py-16 sm:py-20 lg:py-24 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
         <div className="container mx-auto px-3 xsm:px-4 sm:px-6">
           {/* Category Filters */}
           <motion.div

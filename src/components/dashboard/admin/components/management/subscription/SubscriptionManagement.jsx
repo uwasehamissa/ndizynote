@@ -27,7 +27,6 @@
 //   PlayArrow
 // } from '@mui/icons-material';
 
-
 // const API_BASE_URL = 'https://ndizmusicprojectbackend.onrender.com';
 
 // // Create axios instance
@@ -58,16 +57,16 @@
 //   const [subscriptions, setSubscriptions] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [sidebarOpen, setSidebarOpen] = useState(false);
-  
+
 //   // Modal States
 //   const [showCreateModal, setShowCreateModal] = useState(false);
 //   const [showViewModal, setShowViewModal] = useState(false);
 //   const [showEditModal, setShowEditModal] = useState(false);
 //   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  
+
 //   const [selectedSubscription, setSelectedSubscription] = useState(null);
 //   const [actionLoading, setActionLoading] = useState(false);
-  
+
 //   // Filter States
 //   const [searchTerm, setSearchTerm] = useState('');
 //   const [filterStatus, setFilterStatus] = useState('all');
@@ -90,7 +89,7 @@
 //     const today = new Date();
 //     const nextMonth = new Date(today);
 //     nextMonth.setMonth(today.getMonth() + 1);
-    
+
 //     return [
 //       {
 //         id: 1,
@@ -165,9 +164,9 @@
 //     try {
 //       setLoading(true);
 //       const response = await api.get('/newsletter');
-      
+
 //       let subscriptionsData = [];
-      
+
 //       if (response.status === 200 && response.data) {
 //         if (Array.isArray(response.data)) {
 //           subscriptionsData = response.data;
@@ -181,7 +180,7 @@
 //       } else {
 //         subscriptionsData = getMockData();
 //       }
-      
+
 //       setSubscriptions(subscriptionsData);
 //     } catch (error) {
 //       console.error('Error fetching subscriptions:', error);
@@ -278,7 +277,7 @@
 
 //       if (response.status === 200) {
 //         const updatedSubscription = response.data;
-//         setSubscriptions(prev => prev.map(sub => 
+//         setSubscriptions(prev => prev.map(sub =>
 //           sub.id === selectedSubscription.id ? updatedSubscription : sub
 //         ));
 //         setShowEditModal(false);
@@ -295,7 +294,7 @@
 //         ...formData,
 //         updatedAt: new Date().toISOString()
 //       };
-//       setSubscriptions(prev => prev.map(sub => 
+//       setSubscriptions(prev => prev.map(sub =>
 //         sub.id === selectedSubscription.id ? updatedSubscription : sub
 //       ));
 //       setShowEditModal(false);
@@ -314,7 +313,7 @@
 
 //       if (response.status === 200) {
 //         const updatedSubscription = response.data;
-//         setSubscriptions(prev => prev.map(sub => 
+//         setSubscriptions(prev => prev.map(sub =>
 //           sub.id === subscriptionId ? updatedSubscription : sub
 //         ));
 //       } else {
@@ -322,8 +321,8 @@
 //       }
 //     } catch (error) {
 //       console.error('Error updating status:', error);
-//       setSubscriptions(prev => prev.map(sub => 
-//         sub.id === subscriptionId 
+//       setSubscriptions(prev => prev.map(sub =>
+//         sub.id === subscriptionId
 //           ? { ...sub, status: newStatus, updatedAt: new Date().toISOString() }
 //           : sub
 //       ));
@@ -398,18 +397,18 @@
 //   // Filter subscriptions
 //   const filteredSubscriptions = (Array.isArray(subscriptions) ? subscriptions : []).filter(subscription => {
 //     if (!subscription || typeof subscription !== 'object') return false;
-    
+
 //     const name = subscription.name || '';
 //     const email = subscription.email || '';
 //     const status = subscription.status || '';
 //     const plan = subscription.plan || '';
-    
+
 //     const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 //                          email.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
 //     const matchesStatus = filterStatus === 'all' || status === filterStatus;
 //     const matchesPlan = filterPlan === 'all' || plan === filterPlan;
-    
+
 //     return matchesSearch && matchesStatus && matchesPlan;
 //   });
 
@@ -454,7 +453,7 @@
 //                 <p className="text-gray-600 mt-1">Manage your subscribers</p>
 //               </div>
 //             </div>
-            
+
 //             <div className="flex items-center space-x-3">
 //               <button
 //                 onClick={fetchSubscriptions}
@@ -715,8 +714,8 @@
 //                         <Person className="mx-auto text-gray-400 text-6xl mb-4" />
 //                         <h3 className="text-xl font-semibold text-gray-900 mb-2">No Subscriptions Found</h3>
 //                         <p className="text-gray-600 mb-6">
-//                           {totalSubscriptions === 0 
-//                             ? "Get started by adding your first subscriber." 
+//                           {totalSubscriptions === 0
+//                             ? "Get started by adding your first subscriber."
 //                             : "No subscriptions match your current filters."}
 //                         </p>
 //                         <motion.button
@@ -1231,11 +1230,11 @@
 //                 <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
 //                   <DeleteIcon className="text-red-600 text-2xl" />
 //                 </div>
-                
+
 //                 <h3 className="text-xl font-semibold text-gray-900 mb-2">
 //                   Delete Subscriber?
 //                 </h3>
-                
+
 //                 <p className="text-gray-600 mb-6">
 //                   Are you sure you want to delete <strong>{selectedSubscription.name}</strong>?
 //                   This action cannot be undone.
@@ -1275,22 +1274,6 @@
 //     </div>
 //   );
 // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // /* eslint-disable no-unused-vars */
 // import React, { useState, useEffect } from 'react';
@@ -1355,36 +1338,36 @@
 //   },
 //   (error) => {
 //     console.error('Response Error:', error);
-    
+
 //     if (error.code === 'ECONNABORTED') {
 //       throw new Error('Request timeout. Please try again.');
 //     }
-    
+
 //     if (!error.response) {
 //       throw new Error('Network error. Please check your connection.');
 //     }
-    
+
 //     if (error.response.status === 401) {
 //       throw new Error('Unauthorized. Please login.');
 //     }
-    
+
 //     if (error.response.status === 403) {
 //       throw new Error('Access denied.');
 //     }
-    
+
 //     if (error.response.status === 404) {
 //       throw new Error('Resource not found.');
 //     }
-    
+
 //     if (error.response.status === 500) {
 //       throw new Error('Server error. Please try again later.');
 //     }
-    
-//     const errorMessage = error.response?.data?.message || 
+
+//     const errorMessage = error.response?.data?.message ||
 //                         error.response?.data?.error ||
 //                         error.message ||
 //                         'An unexpected error occurred';
-    
+
 //     throw new Error(errorMessage);
 //   }
 // );
@@ -1448,7 +1431,7 @@
 //             className="absolute inset-0 bg-black bg-opacity-50"
 //             onClick={onClose}
 //           />
-          
+
 //           {/* Modal */}
 //           <motion.div
 //             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -1506,37 +1489,37 @@
 // // Validation functions
 // const validateSubscriptionData = (data) => {
 //   const errors = [];
-  
+
 //   if (!data.name || data.name.trim().length < 2) {
 //     errors.push('Name must be at least 2 characters');
 //   }
-  
+
 //   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
 //     errors.push('Valid email is required');
 //   }
-  
+
 //   if (data.phone && !/^[\d\s\-\+\(\)]{10,}$/.test(data.phone)) {
 //     errors.push('Invalid phone number format');
 //   }
-  
+
 //   if (!data.startDate) {
 //     errors.push('Start date is required');
 //   }
-  
+
 //   return errors;
 // };
 
 // // Sanitize data function
 // const sanitizeSubscriptionData = (data) => {
 //   const sanitized = { ...data };
-  
+
 //   // Trim all string fields
 //   Object.keys(sanitized).forEach(key => {
 //     if (typeof sanitized[key] === 'string') {
 //       sanitized[key] = sanitized[key].trim();
 //     }
 //   });
-  
+
 //   return sanitized;
 // };
 
@@ -1561,16 +1544,16 @@
 //   const [loading, setLoading] = useState(true);
 //   const [sidebarOpen, setSidebarOpen] = useState(false);
 //   const [error, setError] = useState(null);
-  
+
 //   // Modal States
 //   const [showCreateModal, setShowCreateModal] = useState(false);
 //   const [showViewModal, setShowViewModal] = useState(false);
 //   const [showEditModal, setShowEditModal] = useState(false);
 //   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  
+
 //   const [selectedSubscription, setSelectedSubscription] = useState(null);
 //   const [actionLoading, setActionLoading] = useState(false);
-  
+
 //   // Feedback modal state
 //   const [feedbackModal, setFeedbackModal] = useState({
 //     isOpen: false,
@@ -1622,12 +1605,12 @@
 //     try {
 //       setLoading(true);
 //       setError(null);
-      
+
 //       console.log('Fetching subscriptions from API...');
 //       const response = await api.get('/newsletter');
-      
+
 //       let subscriptionsData = [];
-      
+
 //       if (response.status === 200 && response.data) {
 //         if (Array.isArray(response.data)) {
 //           subscriptionsData = response.data;
@@ -1636,22 +1619,22 @@
 //         } else if (response.data.data && Array.isArray(response.data.data)) {
 //           subscriptionsData = response.data.data;
 //         } else if (response.data && typeof response.data === 'object') {
-//           subscriptionsData = Object.values(response.data).filter(item => 
+//           subscriptionsData = Object.values(response.data).filter(item =>
 //             item && typeof item === 'object' && (item.id || item._id)
 //           );
 //         }
 //       }
-      
+
 //       // Sort by creation date, newest first
 //       const sortedData = subscriptionsData.sort((a, b) => {
 //         const dateA = new Date(a.createdAt || a.date || 0);
 //         const dateB = new Date(b.createdAt || b.date || 0);
 //         return dateB - dateA;
 //       });
-      
+
 //       setSubscriptions(sortedData);
 //       showFeedback("success", "Success!", "Subscriptions loaded successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error fetching subscriptions:', error);
 //       setError(error.message);
@@ -1705,15 +1688,15 @@
 
 //       // Sanitize data
 //       const sanitizedData = sanitizeSubscriptionData(formData);
-      
+
 //       console.log('Creating subscription with data:', sanitizedData);
-      
+
 //       // Send to API
 //       const response = await api.post('/newsletter/newsletter', sanitizedData);
-      
+
 //       // Handle response
 //       let newSubscription;
-      
+
 //       if (response.data && response.data.data) {
 //         newSubscription = response.data.data;
 //       } else if (response.data && response.data.subscription) {
@@ -1724,14 +1707,14 @@
 
 //       // Add to state (newest first)
 //       setSubscriptions(prev => [newSubscription, ...prev]);
-      
+
 //       // Reset form and close modal
 //       setShowCreateModal(false);
 //       resetForm();
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", "Subscription created successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error creating subscription:', error);
 //       const errorMessage = error.message || 'Failed to create subscription';
@@ -1765,7 +1748,7 @@
 
 //     setActionLoading(true);
 //     setError(null);
-    
+
 //     try {
 //       // Validate data
 //       const validationErrors = validateSubscriptionData(formData);
@@ -1777,22 +1760,22 @@
 
 //       // Sanitize data
 //       const sanitizedData = sanitizeSubscriptionData(formData);
-      
+
 //       // Get subscription ID
 //       const subscriptionId = selectedSubscription._id || selectedSubscription.id;
-      
+
 //       if (!subscriptionId) {
 //         throw new Error('Subscription ID is required for update');
 //       }
 
 //       console.log('Updating subscription:', subscriptionId, sanitizedData);
-      
+
 //       // Send to API
 //       const response = await api.put(`/newsletter/${subscriptionId}`, sanitizedData);
-      
+
 //       // Handle response
 //       let updatedSubscription;
-      
+
 //       if (response.data && response.data.data) {
 //         updatedSubscription = response.data.data;
 //       } else if (response.data && response.data.subscription) {
@@ -1802,20 +1785,20 @@
 //       }
 
 //       // Update state
-//       setSubscriptions(prev => prev.map(sub => 
-//         (sub._id === selectedSubscription._id || sub.id === selectedSubscription.id) 
-//           ? updatedSubscription 
+//       setSubscriptions(prev => prev.map(sub =>
+//         (sub._id === selectedSubscription._id || sub.id === selectedSubscription.id)
+//           ? updatedSubscription
 //           : sub
 //       ));
-      
+
 //       // Close modal
 //       setShowEditModal(false);
 //       setSelectedSubscription(null);
 //       resetForm();
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", "Subscription updated successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error updating subscription:', error);
 //       const errorMessage = error.message || 'Failed to update subscription';
@@ -1830,27 +1813,27 @@
 //   const handleQuickStatusUpdate = async (subscriptionId, newStatus) => {
 //     setActionLoading(true);
 //     setError(null);
-    
+
 //     try {
 //       // Find subscription
-//       const subscription = subscriptions.find(sub => 
+//       const subscription = subscriptions.find(sub =>
 //         (sub._id === subscriptionId || sub.id === subscriptionId)
 //       );
-      
+
 //       if (!subscription) {
 //         throw new Error('Subscription not found');
 //       }
 
 //       console.log('Updating status for subscription:', subscriptionId, newStatus);
-      
+
 //       // Send to API
-//       const response = await api.patch(`/newsletter/${subscriptionId}`, { 
-//         status: newStatus 
+//       const response = await api.patch(`/newsletter/${subscriptionId}`, {
+//         status: newStatus
 //       });
-      
+
 //       // Handle response
 //       let updatedSubscription;
-      
+
 //       if (response.data && response.data.data) {
 //         updatedSubscription = response.data.data;
 //       } else if (response.data && response.data.subscription) {
@@ -1860,15 +1843,15 @@
 //       }
 
 //       // Update state
-//       setSubscriptions(prev => prev.map(sub => 
-//         (sub._id === subscriptionId || sub.id === subscriptionId) 
-//           ? updatedSubscription 
+//       setSubscriptions(prev => prev.map(sub =>
+//         (sub._id === subscriptionId || sub.id === subscriptionId)
+//           ? updatedSubscription
 //           : sub
 //       ));
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", `Subscription status updated to ${newStatus}!`);
-      
+
 //     } catch (error) {
 //       console.error('Error updating status:', error);
 //       const errorMessage = error.message || 'Failed to update status';
@@ -1895,28 +1878,28 @@
 //     try {
 //       // Get subscription ID
 //       const subscriptionId = selectedSubscription._id || selectedSubscription.id;
-      
+
 //       if (!subscriptionId) {
 //         throw new Error('Subscription ID is required for deletion');
 //       }
 
 //       console.log('Deleting subscription:', subscriptionId);
-      
+
 //       // Send to API
 //       await api.delete(`/newsletter/${subscriptionId}`);
-      
+
 //       // Update state
-//       setSubscriptions(prev => prev.filter(sub => 
+//       setSubscriptions(prev => prev.filter(sub =>
 //         (sub._id !== selectedSubscription._id && sub.id !== selectedSubscription.id)
 //       ));
-      
+
 //       // Close modal
 //       setShowDeleteModal(false);
 //       setSelectedSubscription(null);
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", "Subscription deleted successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error deleting subscription:', error);
 //       const errorMessage = error.message || 'Failed to delete subscription';
@@ -1963,18 +1946,18 @@
 //   // Filter subscriptions
 //   const filteredSubscriptions = (Array.isArray(subscriptions) ? subscriptions : []).filter(subscription => {
 //     if (!subscription || typeof subscription !== 'object') return false;
-    
+
 //     const name = subscription.name || '';
 //     const email = subscription.email || '';
 //     const status = subscription.status || '';
 //     const plan = subscription.plan || '';
-    
+
 //     const matchesSearch = name.toLowerCase().includes(searchTerm.toLowerCase()) ||
 //                          email.toLowerCase().includes(searchTerm.toLowerCase());
-    
+
 //     const matchesStatus = filterStatus === 'all' || status === filterStatus;
 //     const matchesPlan = filterPlan === 'all' || plan === filterPlan;
-    
+
 //     return matchesSearch && matchesStatus && matchesPlan;
 //   });
 
@@ -2026,7 +2009,7 @@
 //                   <p className="text-gray-600 mt-1">Manage your subscribers</p>
 //                 </div>
 //               </div>
-              
+
 //               <div className="flex items-center space-x-3">
 //                 <button
 //                   onClick={fetchSubscriptions}
@@ -2198,7 +2181,7 @@
 //                       const statusInfo = getStatusInfo(subscription.status);
 //                       const planInfo = getPlanInfo(subscription.plan);
 //                       const subscriptionId = subscription._id || subscription.id;
-                      
+
 //                       return (
 //                         <tr key={subscriptionId} className="hover:bg-gray-50 transition-colors duration-150">
 //                           {/* Subscriber Info */}
@@ -2325,10 +2308,10 @@
 //                           <Person className="mx-auto text-gray-400 text-6xl mb-4" />
 //                           <h3 className="text-xl font-semibold text-gray-900 mb-2">No Subscriptions Found</h3>
 //                           <p className="text-gray-600 mb-6">
-//                             {totalSubscriptions === 0 
-//                               ? error 
+//                             {totalSubscriptions === 0
+//                               ? error
 //                                 ? "There was an error loading subscriptions. Please check your connection and try again."
-//                                 : "Get started by adding your first subscriber." 
+//                                 : "Get started by adding your first subscriber."
 //                               : "No subscriptions match your current filters."}
 //                           </p>
 //                           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -2857,11 +2840,11 @@
 //                   <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
 //                     <DeleteIcon className="text-red-600 text-2xl" />
 //                   </div>
-                  
+
 //                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
 //                     Delete Subscriber?
 //                   </h3>
-                  
+
 //                   <p className="text-gray-600 mb-6">
 //                     Are you sure you want to delete <strong>{selectedSubscription.name}</strong>?
 //                     This action cannot be undone.
@@ -2911,31 +2894,6 @@
 //     </>
 //   );
 // };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // /* eslint-disable no-unused-vars */
 // import React, { useState, useEffect } from 'react';
@@ -3003,36 +2961,36 @@
 //   },
 //   (error) => {
 //     console.error('Response Error:', error);
-    
+
 //     if (error.code === 'ECONNABORTED') {
 //       throw new Error('Request timeout. Please try again.');
 //     }
-    
+
 //     if (!error.response) {
 //       throw new Error('Network error. Please check your connection.');
 //     }
-    
+
 //     if (error.response.status === 401) {
 //       throw new Error('Unauthorized. Please login.');
 //     }
-    
+
 //     if (error.response.status === 403) {
 //       throw new Error('Access denied.');
 //     }
-    
+
 //     if (error.response.status === 404) {
 //       throw new Error('Resource not found.');
 //     }
-    
+
 //     if (error.response.status === 500) {
 //       throw new Error('Server error. Please try again later.');
 //     }
-    
-//     const errorMessage = error.response?.data?.message || 
+
+//     const errorMessage = error.response?.data?.message ||
 //                         error.response?.data?.error ||
 //                         error.message ||
 //                         'An unexpected error occurred';
-    
+
 //     throw new Error(errorMessage);
 //   }
 // );
@@ -3096,7 +3054,7 @@
 //             className="absolute inset-0 bg-black bg-opacity-50"
 //             onClick={onClose}
 //           />
-          
+
 //           {/* Modal */}
 //           <motion.div
 //             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -3154,23 +3112,23 @@
 // // Validation functions
 // const validateEmailData = (data) => {
 //   const errors = [];
-  
+
 //   if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
 //     errors.push('Valid email address is required');
 //   }
-  
+
 //   return errors;
 // };
 
 // // Sanitize data function
 // const sanitizeEmailData = (data) => {
 //   const sanitized = { ...data };
-  
+
 //   // Trim and lowercase email
 //   if (sanitized.email) {
 //     sanitized.email = sanitized.email.trim().toLowerCase();
 //   }
-  
+
 //   return sanitized;
 // };
 
@@ -3186,7 +3144,7 @@
 //   const [loading, setLoading] = useState(true);
 //   const [sidebarOpen, setSidebarOpen] = useState(false);
 //   const [error, setError] = useState(null);
-  
+
 //   // Modal States
 //   const [showCreateModal, setShowCreateModal] = useState(false);
 //   const [showViewModal, setShowViewModal] = useState(false);
@@ -3194,11 +3152,11 @@
 //   const [showDeleteModal, setShowDeleteModal] = useState(false);
 //   const [showExportModal, setShowExportModal] = useState(false);
 //   const [showBulkModal, setShowBulkModal] = useState(false);
-  
+
 //   const [selectedEmail, setSelectedEmail] = useState(null);
 //   const [actionLoading, setActionLoading] = useState(false);
 //   const [exportFormat, setExportFormat] = useState('json');
-  
+
 //   // Feedback modal state
 //   const [feedbackModal, setFeedbackModal] = useState({
 //     isOpen: false,
@@ -3247,12 +3205,12 @@
 //     try {
 //       setLoading(true);
 //       setError(null);
-      
+
 //       console.log('Fetching emails from API...');
 //       const response = await api.get('/newsletter');
-      
+
 //       let emailsData = [];
-      
+
 //       if (response.status === 200 && response.data) {
 //         if (Array.isArray(response.data)) {
 //           emailsData = response.data;
@@ -3262,21 +3220,21 @@
 //           emailsData = response.data.data;
 //         } else if (response.data && typeof response.data === 'object') {
 //           // Try to extract array from object
-//           emailsData = Object.values(response.data).filter(item => 
+//           emailsData = Object.values(response.data).filter(item =>
 //             item && typeof item === 'object' && item.email
 //           );
 //         }
 //       }
-      
+
 //       // Sort by creation date, newest first
 //       const sortedData = emailsData.sort((a, b) => {
 //         const dateA = new Date(a.createdAt || 0);
 //         const dateB = new Date(b.createdAt || 0);
 //         return dateB - dateA;
 //       });
-      
+
 //       setEmails(sortedData);
-      
+
 //     } catch (error) {
 //       console.error('Error fetching emails:', error);
 //       setError(error.message);
@@ -3324,15 +3282,15 @@
 
 //       // Sanitize data
 //       const sanitizedData = sanitizeEmailData(formData);
-      
+
 //       console.log('Creating email subscription with data:', sanitizedData);
-      
+
 //       // Send to API
 //       const response = await api.post('/newsletter', sanitizedData);
-      
+
 //       // Handle response
 //       let newEmail;
-      
+
 //       if (response.data && response.data.data) {
 //         newEmail = response.data.data;
 //       } else if (response.data && response.data.email) {
@@ -3343,14 +3301,14 @@
 
 //       // Add to state (newest first)
 //       setEmails(prev => [newEmail, ...prev]);
-      
+
 //       // Reset form and close modal
 //       setShowCreateModal(false);
 //       resetForm();
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", "Email subscription created successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error creating email subscription:', error);
 //       const errorMessage = error.message || 'Failed to create email subscription';
@@ -3378,7 +3336,7 @@
 
 //     setActionLoading(true);
 //     setError(null);
-    
+
 //     try {
 //       // Validate data
 //       const validationErrors = validateEmailData(formData);
@@ -3390,22 +3348,22 @@
 
 //       // Sanitize data
 //       const sanitizedData = sanitizeEmailData(formData);
-      
+
 //       // Get email ID
 //       const emailId = selectedEmail._id || selectedEmail.id;
-      
+
 //       if (!emailId) {
 //         throw new Error('Email ID is required for update');
 //       }
 
 //       console.log('Updating email:', emailId, sanitizedData);
-      
+
 //       // Send to API
 //       const response = await api.put(`/newsletter/${emailId}`, sanitizedData);
-      
+
 //       // Handle response
 //       let updatedEmail;
-      
+
 //       if (response.data && response.data.data) {
 //         updatedEmail = response.data.data;
 //       } else if (response.data && response.data.email) {
@@ -3415,20 +3373,20 @@
 //       }
 
 //       // Update state
-//       setEmails(prev => prev.map(email => 
-//         (email._id === selectedEmail._id || email.id === selectedEmail.id) 
-//           ? updatedEmail 
+//       setEmails(prev => prev.map(email =>
+//         (email._id === selectedEmail._id || email.id === selectedEmail.id)
+//           ? updatedEmail
 //           : email
 //       ));
-      
+
 //       // Close modal
 //       setShowEditModal(false);
 //       setSelectedEmail(null);
 //       resetForm();
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", "Email subscription updated successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error updating email:', error);
 //       const errorMessage = error.message || 'Failed to update email subscription';
@@ -3443,27 +3401,27 @@
 //   const handleQuickStatusUpdate = async (emailId, newStatus) => {
 //     setActionLoading(true);
 //     setError(null);
-    
+
 //     try {
 //       // Find email
-//       const email = emails.find(e => 
+//       const email = emails.find(e =>
 //         (e._id === emailId || e.id === emailId)
 //       );
-      
+
 //       if (!email) {
 //         throw new Error('Email not found');
 //       }
 
 //       console.log('Updating status for email:', emailId, newStatus);
-      
+
 //       // Send to API
-//       const response = await api.patch(`/newsletter/${emailId}`, { 
-//         status: newStatus 
+//       const response = await api.patch(`/newsletter/${emailId}`, {
+//         status: newStatus
 //       });
-      
+
 //       // Handle response
 //       let updatedEmail;
-      
+
 //       if (response.data && response.data.data) {
 //         updatedEmail = response.data.data;
 //       } else if (response.data && response.data.email) {
@@ -3473,15 +3431,15 @@
 //       }
 
 //       // Update state
-//       setEmails(prev => prev.map(email => 
-//         (email._id === emailId || email.id === emailId) 
-//           ? updatedEmail 
+//       setEmails(prev => prev.map(email =>
+//         (email._id === emailId || email.id === emailId)
+//           ? updatedEmail
 //           : email
 //       ));
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", `Email status updated to ${newStatus}!`);
-      
+
 //     } catch (error) {
 //       console.error('Error updating status:', error);
 //       const errorMessage = error.message || 'Failed to update status';
@@ -3508,28 +3466,28 @@
 //     try {
 //       // Get email ID
 //       const emailId = selectedEmail._id || selectedEmail.id;
-      
+
 //       if (!emailId) {
 //         throw new Error('Email ID is required for deletion');
 //       }
 
 //       console.log('Deleting email:', emailId);
-      
+
 //       // Send to API
 //       await api.delete(`/newsletter/${emailId}`);
-      
+
 //       // Update state
-//       setEmails(prev => prev.filter(email => 
+//       setEmails(prev => prev.filter(email =>
 //         (email._id !== selectedEmail._id && email.id !== selectedEmail.id)
 //       ));
-      
+
 //       // Close modal
 //       setShowDeleteModal(false);
 //       setSelectedEmail(null);
-      
+
 //       // Show success message
 //       showFeedback("success", "Success!", "Email subscription deleted successfully!");
-      
+
 //     } catch (error) {
 //       console.error('Error deleting email:', error);
 //       const errorMessage = error.message || 'Failed to delete email subscription';
@@ -3565,10 +3523,10 @@
 //   // Export emails
 //   const handleExportEmails = () => {
 //     const filteredEmailsList = filteredEmails;
-    
+
 //     let content = '';
 //     let filename = `email-subscriptions-${new Date().toISOString().split('T')[0]}`;
-    
+
 //     if (exportFormat === 'json') {
 //       content = JSON.stringify(filteredEmailsList, null, 2);
 //       filename += '.json';
@@ -3582,12 +3540,12 @@
 //       content = [headers, ...rows].map(row => row.join(',')).join('\n');
 //       filename += '.csv';
 //     } else if (exportFormat === 'txt') {
-//       content = filteredEmailsList.map(email => 
+//       content = filteredEmailsList.map(email =>
 //         `${email.email} - ${email.status} (${new Date(email.createdAt).toLocaleDateString()})`
 //       ).join('\n');
 //       filename += '.txt';
 //     }
-    
+
 //     const blob = new Blob([content], { type: 'text/plain' });
 //     const url = URL.createObjectURL(blob);
 //     const a = document.createElement('a');
@@ -3597,7 +3555,7 @@
 //     a.click();
 //     document.body.removeChild(a);
 //     URL.revokeObjectURL(url);
-    
+
 //     setShowExportModal(false);
 //     showFeedback("success", "Exported!", `Emails exported as ${exportFormat.toUpperCase()}!`);
 //   };
@@ -3610,12 +3568,12 @@
 //     }
 
 //     setActionLoading(true);
-    
+
 //     const emailList = bulkEmails
 //       .split(/[\n,;]/)
 //       .map(email => email.trim().toLowerCase())
 //       .filter(email => email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    
+
 //     if (emailList.length === 0) {
 //       showFeedback("error", "Error!", "No valid email addresses found");
 //       setActionLoading(false);
@@ -3624,19 +3582,19 @@
 
 //     try {
 //       // Create each email subscription
-//       const promises = emailList.map(email => 
+//       const promises = emailList.map(email =>
 //         api.post('/newsletter', { email, status: bulkStatus })
 //       );
-      
+
 //       await Promise.all(promises);
-      
+
 //       // Refresh the list
 //       fetchEmails();
 //       setBulkEmails('');
 //       setShowBulkModal(false);
-      
+
 //       showFeedback("success", "Success!", `${emailList.length} emails added successfully!`);
-      
+
 //     } catch (error) {
 //       console.error('Error bulk adding emails:', error);
 //       showFeedback("error", "Error!", "Failed to add some emails. Please check for duplicates.");
@@ -3671,13 +3629,13 @@
 //   // Filter emails
 //   const filteredEmails = (Array.isArray(emails) ? emails : []).filter(email => {
 //     if (!email || typeof email !== 'object') return false;
-    
+
 //     const emailAddress = email.email || '';
 //     const status = email.status || '';
-    
+
 //     const matchesSearch = emailAddress.toLowerCase().includes(searchTerm.toLowerCase());
 //     const matchesStatus = filterStatus === 'all' || status === filterStatus;
-    
+
 //     return matchesSearch && matchesStatus;
 //   });
 
@@ -3728,7 +3686,7 @@
 //                   <p className="text-sm sm:text-base text-gray-600 mt-1">Manage newsletter subscribers</p>
 //                 </div>
 //               </div>
-              
+
 //               <div className="flex items-center space-x-2 sm:space-x-3 w-full sm:w-auto">
 //                 <button
 //                   onClick={fetchEmails}
@@ -3879,7 +3837,7 @@
 //                   <FilterList className="text-xs sm:text-sm" />
 //                   <span>Reset Filters</span>
 //                 </button>
-                
+
 //                 <div className="flex space-x-2">
 //                   <button
 //                     onClick={copyAllEmailsToClipboard}
@@ -3923,7 +3881,7 @@
 //                     {filteredEmails.length > 0 ? filteredEmails.map((email) => {
 //                       const statusInfo = getStatusInfo(email.status);
 //                       const emailId = email._id || email.id;
-                      
+
 //                       return (
 //                         <tr key={emailId} className="hover:bg-gray-50 transition-colors duration-150">
 //                           {/* Email Info */}
@@ -4033,10 +3991,10 @@
 //                           <EmailIcon className="mx-auto text-gray-400 text-4xl sm:text-6xl mb-3 sm:mb-4" />
 //                           <h3 className="text-base sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">No Email Subscriptions Found</h3>
 //                           <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6">
-//                             {totalEmails === 0 
-//                               ? error 
+//                             {totalEmails === 0
+//                               ? error
 //                                 ? "There was an error loading emails. Please check your connection and try again."
-//                                 : "Get started by adding your first email subscription." 
+//                                 : "Get started by adding your first email subscription."
 //                               : "No emails match your current filters."}
 //                           </p>
 //                           <div className="flex flex-col sm:flex-row gap-2 sm:gap-4 justify-center">
@@ -4349,11 +4307,11 @@
 //                   <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
 //                     <DeleteIcon className="text-red-600 text-xl sm:text-2xl" />
 //                   </div>
-                  
+
 //                   <h3 className="text-base sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">
 //                     Delete Email?
 //                   </h3>
-                  
+
 //                   <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6 break-words">
 //                     Are you sure you want to delete <strong>{selectedEmail.email}</strong>?
 //                     This action cannot be undone.
@@ -4571,34 +4529,10 @@
 //   );
 // };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Add as AddIcon,
   Edit as EditIcon,
@@ -4627,28 +4561,30 @@ import {
   ContentCopy,
   Send,
   Download,
-  ViewHeadline
-} from '@mui/icons-material';
+  ViewHeadline,
+  ChevronLeft,
+  ChevronRight,
+} from "@mui/icons-material";
 
-const API_BASE_URL = 'https://ndizmusicprojectbackend.onrender.com';
+const API_BASE_URL = "https://ndizmusicprojectbackend.onrender.com";
 
 // Create axios instance with security features
 const api = axios.create({
-  baseURL: API_BASE_URL
+  baseURL: API_BASE_URL,
 });
 
 // Add request interceptor
 api.interceptors.request.use(
   (config) => {
-    config.headers['X-Requested-With'] = 'XMLHttpRequest';
-    config.headers['Accept'] = 'application/json';
-    config.headers['Content-Type'] = 'application/json';
+    config.headers["X-Requested-With"] = "XMLHttpRequest";
+    config.headers["Accept"] = "application/json";
+    config.headers["Content-Type"] = "application/json";
     return config;
   },
   (error) => {
-    console.error('Request Error:', error);
+    console.error("Request Error:", error);
     return Promise.reject(error);
-  }
+  },
 );
 
 // Add response interceptor
@@ -4661,39 +4597,40 @@ api.interceptors.response.use(
     }
   },
   (error) => {
-    console.error('Response Error:', error);
-    
-    if (error.code === 'ECONNABORTED') {
-      throw new Error('Request timeout. Please try again.');
+    console.error("Response Error:", error);
+
+    if (error.code === "ECONNABORTED") {
+      throw new Error("Request timeout. Please try again.");
     }
-    
+
     if (!error.response) {
-      throw new Error('Network error. Please check your connection.');
+      throw new Error("Network error. Please check your connection.");
     }
-    
+
     if (error.response.status === 401) {
-      throw new Error('Unauthorized. Please login.');
+      throw new Error("Unauthorized. Please login.");
     }
-    
+
     if (error.response.status === 403) {
-      throw new Error('Access denied.');
+      throw new Error("Access denied.");
     }
-    
+
     if (error.response.status === 404) {
-      throw new Error('Resource not found.');
+      throw new Error("Resource not found.");
     }
-    
+
     if (error.response.status === 500) {
-      throw new Error('Server error. Please try again later.');
+      throw new Error("Server error. Please try again later.");
     }
-    
-    const errorMessage = error.response?.data?.message || 
-                        error.response?.data?.error ||
-                        error.message ||
-                        'An unexpected error occurred';
-    
+
+    const errorMessage =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.message ||
+      "An unexpected error occurred";
+
     throw new Error(errorMessage);
-  }
+  },
 );
 
 // Success/Fail Modal Component
@@ -4702,28 +4639,36 @@ const FeedbackModal = ({ isOpen, onClose, type, title, message }) => {
     switch (type) {
       case "success":
         return {
-          icon: <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500" />,
+          icon: (
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500" />
+          ),
           bgColor: "bg-green-100",
           textColor: "text-green-800",
           borderColor: "border-green-200",
         };
       case "error":
         return {
-          icon: <ErrorIcon className="w-12 h-12 sm:w-16 sm:h-16 text-red-500" />,
+          icon: (
+            <ErrorIcon className="w-12 h-12 sm:w-16 sm:h-16 text-red-500" />
+          ),
           bgColor: "bg-red-100",
           textColor: "text-red-800",
           borderColor: "border-red-200",
         };
       case "warning":
         return {
-          icon: <WarningIcon className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500" />,
+          icon: (
+            <WarningIcon className="w-12 h-12 sm:w-16 sm:h-16 text-yellow-500" />
+          ),
           bgColor: "bg-yellow-100",
           textColor: "text-yellow-800",
           borderColor: "border-yellow-200",
         };
       default:
         return {
-          icon: <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />,
+          icon: (
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-blue-500" />
+          ),
           bgColor: "bg-blue-100",
           textColor: "text-blue-800",
           borderColor: "border-blue-200",
@@ -4755,7 +4700,7 @@ const FeedbackModal = ({ isOpen, onClose, type, title, message }) => {
             className="absolute inset-0 bg-black bg-opacity-50"
             onClick={onClose}
           />
-          
+
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -4766,7 +4711,7 @@ const FeedbackModal = ({ isOpen, onClose, type, title, message }) => {
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-2 sm:top-3 right-2 sm:right-3 text-gray-500 hover:text-gray-700 transition-colors"
+              className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
             >
               <CloseIcon className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
@@ -4774,12 +4719,12 @@ const FeedbackModal = ({ isOpen, onClose, type, title, message }) => {
             <div className="p-4 sm:p-6">
               <div className="flex flex-col items-center text-center">
                 {/* Icon */}
-                <div className="mb-3 sm:mb-4">
-                  {icon}
-                </div>
+                <div className="mb-3 sm:mb-4">{icon}</div>
 
                 {/* Title */}
-                <h3 className={`text-base sm:text-lg font-semibold mb-1 sm:mb-2 ${textColor}`}>
+                <h3
+                  className={`text-base sm:text-lg font-semibold mb-1 sm:mb-2 ${textColor}`}
+                >
                   {title}
                 </h3>
 
@@ -4794,8 +4739,8 @@ const FeedbackModal = ({ isOpen, onClose, type, title, message }) => {
                     onClick={onClose}
                     className={`px-4 sm:px-6 py-1.5 sm:py-2 rounded-lg font-medium transition-colors text-xs sm:text-sm ${
                       type === "error"
-                        ? "bg-red-600 hover:bg-red-700 text-white"
-                        : "bg-yellow-600 hover:bg-yellow-700 text-white"
+                        ? "bg-gradient-to-t from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700"
+                        : "bg-gradient-to-t from-yellow-500 to-yellow-600 text-white hover:from-yellow-600 hover:to-yellow-700"
                     }`}
                   >
                     OK
@@ -4811,28 +4756,35 @@ const FeedbackModal = ({ isOpen, onClose, type, title, message }) => {
 };
 
 // Email Subscription Card Component
-const EmailCard = ({ email, onView, onEdit, onDelete, onQuickStatusUpdate, onCopy }) => {
+const EmailCard = ({
+  email,
+  onView,
+  onEdit,
+  onDelete,
+  onQuickStatusUpdate,
+  onCopy,
+}) => {
   const getStatusInfo = (status) => {
     switch (status) {
-      case 'active':
-        return { 
-          color: 'bg-green-100 text-green-800',
-          icon: <CheckCircle className="text-xs" />
+      case "active":
+        return {
+          color: "bg-green-100 text-green-800",
+          icon: <CheckCircle className="text-xs" />,
         };
-      case 'pending':
-        return { 
-          color: 'bg-yellow-100 text-yellow-800',
-          icon: <AccessTime className="text-xs" />
+      case "pending":
+        return {
+          color: "bg-yellow-100 text-yellow-800",
+          icon: <AccessTime className="text-xs" />,
         };
-      case 'unsubscribed':
-        return { 
-          color: 'bg-red-100 text-red-800',
-          icon: <ClearIcon className="text-xs" />
+      case "unsubscribed":
+        return {
+          color: "bg-red-100 text-red-800",
+          icon: <ClearIcon className="text-xs" />,
         };
       default:
-        return { 
-          color: 'bg-gray-100 text-gray-800',
-          icon: null
+        return {
+          color: "bg-gray-100 text-gray-800",
+          icon: null,
         };
     }
   };
@@ -4840,102 +4792,106 @@ const EmailCard = ({ email, onView, onEdit, onDelete, onQuickStatusUpdate, onCop
   const statusInfo = getStatusInfo(email.status);
 
   const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
+    if (!dateString) return "N/A";
     try {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
       });
     } catch (error) {
-      return 'Invalid Date';
+      return "Invalid Date";
     }
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow">
-      <div className="flex items-center">
-        <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3 flex-shrink-0">
-          <EmailIcon className="w-5 h-5 text-indigo-600" />
+    <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center mb-3">
+        <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+          <EmailIcon className="w-5 h-5 text-blue-600" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="text-sm font-medium text-gray-900 truncate">
-            {email.email || 'N/A'}
+            {email.email || "N/A"}
           </div>
           <div className="flex items-center gap-2 mt-1">
-            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusInfo.color} flex items-center space-x-1`}>
+            <span
+              className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusInfo.color} flex items-center space-x-1`}
+            >
               {statusInfo.icon}
-              <span>{email.status?.charAt(0).toUpperCase() + email.status?.slice(1) || 'Unknown'}</span>
+              <span>
+                {email.status?.charAt(0).toUpperCase() +
+                  email.status?.slice(1) || "Unknown"}
+              </span>
             </span>
-            <span className="text-xs text-gray-600">
+            <span className="text-xs text-gray-500">
               {formatDate(email.createdAt)}
             </span>
           </div>
         </div>
       </div>
-      
+
       <div className="mt-3 flex gap-2">
         <button
           onClick={() => onCopy(email.email)}
-          className="px-3 py-1 text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors flex items-center space-x-1 text-sm"
+          className="flex-1 px-3 py-1.5 text-xs bg-gradient-to-t from-blue-500 to-blue-600 text-white rounded-md hover:from-blue-600 hover:to-blue-700 transition-colors flex items-center justify-center space-x-1"
           title="Copy email"
         >
           <ContentCopy className="w-3 h-3" />
-          <span className="hidden xs:inline">Copy</span>
         </button>
         <button
           onClick={() => onView(email)}
-          className="px-3 py-1 text-purple-600 bg-purple-50 border border-purple-200 rounded-md hover:bg-purple-100 transition-colors flex items-center space-x-1 text-sm"
+          className="flex-1 px-3 py-1.5 text-xs bg-gradient-to-t from-purple-500 to-purple-600 text-white rounded-md hover:from-purple-600 hover:to-purple-700 transition-colors flex items-center justify-center space-x-1"
           title="View email"
         >
           <ViewIcon className="w-3 h-3" />
-          <span className="hidden xs:inline">View</span>
         </button>
         <button
           onClick={() => onEdit(email)}
-          className="px-3 py-1 text-green-600 bg-green-50 border border-green-200 rounded-md hover:bg-green-100 transition-colors flex items-center space-x-1 text-sm"
+          className="flex-1 px-3 py-1.5 text-xs bg-gradient-to-t from-green-500 to-green-600 text-white rounded-md hover:from-green-600 hover:to-green-700 transition-colors flex items-center justify-center space-x-1"
           title="Edit email"
         >
           <EditIcon className="w-3 h-3" />
-          <span className="hidden xs:inline">Edit</span>
         </button>
+      </div>
+
+      <div className="mt-2 flex gap-1">
         <button
           onClick={() => onDelete(email)}
-          className="px-3 py-1 text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 transition-colors flex items-center space-x-1 text-sm"
-          title="Delete email"
+          className="flex-1 bg-gradient-to-t from-red-500 to-red-600 text-white py-1.5 px-2 rounded-md hover:from-red-600 hover:to-red-700 transition-colors text-xs flex items-center justify-center space-x-1"
         >
           <DeleteIcon className="w-3 h-3" />
-          <span className="hidden xs:inline">Delete</span>
         </button>
       </div>
 
       {/* Quick Status Actions */}
       <div className="mt-2 flex gap-1">
-        {email.status !== 'active' && email.status !== 'unsubscribed' && (
+        {email.status !== "active" && (
           <button
-            onClick={() => onQuickStatusUpdate(email._id || email.id, 'active')}
-            className="flex-1 bg-green-50 hover:bg-green-100 text-green-600 py-1 px-2 rounded-md transition-colors text-xs flex items-center justify-center space-x-1"
+            onClick={() => onQuickStatusUpdate(email._id || email.id, "active")}
+            className="flex-1 bg-gradient-to-t from-green-500 to-green-600 text-white py-1 px-2 rounded-md hover:from-green-600 hover:to-green-700 transition-colors text-xs flex items-center justify-center space-x-1"
           >
             <CheckIcon className="w-3 h-3" />
-            <span>Activate</span>
           </button>
         )}
-        {email.status === 'active' && (
+        {email.status === "active" && (
           <button
-            onClick={() => onQuickStatusUpdate(email._id || email.id, 'unsubscribed')}
-            className="flex-1 bg-red-50 hover:bg-red-100 text-red-600 py-1 px-2 rounded-md transition-colors text-xs flex items-center justify-center space-x-1"
+            onClick={() =>
+              onQuickStatusUpdate(email._id || email.id, "unsubscribed")
+            }
+            className="flex-1 bg-gradient-to-t from-red-500 to-red-600 text-white py-1 px-2 rounded-md hover:from-red-600 hover:to-red-700 transition-colors text-xs flex items-center justify-center space-x-1"
           >
             <ClearIcon className="w-3 h-3" />
-            <span>Unsubscribe</span>
           </button>
         )}
-        {email.status === 'pending' && (
+        {email.status === "pending" && (
           <button
-            onClick={() => onQuickStatusUpdate(email._id || email.id, 'unsubscribed')}
-            className="flex-1 bg-red-50 hover:bg-red-100 text-red-600 py-1 px-2 rounded-md transition-colors text-xs flex items-center justify-center space-x-1"
+            onClick={() =>
+              onQuickStatusUpdate(email._id || email.id, "unsubscribed")
+            }
+            className="flex-1 bg-gradient-to-t from-red-500 to-red-600 text-white py-1 px-2 rounded-md hover:from-red-600 hover:to-red-700 transition-colors text-xs flex items-center justify-center space-x-1"
           >
             <ClearIcon className="w-3 h-3" />
-            <span>Unsubscribe</span>
           </button>
         )}
       </div>
@@ -4945,17 +4901,40 @@ const EmailCard = ({ email, onView, onEdit, onDelete, onQuickStatusUpdate, onCop
 
 // Status Options
 const statusOptions = [
-  { value: 'active', label: 'Active', color: 'bg-green-100 text-green-800', icon: <CheckCircle className="text-xs" /> },
-  { value: 'pending', label: 'Pending', color: 'bg-yellow-100 text-yellow-800', icon: <AccessTime className="text-xs" /> },
-  { value: 'unsubscribed', label: 'Unsubscribed', color: 'bg-red-100 text-red-800', icon: <ClearIcon className="text-xs" /> }
+  {
+    value: "active",
+    label: "Active",
+    color: "bg-green-100 text-green-800",
+    icon: <CheckCircle className="text-xs" />,
+  },
+  {
+    value: "pending",
+    label: "Pending",
+    color: "bg-yellow-100 text-yellow-800",
+    icon: <AccessTime className="text-xs" />,
+  },
+  {
+    value: "unsubscribed",
+    label: "Unsubscribed",
+    color: "bg-red-100 text-red-800",
+    icon: <ClearIcon className="text-xs" />,
+  },
 ];
 
 export const SubscriptionManagement = () => {
+  // ===== 1. ALL useState HOOKS FIRST =====
   const [emails, setEmails] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'table'
+  const [viewMode, setViewMode] = useState("table"); // 'grid' or 'table'
   const [error, setError] = useState(null);
-  
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState({
+    table: 7,
+    grid: 12,
+  });
+
   // Modal States
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
@@ -4963,11 +4942,11 @@ export const SubscriptionManagement = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showBulkModal, setShowBulkModal] = useState(false);
-  
+
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [actionLoading, setActionLoading] = useState(false);
-  const [exportFormat, setExportFormat] = useState('json');
-  
+  const [exportFormat, setExportFormat] = useState("json");
+
   // Feedback modal state
   const [feedbackModal, setFeedbackModal] = useState({
     isOpen: false,
@@ -4977,19 +4956,99 @@ export const SubscriptionManagement = () => {
   });
 
   // Filter States
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterStatus, setFilterStatus] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
 
   // Form State
   const [formData, setFormData] = useState({
-    email: '',
-    status: 'pending'
+    email: "",
+    status: "pending",
   });
 
   // Bulk emails state
-  const [bulkEmails, setBulkEmails] = useState('');
-  const [bulkStatus, setBulkStatus] = useState('pending');
+  const [bulkEmails, setBulkEmails] = useState("");
+  const [bulkStatus, setBulkStatus] = useState("pending");
 
+  // ===== 2. DERIVED STATE =====
+  const filteredEmails = (Array.isArray(emails) ? emails : []).filter(
+    (email) => {
+      if (!email || typeof email !== "object") return false;
+
+      const emailAddress = email.email || "";
+      const status = email.status || "";
+
+      const matchesSearch = emailAddress
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesStatus = filterStatus === "all" || status === filterStatus;
+
+      return matchesSearch && matchesStatus;
+    },
+  );
+
+  const currentItems = (() => {
+    const itemsPerPageCurrent =
+      viewMode === "table" ? itemsPerPage.table : itemsPerPage.grid;
+    const indexOfLastItem = currentPage * itemsPerPageCurrent;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPageCurrent;
+    return filteredEmails.slice(indexOfFirstItem, indexOfLastItem);
+  })();
+
+  const totalPages = Math.ceil(
+    filteredEmails.length /
+      (viewMode === "table" ? itemsPerPage.table : itemsPerPage.grid),
+  );
+
+  // Calculate statistics
+  const totalEmails = Array.isArray(emails) ? emails.length : 0;
+  const activeEmails = Array.isArray(emails)
+    ? emails.filter((e) => e?.status === "active").length
+    : 0;
+  const pendingEmails = Array.isArray(emails)
+    ? emails.filter((e) => e?.status === "pending").length
+    : 0;
+  const unsubscribedEmails = Array.isArray(emails)
+    ? emails.filter((e) => e?.status === "unsubscribed").length
+    : 0;
+
+  // ===== 3. ALL useEffect HOOKS =====
+  // Auto-detect view mode based on screen size
+  useEffect(() => {
+    const checkScreenSize = () => {
+      if (window.innerWidth < 768) {
+        setViewMode("grid");
+      } else {
+        setViewMode("table");
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  // Fetch emails on mount
+  useEffect(() => {
+    fetchEmails();
+  }, []);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery, filterStatus]);
+
+  // Check pagination bounds
+  useEffect(() => {
+    const currentItemsPerPage =
+      viewMode === "table" ? itemsPerPage.table : itemsPerPage.grid;
+    const totalPages = Math.ceil(filteredEmails.length / currentItemsPerPage);
+
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
+    }
+  }, [filteredEmails.length, viewMode, itemsPerPage, currentPage]);
+
+  // ===== 4. API FUNCTIONS =====
   const showFeedback = (type, title, message) => {
     setFeedbackModal({
       isOpen: true,
@@ -5006,47 +5065,48 @@ export const SubscriptionManagement = () => {
     });
   };
 
-  // Clear error
   const clearError = () => {
     setError(null);
   };
 
-  // Fetch all emails
   const fetchEmails = async () => {
     try {
       setLoading(true);
       setError(null);
-      
-      console.log('Fetching emails from API...');
-      const response = await api.get('/newsletter');
-      
+
+      console.log("Fetching emails from API...");
+      const response = await api.get("/newsletter");
+
       let emailsData = [];
-      
+
       if (response.status === 200 && response.data) {
         if (Array.isArray(response.data)) {
           emailsData = response.data;
-        } else if (response.data.emails && Array.isArray(response.data.emails)) {
+        } else if (
+          response.data.emails &&
+          Array.isArray(response.data.emails)
+        ) {
           emailsData = response.data.emails;
         } else if (response.data.data && Array.isArray(response.data.data)) {
           emailsData = response.data.data;
-        } else if (response.data && typeof response.data === 'object') {
-          emailsData = Object.values(response.data).filter(item => 
-            item && typeof item === 'object' && item.email
+        } else if (response.data && typeof response.data === "object") {
+          emailsData = Object.values(response.data).filter(
+            (item) => item && typeof item === "object" && item.email,
           );
         }
       }
-      
+
       // Sort by creation date, newest first
       const sortedData = emailsData.sort((a, b) => {
         const dateA = new Date(a.createdAt || 0);
         const dateB = new Date(b.createdAt || 0);
         return dateB - dateA;
       });
-      
+
       setEmails(sortedData);
-      
+      setCurrentPage(1);
     } catch (error) {
-      console.error('Error fetching emails:', error);
+      console.error("Error fetching emails:", error);
       setError(error.message);
       showFeedback("error", "Error!", error.message);
     } finally {
@@ -5054,28 +5114,175 @@ export const SubscriptionManagement = () => {
     }
   };
 
-  useEffect(() => {
-    fetchEmails();
-  }, []);
+  // ===== 5. PAGINATION HANDLERS =====
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
-  // Handle form input changes
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  const goToPage = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
+
+  // ===== 6. PAGINATION COMPONENT =====
+  const PaginationControls = () => {
+    const itemsPerPageCurrent =
+      viewMode === "table" ? itemsPerPage.table : itemsPerPage.grid;
+
+    return (
+      <div className="flex items-center justify-between px-4 py-3 bg-white border-t border-gray-200 sm:px-6 rounded-b-lg">
+        <div className="flex flex-1 justify-between sm:hidden">
+          <button
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+            className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+              currentPage === 1
+                ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                : "text-white bg-gradient-to-t from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+            }`}
+          >
+            Previous
+          </button>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className={`relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md ${
+              currentPage === totalPages
+                ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                : "text-white bg-gradient-to-t from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700"
+            }`}
+          >
+            Next
+          </button>
+        </div>
+        <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+          <div>
+            <p className="text-sm text-gray-700">
+              Showing{" "}
+              <span className="font-medium">
+                {(currentPage - 1) * itemsPerPageCurrent + 1}
+              </span>{" "}
+              to{" "}
+              <span className="font-medium">
+                {Math.min(
+                  currentPage * itemsPerPageCurrent,
+                  filteredEmails.length,
+                )}
+              </span>{" "}
+              of <span className="font-medium">{filteredEmails.length}</span>{" "}
+              results
+            </p>
+          </div>
+          <div>
+            <nav
+              className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+              aria-label="Pagination"
+            >
+              <button
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                className={`relative inline-flex items-center rounded-l-md px-2 py-2 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0 ${
+                  currentPage === 1
+                    ? "cursor-not-allowed opacity-50 bg-gray-100 text-gray-400"
+                    : "bg-gradient-to-t from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700"
+                }`}
+              >
+                <span className="sr-only">Previous</span>
+                <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+              </button>
+
+              {/* Page numbers */}
+              {[...Array(totalPages)].map((_, index) => {
+                const pageNumber = index + 1;
+                const isCurrentPage = pageNumber === currentPage;
+
+                if (
+                  pageNumber === 1 ||
+                  pageNumber === totalPages ||
+                  (pageNumber >= currentPage - 1 &&
+                    pageNumber <= currentPage + 1)
+                ) {
+                  return (
+                    <button
+                      key={pageNumber}
+                      onClick={() => goToPage(pageNumber)}
+                      className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
+                        isCurrentPage
+                          ? "z-10 bg-gradient-to-t from-blue-600 to-blue-700 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                          : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+                      }`}
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                }
+
+                if (
+                  (pageNumber === 2 && currentPage > 3) ||
+                  (pageNumber === totalPages - 1 &&
+                    currentPage < totalPages - 2)
+                ) {
+                  return (
+                    <span
+                      key={pageNumber}
+                      className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300 focus:outline-offset-0"
+                    >
+                      ...
+                    </span>
+                  );
+                }
+
+                return null;
+              })}
+
+              <button
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                className={`relative inline-flex items-center rounded-r-md px-2 py-2 ring-1 ring-inset ring-gray-300 focus:z-20 focus:outline-offset-0 ${
+                  currentPage === totalPages
+                    ? "cursor-not-allowed opacity-50 bg-gray-100 text-gray-400"
+                    : "bg-gradient-to-t from-blue-500 to-blue-600 text-white hover:from-blue-600 hover:to-blue-700"
+                }`}
+              >
+                <span className="sr-only">Next</span>
+                <ChevronRight className="h-5 w-5" aria-hidden="true" />
+              </button>
+            </nav>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ===== 7. FORM HANDLERS =====
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
-  // Reset form
   const resetForm = () => {
     setFormData({
-      email: '',
-      status: 'pending'
+      email: "",
+      status: "pending",
     });
   };
 
-  // Create email subscription
+  // ===== 8. CRUD OPERATIONS =====
   const handleCreateEmail = async (e) => {
     e.preventDefault();
     setActionLoading(true);
@@ -5085,7 +5292,11 @@ export const SubscriptionManagement = () => {
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!formData.email || !emailRegex.test(formData.email)) {
-        showFeedback("error", "Validation Error", "Valid email address is required");
+        showFeedback(
+          "error",
+          "Validation Error",
+          "Valid email address is required",
+        );
         setActionLoading(false);
         return;
       }
@@ -5093,17 +5304,17 @@ export const SubscriptionManagement = () => {
       // Sanitize data
       const sanitizedData = {
         email: formData.email.trim().toLowerCase(),
-        status: formData.status
+        status: formData.status,
       };
-      
-      console.log('Creating email subscription with data:', sanitizedData);
-      
+
+      console.log("Creating email subscription with data:", sanitizedData);
+
       // Send to API
-      const response = await api.post('/newsletter', sanitizedData);
-      
+      const response = await api.post("/newsletter", sanitizedData);
+
       // Handle response
       let newEmail;
-      
+
       if (response.data && response.data.data) {
         newEmail = response.data.data;
       } else if (response.data && response.data.email) {
@@ -5113,18 +5324,22 @@ export const SubscriptionManagement = () => {
       }
 
       // Add to state (newest first)
-      setEmails(prev => [newEmail, ...prev]);
-      
+      setEmails((prev) => [newEmail, ...prev]);
+
       // Reset form and close modal
       setShowCreateModal(false);
       resetForm();
-      
+
       // Show success message
-      showFeedback("success", "Success!", "Email subscription created successfully!");
-      
+      showFeedback(
+        "success",
+        "Success!",
+        "Email subscription created successfully!",
+      );
     } catch (error) {
-      console.error('Error creating email subscription:', error);
-      const errorMessage = error.message || 'Failed to create email subscription';
+      console.error("Error creating email subscription:", error);
+      const errorMessage =
+        error.message || "Failed to create email subscription";
       setError(errorMessage);
       showFeedback("error", "Error!", errorMessage);
     } finally {
@@ -5132,29 +5347,31 @@ export const SubscriptionManagement = () => {
     }
   };
 
-  // Open edit modal
   const handleEditEmail = (email) => {
     setSelectedEmail(email);
     setFormData({
-      email: email.email || '',
-      status: email.status || 'pending'
+      email: email.email || "",
+      status: email.status || "pending",
     });
     setShowEditModal(true);
   };
 
-  // Update email subscription
   const handleUpdateEmail = async (e) => {
     e.preventDefault();
     if (!selectedEmail) return;
 
     setActionLoading(true);
     setError(null);
-    
+
     try {
       // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!formData.email || !emailRegex.test(formData.email)) {
-        showFeedback("error", "Validation Error", "Valid email address is required");
+        showFeedback(
+          "error",
+          "Validation Error",
+          "Valid email address is required",
+        );
         setActionLoading(false);
         return;
       }
@@ -5162,24 +5379,24 @@ export const SubscriptionManagement = () => {
       // Sanitize data
       const sanitizedData = {
         email: formData.email.trim().toLowerCase(),
-        status: formData.status
+        status: formData.status,
       };
-      
+
       // Get email ID
       const emailId = selectedEmail._id || selectedEmail.id;
-      
+
       if (!emailId) {
-        throw new Error('Email ID is required for update');
+        throw new Error("Email ID is required for update");
       }
 
-      console.log('Updating email:', emailId, sanitizedData);
-      
+      console.log("Updating email:", emailId, sanitizedData);
+
       // Send to API
       const response = await api.put(`/newsletter/${emailId}`, sanitizedData);
-      
+
       // Handle response
       let updatedEmail;
-      
+
       if (response.data && response.data.data) {
         updatedEmail = response.data.data;
       } else if (response.data && response.data.email) {
@@ -5189,23 +5406,29 @@ export const SubscriptionManagement = () => {
       }
 
       // Update state
-      setEmails(prev => prev.map(email => 
-        (email._id === selectedEmail._id || email.id === selectedEmail.id) 
-          ? updatedEmail 
-          : email
-      ));
-      
+      setEmails((prev) =>
+        prev.map((email) =>
+          email._id === selectedEmail._id || email.id === selectedEmail.id
+            ? updatedEmail
+            : email,
+        ),
+      );
+
       // Close modal
       setShowEditModal(false);
       setSelectedEmail(null);
       resetForm();
-      
+
       // Show success message
-      showFeedback("success", "Success!", "Email subscription updated successfully!");
-      
+      showFeedback(
+        "success",
+        "Success!",
+        "Email subscription updated successfully!",
+      );
     } catch (error) {
-      console.error('Error updating email:', error);
-      const errorMessage = error.message || 'Failed to update email subscription';
+      console.error("Error updating email:", error);
+      const errorMessage =
+        error.message || "Failed to update email subscription";
       setError(errorMessage);
       showFeedback("error", "Error!", errorMessage);
     } finally {
@@ -5213,31 +5436,28 @@ export const SubscriptionManagement = () => {
     }
   };
 
-  // Quick status update
   const handleQuickStatusUpdate = async (emailId, newStatus) => {
     setActionLoading(true);
     setError(null);
-    
+
     try {
       // Find email
-      const email = emails.find(e => 
-        (e._id === emailId || e.id === emailId)
-      );
-      
+      const email = emails.find((e) => e._id === emailId || e.id === emailId);
+
       if (!email) {
-        throw new Error('Email not found');
+        throw new Error("Email not found");
       }
 
-      console.log('Updating status for email:', emailId, newStatus);
-      
+      console.log("Updating status for email:", emailId, newStatus);
+
       // Send to API
-      const response = await api.patch(`/newsletter/${emailId}`, { 
-        status: newStatus 
+      const response = await api.patch(`/newsletter/${emailId}`, {
+        status: newStatus,
       });
-      
+
       // Handle response
       let updatedEmail;
-      
+
       if (response.data && response.data.data) {
         updatedEmail = response.data.data;
       } else if (response.data && response.data.email) {
@@ -5247,18 +5467,21 @@ export const SubscriptionManagement = () => {
       }
 
       // Update state
-      setEmails(prev => prev.map(email => 
-        (email._id === emailId || email.id === emailId) 
-          ? updatedEmail 
-          : email
-      ));
-      
+      setEmails((prev) =>
+        prev.map((email) =>
+          email._id === emailId || email.id === emailId ? updatedEmail : email,
+        ),
+      );
+
       // Show success message
-      showFeedback("success", "Success!", `Email status updated to ${newStatus}!`);
-      
+      showFeedback(
+        "success",
+        "Success!",
+        `Email status updated to ${newStatus}!`,
+      );
     } catch (error) {
-      console.error('Error updating status:', error);
-      const errorMessage = error.message || 'Failed to update status';
+      console.error("Error updating status:", error);
+      const errorMessage = error.message || "Failed to update status";
       setError(errorMessage);
       showFeedback("error", "Error!", errorMessage);
     } finally {
@@ -5266,13 +5489,11 @@ export const SubscriptionManagement = () => {
     }
   };
 
-  // Open delete confirmation
   const handleDeleteClick = (email) => {
     setSelectedEmail(email);
     setShowDeleteModal(true);
   };
 
-  // Delete email subscription
   const handleDeleteEmail = async () => {
     if (!selectedEmail) return;
 
@@ -5282,31 +5503,38 @@ export const SubscriptionManagement = () => {
     try {
       // Get email ID
       const emailId = selectedEmail._id || selectedEmail.id;
-      
+
       if (!emailId) {
-        throw new Error('Email ID is required for deletion');
+        throw new Error("Email ID is required for deletion");
       }
 
-      console.log('Deleting email:', emailId);
-      
+      console.log("Deleting email:", emailId);
+
       // Send to API
       await api.delete(`/newsletter/${emailId}`);
-      
+
       // Update state
-      setEmails(prev => prev.filter(email => 
-        (email._id !== selectedEmail._id && email.id !== selectedEmail.id)
-      ));
-      
+      setEmails((prev) =>
+        prev.filter(
+          (email) =>
+            email._id !== selectedEmail._id && email.id !== selectedEmail.id,
+        ),
+      );
+
       // Close modal
       setShowDeleteModal(false);
       setSelectedEmail(null);
-      
+
       // Show success message
-      showFeedback("success", "Success!", "Email subscription deleted successfully!");
-      
+      showFeedback(
+        "success",
+        "Success!",
+        "Email subscription deleted successfully!",
+      );
     } catch (error) {
-      console.error('Error deleting email:', error);
-      const errorMessage = error.message || 'Failed to delete email subscription';
+      console.error("Error deleting email:", error);
+      const errorMessage =
+        error.message || "Failed to delete email subscription";
       setError(errorMessage);
       showFeedback("error", "Error!", errorMessage);
     } finally {
@@ -5314,13 +5542,12 @@ export const SubscriptionManagement = () => {
     }
   };
 
-  // Open view modal
   const handleViewEmail = (email) => {
     setSelectedEmail(email);
     setShowViewModal(true);
   };
 
-  // Copy email to clipboard
+  // ===== 9. UTILITY FUNCTIONS =====
   const copyToClipboard = async (email) => {
     try {
       await navigator.clipboard.writeText(email);
@@ -5330,53 +5557,57 @@ export const SubscriptionManagement = () => {
     }
   };
 
-  // Copy all emails to clipboard
   const copyAllEmailsToClipboard = () => {
-    const emailList = filteredEmails.map(e => e.email).join(', ');
+    const emailList = filteredEmails.map((e) => e.email).join(", ");
     copyToClipboard(emailList);
   };
 
-  // Export emails
   const handleExportEmails = () => {
     const filteredEmailsList = filteredEmails;
-    
-    let content = '';
-    let filename = `email-subscriptions-${new Date().toISOString().split('T')[0]}`;
-    
-    if (exportFormat === 'json') {
+
+    let content = "";
+    let filename = `email-subscriptions-${new Date().toISOString().split("T")[0]}`;
+
+    if (exportFormat === "json") {
       content = JSON.stringify(filteredEmailsList, null, 2);
-      filename += '.json';
-    } else if (exportFormat === 'csv') {
-      const headers = ['Email', 'Status', 'Created At'];
-      const rows = filteredEmailsList.map(email => [
+      filename += ".json";
+    } else if (exportFormat === "csv") {
+      const headers = ["Email", "Status", "Created At"];
+      const rows = filteredEmailsList.map((email) => [
         email.email,
         email.status,
-        new Date(email.createdAt).toLocaleString()
+        new Date(email.createdAt).toLocaleString(),
       ]);
-      content = [headers, ...rows].map(row => row.join(',')).join('\n');
-      filename += '.csv';
-    } else if (exportFormat === 'txt') {
-      content = filteredEmailsList.map(email => 
-        `${email.email} - ${email.status} (${new Date(email.createdAt).toLocaleDateString()})`
-      ).join('\n');
-      filename += '.txt';
+      content = [headers, ...rows].map((row) => row.join(",")).join("\n");
+      filename += ".csv";
+    } else if (exportFormat === "txt") {
+      content = filteredEmailsList
+        .map(
+          (email) =>
+            `${email.email} - ${email.status} (${new Date(email.createdAt).toLocaleDateString()})`,
+        )
+        .join("\n");
+      filename += ".txt";
     }
-    
-    const blob = new Blob([content], { type: 'text/plain' });
+
+    const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    
+
     setShowExportModal(false);
-    showFeedback("success", "Exported!", `Emails exported as ${exportFormat.toUpperCase()}!`);
+    showFeedback(
+      "success",
+      "Exported!",
+      `Emails exported as ${exportFormat.toUpperCase()}!`,
+    );
   };
 
-  // Bulk add emails
   const handleBulkAddEmails = async () => {
     if (!bulkEmails.trim()) {
       showFeedback("error", "Error!", "Please enter email addresses");
@@ -5384,12 +5615,12 @@ export const SubscriptionManagement = () => {
     }
 
     setActionLoading(true);
-    
+
     const emailList = bulkEmails
       .split(/[\n,;]/)
-      .map(email => email.trim().toLowerCase())
-      .filter(email => email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-    
+      .map((email) => email.trim().toLowerCase())
+      .filter((email) => email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+
     if (emailList.length === 0) {
       showFeedback("error", "Error!", "No valid email addresses found");
       setActionLoading(false);
@@ -5398,89 +5629,84 @@ export const SubscriptionManagement = () => {
 
     try {
       // Create each email subscription
-      const promises = emailList.map(email => 
-        api.post('/newsletter', { email, status: bulkStatus })
+      const promises = emailList.map((email) =>
+        api.post("/newsletter", { email, status: bulkStatus }),
       );
-      
+
       await Promise.all(promises);
-      
+
       // Refresh the list
       fetchEmails();
-      setBulkEmails('');
+      setBulkEmails("");
       setShowBulkModal(false);
-      
-      showFeedback("success", "Success!", `${emailList.length} emails added successfully!`);
-      
+
+      showFeedback(
+        "success",
+        "Success!",
+        `${emailList.length} emails added successfully!`,
+      );
     } catch (error) {
-      console.error('Error bulk adding emails:', error);
-      showFeedback("error", "Error!", "Failed to add some emails. Please check for duplicates.");
+      console.error("Error bulk adding emails:", error);
+      showFeedback(
+        "error",
+        "Error!",
+        "Failed to add some emails. Please check for duplicates.",
+      );
     } finally {
       setActionLoading(false);
     }
   };
 
-  // Format date
   const formatDate = (dateString) => {
-    if (!dateString) return 'Not available';
+    if (!dateString) return "Not available";
     try {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+      return new Date(dateString).toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
     } catch (error) {
-      console.error('Error formatting date:', error);
-      return 'Invalid Date';
+      console.error("Error formatting date:", error);
+      return "Invalid Date";
     }
   };
 
-  // Get status info
   const getStatusInfo = (status) => {
-    const option = statusOptions.find(opt => opt.value === status);
-    return option || { color: 'bg-gray-100 text-gray-800', label: 'Unknown', icon: null };
+    const option = statusOptions.find((opt) => opt.value === status);
+    return (
+      option || {
+        color: "bg-gray-100 text-gray-800",
+        label: "Unknown",
+        icon: null,
+      }
+    );
   };
 
-  // Filter emails
-  const filteredEmails = (Array.isArray(emails) ? emails : []).filter(email => {
-    if (!email || typeof email !== 'object') return false;
-    
-    const emailAddress = email.email || '';
-    const status = email.status || '';
-    
-    const matchesSearch = emailAddress.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesStatus = filterStatus === 'all' || status === filterStatus;
-    
-    return matchesSearch && matchesStatus;
-  });
-
-  // Reset filters
   const resetFilters = () => {
-    setSearchQuery('');
-    setFilterStatus('all');
+    setSearchQuery("");
+    setFilterStatus("all");
+    setCurrentPage(1);
   };
 
-  // Retry fetching emails
   const retryFetch = () => {
     fetchEmails();
   };
 
-  // Calculate statistics
-  const totalEmails = Array.isArray(emails) ? emails.length : 0;
-  const activeEmails = Array.isArray(emails) ? emails.filter(e => e?.status === 'active').length : 0;
-  const pendingEmails = Array.isArray(emails) ? emails.filter(e => e?.status === 'pending').length : 0;
-  const unsubscribedEmails = Array.isArray(emails) ? emails.filter(e => e?.status === 'unsubscribed').length : 0;
-
-  if (loading) {
+  // ===== 10. EARLY RETURNS =====
+  if (loading && emails.length === 0) {
     return (
-      <div className="flex flex-col bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white items-center justify-center h-64 space-y-4">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
-        <p className="text-gray-100">Loading email subscriptions...</p>
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto"></div>
+          <p className="text-gray-100 mt-4">Loading email subscriptions...</p>
+        </div>
       </div>
     );
   }
 
+  // ===== 11. MAIN RENDER =====
   return (
     <>
       <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white">
@@ -5507,7 +5733,7 @@ export const SubscriptionManagement = () => {
                     onClick={() => setViewMode("table")}
                     className={`p-2 rounded-md transition-colors ${
                       viewMode === "table"
-                        ? "bg-white shadow-sm text-blue-600"
+                        ? "bg-gradient-to-t from-blue-500 to-blue-600 text-white"
                         : "text-gray-500 hover:text-gray-700"
                     }`}
                     title="Table View"
@@ -5518,7 +5744,7 @@ export const SubscriptionManagement = () => {
                     onClick={() => setViewMode("grid")}
                     className={`p-2 rounded-md transition-colors ${
                       viewMode === "grid"
-                        ? "bg-white shadow-sm text-blue-600"
+                        ? "bg-gradient-to-t from-blue-500 to-blue-600 text-white"
                         : "text-gray-500 hover:text-gray-700"
                     }`}
                     title="Grid View"
@@ -5537,9 +5763,9 @@ export const SubscriptionManagement = () => {
                 <p className="text-red-600 text-sm">{error}</p>
                 <button
                   onClick={clearError}
-                  className="text-red-400 hover:text-red-600 text-lg"
+                  className="bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
                 >
-                  ×
+                  <CloseIcon className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -5568,7 +5794,7 @@ export const SubscriptionManagement = () => {
                   <button
                     onClick={fetchEmails}
                     disabled={loading}
-                    className="p-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
+                    className="p-2 bg-gradient-to-t from-blue-500 to-indigo-400 text-white rounded-lg transition-colors disabled:opacity-50"
                     title="Refresh"
                   >
                     <Refresh
@@ -5578,26 +5804,108 @@ export const SubscriptionManagement = () => {
 
                   <button
                     onClick={() => setShowCreateModal(true)}
-                    className="px-3 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
+                    className="px-3 py-2 bg-gradient-to-t from-blue-500 to-indigo-400 text-white rounded-lg transition-colors flex items-center gap-2 text-sm sm:text-base"
                   >
                     <AddIcon className="w-4 h-4" />
                     <span className="hidden sm:inline">New Email</span>
                     <span className="sm:hidden">Add</span>
                   </button>
+
+                  <button
+                    onClick={() => setShowBulkModal(true)}
+                    className="px-3 py-2 bg-gradient-to-t from-purple-500 to-purple-600 text-white rounded-lg transition-colors flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <AddIcon className="w-4 h-4" />
+                    <span className="hidden sm:inline">Bulk Add</span>
+                  </button>
+
+                  <button
+                    onClick={() => setShowExportModal(true)}
+                    className="px-3 py-2 bg-gradient-to-t from-green-500 to-green-600 text-white rounded-lg transition-colors flex items-center gap-2 text-sm sm:text-base"
+                  >
+                    <Download className="w-4 h-4" />
+                    <span className="hidden sm:inline">Export</span>
+                  </button>
                 </div>
+              </div>
+            </div>
+
+            {/* Filters */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-2">
+              <div className="flex items-center space-x-3">
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="all">All Status</option>
+                  {statusOptions.map((status) => (
+                    <option key={status.value} value={status.value}>
+                      {status.label}
+                    </option>
+                  ))}
+                </select>
+
+                <button
+                  onClick={resetFilters}
+                  className="flex items-center space-x-1 text-sm text-gray-100 hover:text-white transition-colors bg-gradient-to-t from-gray-500 to-gray-600 px-3 py-1 rounded-lg"
+                >
+                  <FilterList className="w-4 h-4" />
+                  <span>Reset Filters</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-gray-100">Total</p>
+                  <p className="text-xl font-bold text-white">{totalEmails}</p>
+                </div>
+                <EmailIcon className="text-white/50" />
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-gray-100">Active</p>
+                  <p className="text-xl font-bold text-white">{activeEmails}</p>
+                </div>
+                <CheckCircle className="text-green-400" />
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-gray-100">Pending</p>
+                  <p className="text-xl font-bold text-white">
+                    {pendingEmails}
+                  </p>
+                </div>
+                <AccessTime className="text-yellow-400" />
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-gray-100">Unsubscribed</p>
+                  <p className="text-xl font-bold text-white">
+                    {unsubscribedEmails}
+                  </p>
+                </div>
+                <ClearIcon className="text-red-400" />
               </div>
             </div>
           </div>
 
           {/* Emails Content */}
-          {loading ? (
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
-              <p className="text-gray-600 mt-2 text-sm sm:text-base">
-                Loading email subscriptions...
-              </p>
-            </div>
-          ) : filteredEmails.length === 0 ? (
+          {currentItems.length === 0 ? (
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
               <EmailIcon className="mx-auto text-gray-400 mb-2 w-12 h-12 sm:w-16 sm:h-16" />
               <p className="text-gray-600 text-sm sm:text-base">
@@ -5611,121 +5919,134 @@ export const SubscriptionManagement = () => {
                 </p>
               )}
             </div>
-          ) : viewMode === "table" ? (
-            /* Table View for md screens and up */
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">
-                        Email Address
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">
-                        Status
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6 hidden sm:table-cell">
-                        Created
-                      </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredEmails.map((email) => {
-                      const statusInfo = getStatusInfo(email.status);
-                      const emailId = email._id || email.id;
-                      
-                      return (
-                        <tr key={emailId} className="hover:bg-gray-50 transition-colors">
-                          <td className="px-4 py-4 whitespace-nowrap sm:px-6">
-                            <div className="flex items-center">
-                              <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center mr-3 flex-shrink-0">
-                                <EmailIcon className="w-4 h-4 text-indigo-600" />
-                              </div>
-                              <div className="min-w-0">
-                                <div className="text-sm font-medium text-gray-900 truncate">
-                                  {email.email || 'N/A'}
+          ) : (
+            <>
+              {viewMode === "table" ? (
+                /* Table View for md screens and up */
+                <div className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead className="bg-gray-50 border-b border-gray-200">
+                        <tr>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">
+                            Email Address
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">
+                            Status
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6 hidden lg:table-cell">
+                            Created
+                          </th>
+                          <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sm:px-6">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {currentItems.map((email) => {
+                          const statusInfo = getStatusInfo(email.status);
+                          const emailId = email._id || email.id;
+
+                          return (
+                            <tr
+                              key={emailId}
+                              className="hover:bg-gray-50 transition-colors"
+                            >
+                              <td className="px-4 py-4 whitespace-nowrap sm:px-6">
+                                <div className="flex items-center">
+                                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                                    <EmailIcon className="w-4 h-4 text-blue-600" />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <div className="text-sm font-medium text-gray-900 truncate max-w-[200px]">
+                                      {email.email || "N/A"}
+                                    </div>
+                                    <div className="text-xs text-gray-500 lg:hidden">
+                                      {formatDate(email.createdAt)}
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="text-sm text-gray-500 truncate sm:hidden">
+                              </td>
+                              <td className="px-4 py-4 whitespace-nowrap sm:px-6">
+                                <span
+                                  className={`px-2 py-1 rounded-full text-xs font-medium ${statusInfo.color} flex items-center space-x-1 w-fit`}
+                                >
+                                  {statusInfo.icon}
+                                  <span>{statusInfo.label}</span>
+                                </span>
+                              </td>
+                              <td className="px-4 py-4 whitespace-nowrap sm:px-6 hidden lg:table-cell">
+                                <div className="text-sm text-gray-500">
                                   {formatDate(email.createdAt)}
                                 </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap sm:px-6">
-                            <div className="flex flex-col space-y-1">
-                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusInfo.color} flex items-center space-x-1 w-fit`}>
-                                {statusInfo.icon}
-                                <span>{statusInfo.label}</span>
-                              </span>
-                            </div>
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap sm:px-6 hidden sm:table-cell">
-                            <div className="text-sm text-gray-900">
-                              {formatDate(email.createdAt)}
-                            </div>
-                          </td>
-                          <td className="px-4 py-4 whitespace-nowrap sm:px-6">
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => copyToClipboard(email.email)}
-                                className="px-3 py-1 text-blue-600 bg-blue-50 border border-blue-200 rounded-md hover:bg-blue-100 transition-colors flex items-center space-x-1 text-sm"
-                                title="Copy email"
-                              >
-                                <ContentCopy className="w-3 h-3" />
-                                <span className="hidden xs:inline">Copy</span>
-                              </button>
-                              <button
-                                onClick={() => handleViewEmail(email)}
-                                className="px-3 py-1 text-purple-600 bg-purple-50 border border-purple-200 rounded-md hover:bg-purple-100 transition-colors flex items-center space-x-1 text-sm"
-                                title="View email"
-                              >
-                                <ViewIcon className="w-3 h-3" />
-                                <span className="hidden xs:inline">View</span>
-                              </button>
-                              <button
-                                onClick={() => handleEditEmail(email)}
-                                className="px-3 py-1 text-green-600 bg-green-50 border border-green-200 rounded-md hover:bg-green-100 transition-colors flex items-center space-x-1 text-sm"
-                                title="Edit email"
-                              >
-                                <EditIcon className="w-3 h-3" />
-                                <span className="hidden xs:inline">Edit</span>
-                              </button>
-                              <button
-                                onClick={() => handleDeleteClick(email)}
-                                className="px-3 py-1 text-red-600 bg-red-50 border border-red-200 rounded-md hover:bg-red-100 transition-colors flex items-center space-x-1 text-sm"
-                                title="Delete email"
-                              >
-                                <DeleteIcon className="w-3 h-3" />
-                                <span className="hidden xs:inline">Delete</span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          ) : (
-            /* Grid/Card View for mobile and when in grid mode */
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredEmails.map((email) => (
-                <EmailCard
-                  key={email._id || email.id}
-                  email={email}
-                  onView={handleViewEmail}
-                  onEdit={handleEditEmail}
-                  onDelete={handleDeleteClick}
-                  onQuickStatusUpdate={handleQuickStatusUpdate}
-                  onCopy={copyToClipboard}
-                />
-              ))}
-            </div>
+                              </td>
+                              <td className="px-4 py-4 whitespace-nowrap sm:px-6">
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => copyToClipboard(email.email)}
+                                    className="px-3 py-1 bg-gradient-to-t from-blue-500 to-blue-600 text-white rounded-md hover:from-blue-600 hover:to-blue-700 transition-colors flex items-center space-x-1 text-sm"
+                                    title="Copy email"
+                                  >
+                                    <ContentCopy className="w-3 h-3" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleViewEmail(email)}
+                                    className="px-3 py-1 bg-gradient-to-t from-purple-500 to-purple-600 text-white rounded-md hover:from-purple-600 hover:to-purple-700 transition-colors flex items-center space-x-1 text-sm"
+                                    title="View email"
+                                  >
+                                    <ViewIcon className="w-3 h-3" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleEditEmail(email)}
+                                    className="px-3 py-1 bg-gradient-to-t from-green-500 to-green-600 text-white rounded-md hover:from-green-600 hover:to-green-700 transition-colors flex items-center space-x-1 text-sm"
+                                    title="Edit email"
+                                  >
+                                    <EditIcon className="w-3 h-3" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteClick(email)}
+                                    className="px-3 py-1 bg-gradient-to-t from-red-500 to-red-600 text-white rounded-md hover:from-red-600 hover:to-red-700 transition-colors flex items-center space-x-1 text-sm"
+                                    title="Delete email"
+                                  >
+                                    <DeleteIcon className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                /* Grid/Card View for mobile and when in grid mode */
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {currentItems.map((email) => (
+                    <EmailCard
+                      key={email._id || email.id}
+                      email={email}
+                      onView={handleViewEmail}
+                      onEdit={handleEditEmail}
+                      onDelete={handleDeleteClick}
+                      onQuickStatusUpdate={handleQuickStatusUpdate}
+                      onCopy={copyToClipboard}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Pagination Controls */}
+              {filteredEmails.length > 0 && <PaginationControls />}
+            </>
           )}
+
+          {/* Summary */}
+          <div className="mt-4 text-sm text-gray-100">
+            Showing <span className="font-medium">{currentItems.length}</span>{" "}
+            of <span className="font-medium">{filteredEmails.length}</span>{" "}
+            emails
+          </div>
         </div>
       </div>
 
@@ -5743,20 +6064,25 @@ export const SubscriptionManagement = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md"
+              className="bg-white rounded-lg w-full max-w-xs sm:max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Add New Email</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  Add New Email
+                </h2>
                 <button
                   onClick={() => setShowCreateModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
                 >
                   <CloseIcon />
                 </button>
               </div>
 
-              <form onSubmit={handleCreateEmail} className="p-4 sm:p-6 space-y-3 sm:space-y-4">
+              <form
+                onSubmit={handleCreateEmail}
+                className="p-4 sm:p-6 space-y-3 sm:space-y-4"
+              >
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                     Email Address *
@@ -5767,7 +6093,7 @@ export const SubscriptionManagement = () => {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-black"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-black"
                     placeholder="Enter email address"
                   />
                 </div>
@@ -5781,9 +6107,9 @@ export const SubscriptionManagement = () => {
                     required
                     value={formData.status}
                     onChange={handleInputChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-black"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-black"
                   >
-                    {statusOptions.map(status => (
+                    {statusOptions.map((status) => (
                       <option key={status.value} value={status.value}>
                         {status.label}
                       </option>
@@ -5795,14 +6121,14 @@ export const SubscriptionManagement = () => {
                   <button
                     type="button"
                     onClick={() => setShowCreateModal(false)}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-gray-500 to-gray-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-colors text-xs sm:text-sm"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-blue-500 to-blue-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-colors flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
                   >
                     {actionLoading ? (
                       <>
@@ -5837,20 +6163,25 @@ export const SubscriptionManagement = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md"
+              className="bg-white rounded-lg w-full max-w-xs sm:max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Edit Email</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  Edit Email
+                </h2>
                 <button
                   onClick={() => setShowEditModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
                 >
                   <CloseIcon />
                 </button>
               </div>
 
-              <form onSubmit={handleUpdateEmail} className="p-4 sm:p-6 space-y-3 sm:space-y-4 text-black">
+              <form
+                onSubmit={handleUpdateEmail}
+                className="p-4 sm:p-6 space-y-3 sm:space-y-4 text-black"
+              >
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
                     Email Address *
@@ -5861,7 +6192,7 @@ export const SubscriptionManagement = () => {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -5874,9 +6205,9 @@ export const SubscriptionManagement = () => {
                     required
                     value={formData.status}
                     onChange={handleInputChange}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
-                    {statusOptions.map(status => (
+                    {statusOptions.map((status) => (
                       <option key={status.value} value={status.value}>
                         {status.label}
                       </option>
@@ -5888,14 +6219,14 @@ export const SubscriptionManagement = () => {
                   <button
                     type="button"
                     onClick={() => setShowEditModal(false)}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-gray-500 to-gray-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-colors text-xs sm:text-sm"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={actionLoading}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-green-500 to-green-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-green-600 hover:to-green-700 transition-colors flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
                   >
                     {actionLoading ? (
                       <>
@@ -5930,14 +6261,16 @@ export const SubscriptionManagement = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md"
+              className="bg-white rounded-lg w-full max-w-xs sm:max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Email Details</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  Email Details
+                </h2>
                 <button
                   onClick={() => setShowViewModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
                 >
                   <CloseIcon />
                 </button>
@@ -5945,26 +6278,42 @@ export const SubscriptionManagement = () => {
 
               <div className="p-4 sm:p-6 space-y-3 sm:space-y-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Email Address</label>
-                  <p className="text-sm sm:text-base font-semibold text-gray-900 break-all">{selectedEmail.email}</p>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                    Email Address
+                  </label>
+                  <p className="text-sm sm:text-base font-semibold text-gray-900 break-all">
+                    {selectedEmail.email}
+                  </p>
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Status</label>
-                  <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusInfo(selectedEmail.status).color}`}>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                    Status
+                  </label>
+                  <span
+                    className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusInfo(selectedEmail.status).color}`}
+                  >
                     {getStatusInfo(selectedEmail.status).label}
                   </span>
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">Created</label>
-                  <p className="text-sm sm:text-base text-gray-900">{formatDate(selectedEmail.createdAt)}</p>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                    Created
+                  </label>
+                  <p className="text-sm sm:text-base text-gray-900">
+                    {formatDate(selectedEmail.createdAt)}
+                  </p>
                 </div>
 
                 {selectedEmail._id && (
                   <div>
-                    <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">ID</label>
-                    <p className="text-xs text-gray-900 font-mono break-all">{selectedEmail._id}</p>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-500 mb-1">
+                      ID
+                    </label>
+                    <p className="text-xs text-gray-900 font-mono break-all">
+                      {selectedEmail._id}
+                    </p>
                   </div>
                 )}
               </div>
@@ -5972,7 +6321,7 @@ export const SubscriptionManagement = () => {
               <div className="p-4 sm:p-6 border-t border-gray-200">
                 <button
                   onClick={() => setShowViewModal(false)}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm"
+                  className="w-full bg-gradient-to-t from-red-500 to-red-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-red-600 hover:to-red-700 transition-colors text-xs sm:text-sm"
                 >
                   Close
                 </button>
@@ -5996,34 +6345,35 @@ export const SubscriptionManagement = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md"
+              className="bg-white rounded-lg w-full max-w-xs sm:max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="p-4 sm:p-6 text-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
                   <DeleteIcon className="text-red-600 text-xl sm:text-2xl" />
                 </div>
-                
-                <h3 className="text-base sm:text-xl font-semibold text-gray-900 mb-1 sm:mb-2">
+
+                <h3 className="text-base sm:text-xl font-semibold text-red-600 mb-1 sm:mb-2">
                   Delete Email?
                 </h3>
-                
+
                 <p className="text-xs sm:text-sm text-gray-600 mb-4 sm:mb-6 break-words">
-                  Are you sure you want to delete <strong>{selectedEmail.email}</strong>?
-                  This action cannot be undone.
+                  Are you sure you want to delete{" "}
+                  <strong>{selectedEmail.email}</strong>? This action cannot be
+                  undone.
                 </p>
 
                 <div className="flex space-x-2 sm:space-x-3">
                   <button
                     onClick={() => setShowDeleteModal(false)}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-gray-500 to-gray-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-colors text-xs sm:text-sm"
                     disabled={actionLoading}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleDeleteEmail}
-                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-red-500 to-red-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-red-600 hover:to-red-700 transition-colors flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
                     disabled={actionLoading}
                   >
                     {actionLoading ? (
@@ -6059,14 +6409,16 @@ export const SubscriptionManagement = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md"
+              className="bg-white rounded-lg w-full max-w-xs sm:max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Export Emails</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  Export Emails
+                </h2>
                 <button
                   onClick={() => setShowExportModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
                 >
                   <CloseIcon />
                 </button>
@@ -6078,15 +6430,15 @@ export const SubscriptionManagement = () => {
                     Export Format
                   </label>
                   <div className="grid grid-cols-3 gap-2 sm:gap-3">
-                    {['json', 'csv', 'txt'].map(format => (
+                    {["json", "csv", "txt"].map((format) => (
                       <button
                         key={format}
                         type="button"
                         onClick={() => setExportFormat(format)}
-                        className={`py-2 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm ${
+                        className={`py-2 sm:py-3 px-2 sm:px-4 rounded-lg transition-colors duration-200 text-xs sm:text-sm ${
                           exportFormat === format
-                            ? 'bg-indigo-600 text-white'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                            ? "bg-gradient-to-t from-blue-500 to-blue-600 text-white"
+                            : "bg-gradient-to-t from-gray-500 to-gray-600 text-white hover:from-gray-600 hover:to-gray-700"
                         }`}
                       >
                         {format.toUpperCase()}
@@ -6102,13 +6454,13 @@ export const SubscriptionManagement = () => {
                 <div className="flex space-x-2 sm:space-x-3 pt-3 sm:pt-4">
                   <button
                     onClick={() => setShowExportModal(false)}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-gray-500 to-gray-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-colors text-xs sm:text-sm"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleExportEmails}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-green-500 to-green-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-green-600 hover:to-green-700 transition-colors flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
                   >
                     <Download className="text-xs sm:text-sm" />
                     <span>Export</span>
@@ -6134,14 +6486,16 @@ export const SubscriptionManagement = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-xl sm:rounded-2xl shadow-2xl w-full max-w-xs sm:max-w-md"
+              className="bg-white rounded-lg w-full max-w-xs sm:max-w-md"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Bulk Add Emails</h2>
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
+                  Bulk Add Emails
+                </h2>
                 <button
                   onClick={() => setShowBulkModal(false)}
-                  className="text-gray-400 hover:text-gray-600 transition-colors duration-200"
+                  className="bg-gradient-to-t from-red-500 to-red-700 text-white p-1 rounded-full"
                 >
                   <CloseIcon />
                 </button>
@@ -6156,7 +6510,7 @@ export const SubscriptionManagement = () => {
                     value={bulkEmails}
                     onChange={(e) => setBulkEmails(e.target.value)}
                     rows="4"
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 resize-none"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
                     placeholder="Enter email addresses (separated by commas, spaces, or new lines)"
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -6171,9 +6525,9 @@ export const SubscriptionManagement = () => {
                   <select
                     value={bulkStatus}
                     onChange={(e) => setBulkStatus(e.target.value)}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
                   >
-                    {statusOptions.map(status => (
+                    {statusOptions.map((status) => (
                       <option key={status.value} value={status.value}>
                         {status.label}
                       </option>
@@ -6184,14 +6538,14 @@ export const SubscriptionManagement = () => {
                 <div className="flex space-x-2 sm:space-x-3 pt-3 sm:pt-4">
                   <button
                     onClick={() => setShowBulkModal(false)}
-                    className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-gray-500 to-gray-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-colors text-xs sm:text-sm"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleBulkAddEmails}
                     disabled={actionLoading}
-                    className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl transition-colors duration-200 flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
+                    className="flex-1 bg-gradient-to-t from-blue-500 to-blue-600 text-white py-2 sm:py-3 px-3 sm:px-4 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-colors flex items-center justify-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
                   >
                     {actionLoading ? (
                       <>
