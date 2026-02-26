@@ -8,7 +8,7 @@ import { FAQ } from "../faq/Faq";
 export const Home = () => {
   return (
     <>
-      <div className="w-full bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl">
+      <div className="w-full bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl">
         <Hero />
         <About/>
         <Services/>

@@ -1338,9 +1338,9 @@
 
 //   return (
 //     <>
-//       <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-20">
+//       <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white pt-20">
 //         {/* Hero Section */}
-//         <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
+//         <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white overflow-hidden">
 //           <div className="absolute inset-0"></div>
 //           <div className="absolute top-10 left-10 opacity-10">
 //             <MusicNoteIcon className="w-16 h-16" />
@@ -1376,7 +1376,7 @@
 //         </section>
 
 //         {/* Categories Filter */}
-//         <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white sticky top-20 z-30 shadow-sm">
+//         <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white sticky top-20 z-30 shadow-sm">
 //           <div className="container mx-auto px-4">
 //             <div className="flex flex-wrap gap-4 justify-center">
 //               {categories.map((category) => (
@@ -1418,7 +1418,7 @@
 //                   whileInView={{ opacity: 1, scale: 1 }}
 //                   transition={{ duration: 0.5 }}
 //                   whileHover={{ scale: 1.02, y: -5 }}
-//                   className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+//                   className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
 //                 >
 //                   {/* Video Thumbnail with Play Button */}
 //                   <div className="p-4">
@@ -2470,9 +2470,9 @@
 
 //   return (
 //     <>
-//       <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-20">
+//       <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white pt-20">
 //         {/* Hero Section */}
-//         <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
+//         <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white overflow-hidden">
 //           <div className="absolute inset-0"></div>
 //           <div className="absolute top-10 left-10 opacity-10">
 //             <MusicNoteIcon className="w-16 h-16" />
@@ -2528,7 +2528,7 @@
 //         </section>
 
 //         {/* Categories Filter */}
-//         <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white sticky top-20 z-30 shadow-sm">
+//         <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white sticky top-20 z-30 shadow-sm">
 //           <div className="container mx-auto px-4">
 //             <div className="flex flex-wrap gap-4 justify-center">
 //               {categories.map((category) => (
@@ -2604,7 +2604,7 @@
 //                       whileInView={{ opacity: 1, scale: 1 }}
 //                       transition={{ duration: 0.5 }}
 //                       whileHover={{ scale: 1.02, y: -5 }}
-//                       className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+//                       className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
 //                     >
 //                       {/* Video Thumbnail with Play Button */}
 //                       <div className="p-4">
@@ -3656,9 +3656,9 @@ export const Classes = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white pt-20">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white pt-20">
         {/* Hero Section */}
-        <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white overflow-hidden">
+        <section className="relative py-16 sm:py-10 lg:py-14 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white overflow-hidden">
           <div className="absolute inset-0"></div>
           <div className="absolute top-10 left-10 opacity-10">
             <MusicNoteIcon className="w-16 h-16" />
@@ -3690,31 +3690,12 @@ export const Classes = () => {
                 Explore the latest Ndizy note music videos, tutorials, and performances from YouTube. 
                 Discover traditional Ndizy music techniques and modern interpretations.
               </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="flex flex-wrap gap-4 justify-center items-center"
-              >
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <div className="flex items-center gap-2">
-                    <PlayIcon className="w-5 h-5" />
-                    <span className="font-semibold">{videos.length} Videos</span>
-                  </div>
-                </div>
-                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-                  <div className="flex items-center gap-2">
-                    <MusicNoteIcon className="w-5 h-5" />
-                    <span className="font-semibold">Traditional & Modern</span>
-                  </div>
-                </div>
-              </motion.div>
             </motion.div>
           </div>
         </section>
 
         {/* Categories Filter */}
-        <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white sticky top-20 z-30 shadow-sm">
+        <section className="py-8 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white sticky top-20 z-30 shadow-sm">
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap gap-4 justify-center">
               {categories.map((category) => (
@@ -3723,11 +3704,7 @@ export const Classes = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setSelectedCategory(category.id)}
-                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
-                    selectedCategory === category.id
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all `}
                 >
                   {category.icon}
                   {category.name}
@@ -3745,14 +3722,14 @@ export const Classes = () => {
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z" />
                 </svg>
-                Refresh Videos
+               
               </motion.button>
             </div>
           </div>
         </section>
 
         {/* Videos Grid */}
-        <section className="py-16">
+        <section className="py-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white">
           <div className="container mx-auto px-4">
             {loading ? (
               <div className="text-center py-20">
@@ -3790,7 +3767,7 @@ export const Classes = () => {
                       whileInView={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.5 }}
                       whileHover={{ scale: 1.02, y: -5 }}
-                      className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+                      className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
                     >
                       {/* Video Thumbnail with Play Button */}
                       <div className="p-4">
@@ -3854,7 +3831,7 @@ export const Classes = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleVideoThumbnailClick(video)}
-                          className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl text-sm font-semibold hover:from-blue-700 hover:to-purple-700 transition-colors"
+                          className="w-full bg-gradient-to-t py-3 rounded-xl text-sm font-semibold hover:from-blue-700 hover:to-purple-700 transition-colors"
                         >
                           Watch Now
                         </motion.button>
@@ -3867,13 +3844,13 @@ export const Classes = () => {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-center py-12"
+                    className="text-center py-12 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white"
                   >
-                    <LibraryIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-gray-600 mb-2">
+                    <LibraryIcon className="w-16 h-16 text-white mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold text-white mb-2">
                       No videos found
                     </h3>
-                    <p className="text-gray-500">
+                    <p className="text-gray-100">
                       Try selecting a different category or refresh the videos
                     </p>
                   </motion.div>

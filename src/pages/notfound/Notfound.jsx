@@ -250,7 +250,7 @@ export const NotFound = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white flex items-center justify-center p-4">
         <div className="max-w-4xl w-full">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -372,7 +372,7 @@ export const NotFound = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="bg-gradient-to-t from-[#1e4c9c] to-[#183772] text-white rounded-2xl shadow-lg border border-gray-200 p-8 max-w-2xl mx-auto"
+              className="bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white rounded-2xl shadow-lg border border-gray-200 p-8 max-w-2xl mx-auto"
             >
               <h3 className="text-xl font-bold text-white mb-4 text-center">
                 Need More Help?

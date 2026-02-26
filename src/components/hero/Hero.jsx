@@ -226,7 +226,7 @@ export const Hero = () => {
 
   return (
     <>
-      <section className="w-full relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="w-full relative min-h-screen p-2 rounded-sm bg-gradient-to-t from-[#102a58] to-[#0c2658] text-white flex items-center justify-center overflow-hidden">
         <ToastContainer position="top-right" autoClose={5000} />
         {/* Background Image Slideshow */}
         <div className="absolute py-2 rounded-2xl inset-0">
