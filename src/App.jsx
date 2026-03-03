@@ -1,9 +1,17 @@
+
 // /* eslint-disable react-hooks/rules-of-hooks */
 // /* eslint-disable react-hooks/set-state-in-effect */
 // /* eslint-disable react-refresh/only-export-components */
 // /* eslint-disable no-unused-vars */
 // import React, { useState, useEffect, useCallback, useMemo } from "react";
-// import { Routes, Route, Navigate, useLocation, Link } from "react-router-dom";
+// import {
+//   Routes,
+//   Route,
+//   Navigate,
+//   useLocation,
+//   Link,
+//   useNavigate,
+// } from "react-router-dom";
 // import { motion, AnimatePresence } from "framer-motion";
 // import "./App.css";
 // import Cookies from "js-cookie";
@@ -28,6 +36,7 @@
 // import { Navbar } from "./components/navigation/Navigation";
 // import { Footer } from "./components/footer/Footer";
 // import { useAuth } from "./components/navigation/Navigation";
+// import axios from "axios";
 // import {
 //   ArrowUpward,
 //   Home as HomeIcon,
@@ -61,6 +70,10 @@
 //   Payment,
 //   RequestQuote,
 // } from "@mui/icons-material";
+// import { toast } from "react-toastify";
+// import { UserClassesManagement } from "./components/dashboard/users/components/classes/UserClassesManagement";
+// import { UserSubscriptionManagement } from "./components/dashboard/users/components/management/subscription/UserSubscriptionManagement";
+// import { UserRequestManagement } from "./components/dashboard/users/components/management/request/UserRequestManagement";
 
 // // RESPONSIVE CONTAINER COMPONENT - REMOVED ALL PADDING
 // const ResponsiveContainer = ({
@@ -116,7 +129,7 @@
 //   const [isMobile, setIsMobile] = useState(false);
 //   const location = useLocation();
 //   const { setUser } = useAuth();
-
+// const { logout } = useAuth();
 //   // Check if mobile screen
 //   useEffect(() => {
 //     const checkMobile = () => {
@@ -235,32 +248,83 @@
 //       category: "Music",
 //       items: [
 //         {
-//           path: "/dashboard/classes",
+//           path: "/dashboard/me/classes",
 //           name: "My Classes",
 //           icon: School,
 //         },
 //         {
-//           path: "/dashboard/schedule",
-//           name: "Schedule",
+//           path: "/dashboard/me/subscription",
+//           name: "My Subscription",
 //           icon: CalendarMonth,
 //         },
 //         {
-//           path: "/dashboard/payments",
-//           name: "Payments",
+//           path: "/dashboard/me/request", // Consistent with profile routes
+//           name: "My Request",
 //           icon: Payment,
 //         },
 //       ],
 //     },
 //   ];
 
-//   // Get menu based on user role (admin or user)
-//   const menuItems = user?.role === "admin" ? adminMenuItems : userMenuItems;
+//   // Get menu based on user status (admin or user)
+//   const menuItems = user?.status === "admin" ? adminMenuItems : userMenuItems;
 
-//   const handleLogout = () => {
-//     setUser(null);
-//     Cookies.remove("user");
-//     window.location.href = "/";
-//   };
+//   // const handleLogout = async () => {
+//   //   const token = Cookies.get("token");
+
+//   //   if (!token) {
+//   //     // No token, just clear frontend and redirect
+//   //     setUser(null);
+//   //     Cookies.remove("user");
+//   //     Cookies.remove("token");
+//   //     return;
+//   //   }
+
+//   //   try {
+//   //     // Send logout request to backend
+//   //     const response = await axios.post(
+//   //       "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
+//   //       {}, // no body
+//   //       {
+//   //         headers: {
+//   //           "Content-Type": "application/json",
+//   //           Authorization: `Bearer ${token}`,
+//   //         },
+//   //         withCredentials: true, // IMPORTANT if backend uses cookies for session
+//   //       },
+//   //     );
+
+//   //     // Check backend response
+//   //     if (response.status === 200 || response.status === 204) {
+//   //       // Backend successfully invalidated session
+//   //       setUser(null);
+//   //       Cookies.remove("user");
+//   //       Cookies.remove("token");
+
+//   //       toast.success("Logged out successfully!");
+
+//   //       // Navigate to home AFTER session cleared
+//   //       window.location.href = "/";
+//   //     } else {
+//   //       throw new Error("Logout failed on server");
+//   //     }
+//   //   } catch (error) {
+//   //     console.error("Logout failed:", error.response?.data || error);
+
+//   //     // Always clear frontend as a fallback
+//   //     setUser(null);
+//   //     Cookies.remove("user");
+//   //     Cookies.remove("token");
+
+//   //     toast.warning(
+//   //       error.response?.data?.message ||
+//   //         "Logout failed on server. Session cleared locally.",
+//   //     );
+
+//   //     // Navigate home
+//   //     window.location.href = "/";
+//   //   }
+//   // };
 
 //   // Set page title on mount and route change
 //   useEffect(() => {
@@ -292,13 +356,15 @@
 //           {/* Sidebar Header */}
 //           <div className="p-4 border-b border-blue-700 flex items-center justify-between">
 //             {sidebarOpen ? (
-//               <motion.div
-//                 initial={{ opacity: 0 }}
-//                 animate={{ opacity: 1 }}
-//                 className="flex items-center space-x-2"
-//               >
-//                 <span className="font-bold text-sm">Dashboard</span>
-//               </motion.div>
+//               <>
+//                 <motion.div
+//                   initial={{ opacity: 0 }}
+//                   animate={{ opacity: 1 }}
+//                   className="flex items-center md:mt-6 space-x-2"
+//                 >
+//                   <span className="font-bold text-sm">Dashboard</span>
+//                 </motion.div>
+//               </>
 //             ) : (
 //               <div className=" rounded-lg flex items-center justify-center"></div>
 //             )}
@@ -329,8 +395,8 @@
 //                 </div>
 //                 <div className="flex-1 min-w-0">
 //                   <p className="font-medium text-sm truncate">{user?.name}</p>
-//                   <p className="text-xs font-bold text-blue-700 capitalize">
-//                     {user?.role}
+//                   <p className="text-xs font-bold text-white capitalize">
+//                     {user?.status || "user"}
 //                   </p>
 //                 </div>
 //               </motion.div>
@@ -345,9 +411,12 @@
 
 //           {/* Navigation Menu */}
 //           <nav className="flex-1 overflow-y-auto py-4">
-//             <ul className="space-y-6 px-2">
+//             <ul className="space-y-8 px-2">
 //               {menuItems.map((category, categoryIndex) => (
-//                 <li key={`category-${categoryIndex}-${category.category}`}>
+//                 <li
+//                   className="space-y-8"
+//                   key={`category-${categoryIndex}-${category.category}`}
+//                 >
 //                   {/* Category Header (only shown when sidebar is open) */}
 //                   {sidebarOpen && (
 //                     <div className="mb-2 px-3">
@@ -370,10 +439,10 @@
 //                         <li key={`${item.path}-${itemIndex}`}>
 //                           <Link to={item.path}>
 //                             <button
-//                               className={`flex w-full items-center px-3 py-2.5 rounded-lg my-4 transition-all ${
+//                               className={`flex w-full bg-blue-600/10 items-center px-3 py-2.5 rounded-lg my-4 transition-all ${
 //                                 isActive
-//                                   ? "bg-blue-800 text-white shadow-md"
-//                                   : "hover:bg-blue-800/50 text-blue-100"
+//                                   ? "bg-gradient-to-r from-blue-400 to-indigo-500 text-white shadow-md"
+//                                   : "hover:bg-blue-500/50 text-blue-100"
 //                               }`}
 //                             >
 //                               <Icon className="text-lg" />
@@ -398,9 +467,10 @@
 //           </nav>
 
 //           {/* Logout Button */}
-//           <div className="p-4 border-t border-blue-700">
+//           <div className="p-4 md:mt-10 sm:mt-4 border-t border-blue-700">
 //             <button
-//               onClick={handleLogout}
+//               // onClick={handleLogout}
+//               onClick={logout}
 //               className={`flex items-center justify-center w-full px-3 py-2.5 rounded-lg bg-gradient-to-t from-red-600 to-red-400  text-white transition-colors ${
 //                 !sidebarOpen && "justify-center"
 //               }`}
@@ -465,35 +535,27 @@
 //   );
 // };
 
-// // PRIVATE ROUTE COMPONENT WITH STATUS-BASED NAVIGATION
-// const PrivateRoute = ({ children, requiredStatus = null, pageTitle = "" }) => {
+// // ENHANCED PRIVATE ROUTE COMPONENT WITH STATUS-BASED ROUTING
+
+// const PrivateRoute = ({ children, allowedStatuses = [], pageTitle = "" }) => {
 //   const { user } = useAuth();
 //   const location = useLocation();
 
-//   // If user is not authenticated, redirect to home
+//   // If no user or no token, redirect to home
 //   if (!user || !user.token) {
-//     return <Navigate to="/" replace />;
+//     toast.warning("No user token, redirecting to home");
+//     return <Navigate to="/" replace state={{ from: location }} />;
 //   }
 
-//   // If user tries to access /dashboard directly, check their role
-//   if (location.pathname === "/dashboard") {
-//     if (user.role === "admin") {
-//       // Admin can access /dashboard
-//       return (
-//         <DashboardLayout user={user} pageTitle={pageTitle}>
-//           {children}
-//         </DashboardLayout>
-//       );
-//     } else {
-//       // Regular users should go to their dashboard
-//       return <Navigate to="/dashboard/user" replace />;
-//     }
-//   }
+//   // Check if user's status is allowed
+//   const hasAllowedStatus =
+//     allowedStatuses.length === 0 || allowedStatuses.includes(user.status);
 
-//   // For other dashboard routes, check required status
-//   if (requiredStatus && user.role !== requiredStatus) {
-//     // Redirect based on user role
-//     if (user.role === "admin") {
+//   if (!hasAllowedStatus) {
+//     toast.warning(`User status "${user.status}" not allowed, redirecting...`);
+
+//     // Redirect based on status
+//     if (user.status === "admin") {
 //       return <Navigate to="/dashboard" replace />;
 //     } else {
 //       return <Navigate to="/dashboard/user" replace />;
@@ -507,130 +569,127 @@
 //   );
 // };
 
-// // Dashboard route configurations
+// // SIMPLIFIED DASHBOARD ROUTE CONFIGURATION
 // const dashboardRoutes = [
-//   // Admin dashboard routes
+//   // =========== ADMIN ROUTES (status: "admin") ===========
+//   // Main admin dashboard
 //   {
 //     path: "/dashboard",
 //     name: "Dashboard Overview",
 //     element: <Dashboard />,
 //     icon: DashboardIcon,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
+//   // Admin management routes
 //   {
 //     path: "/dashboard/users",
 //     name: "User Management",
 //     element: <UserManagement />,
 //     icon: People,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 //   {
 //     path: "/dashboard/contacts",
 //     name: "Contact Management",
 //     element: <ContactManagement />,
 //     icon: ContactMail,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 //   {
 //     path: "/dashboard/request",
 //     name: "Request Management",
 //     element: <RequestManagement />,
 //     icon: RequestQuote,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 //   {
 //     path: "/dashboard/testimony",
 //     name: "Testimony Management",
 //     element: <TestimonialManagement />,
 //     icon: RateReview,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 //   {
 //     path: "/dashboard/booking",
 //     name: "Booking Management",
 //     element: <BookingManagement />,
 //     icon: CalendarToday,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 //   {
 //     path: "/dashboard/courses",
 //     name: "Course Management",
 //     element: <CourseManagementDashboard />,
 //     icon: Book,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 //   {
 //     path: "/dashboard/subscriptions",
 //     name: "Subscription Management",
 //     element: <SubscriptionManagement />,
 //     icon: Subscriptions,
-//     requiredStatus: "admin",
-//     role: "admin",
+//     allowedStatuses: ["admin"],
 //   },
 
-//   // User dashboard routes
+//   // =========== USER ROUTES (status: "user") ===========
+//   // Main user dashboard
 //   {
 //     path: "/dashboard/user",
-//     name: "User Dashboard",
+//     name: "My Dashboard",
 //     element: <UserDashboard />,
 //     icon: DashboardIcon,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
 //   },
+//   // User profile routes
 //   {
 //     path: "/dashboard/me",
 //     name: "My Profile",
 //     element: <MeManagement />,
 //     icon: AccountCircle,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
 //   },
 //   {
 //     path: "/dashboard/me/testimony",
 //     name: "My Testimonials",
 //     element: <MyTestimonialManagement />,
 //     icon: RateReview,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
 //   },
 //   {
 //     path: "/dashboard/me/contacts",
 //     name: "My Contacts",
 //     element: <MyContactManagement />,
 //     icon: Email,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
 //   },
+//   // User music routes
 //   {
-//     path: "/dashboard/classes",
+//     path: "/dashboard/me/classes",
 //     name: "My Classes",
-//     element: <Classes />,
+//     element: <UserClassesManagement />,
 //     icon: School,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
 //   },
 //   {
-//     path: "/dashboard/schedule",
-//     name: "My Schedule",
-//     element: <Classes />,
+//     path: "/dashboard/me/subscription",
+//     name: "My Subscription",
+//     element: <UserSubscriptionManagement />,
 //     icon: CalendarMonth,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
 //   },
 //   {
-//     path: "/dashboard/payments",
-//     name: "My Payments",
-//     element: <Classes />,
+//     path: "/dashboard/me/request",
+//     name: "My Request",
+//     element: <UserRequestManagement />,
 //     icon: Payment,
-//     requiredStatus: "user",
-//     role: "user",
+//     allowedStatuses: ["user"],
+//   },
+//   {
+//     path: "/dashboard/me/request",
+//     name: "My Request",
+//     element: <UserRequestManagement />,
+//     icon: Payment,
+//     allowedStatuses: ["user"],
 //   },
 // ];
 
@@ -641,6 +700,7 @@
 //   { path: "/services", element: <Services /> },
 //   { path: "/classes", element: <Classes /> },
 //   { path: "/faq", element: <FAQ /> },
+//   // Catch-all route should be last
 //   { path: "*", element: <NotFound /> },
 // ];
 
@@ -774,7 +834,7 @@
 //     return {
 //       name: dashboardRoute.name.toLowerCase().split(" ")[0],
 //       icon: dashboardRoute.icon,
-//       routeType: `${dashboardRoute.role} dashboard`,
+//       routeType: `${dashboardRoute.allowedStatuses[0]} dashboard`,
 //       fullName: dashboardRoute.name,
 //     };
 //   }
@@ -803,7 +863,7 @@
 //   // Add dashboard links if user is authenticated
 //   if (user && user.token) {
 //     let dashboardItem;
-//     if (user.role === "admin") {
+//     if (user.status === "admin") {
 //       dashboardItem = {
 //         path: "/dashboard",
 //         label: "Admin Dashboard",
@@ -854,9 +914,9 @@
 //                 const isActive = location.pathname === item.path;
 
 //                 return (
-//                   <motion.a
+//                   <Link
 //                     key={`mobile-${item.path}-${index}`}
-//                     href={item.path}
+//                     to={item.path}
 //                     className={`flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 md:p-4 rounded-lg transition-all ${
 //                       isActive
 //                         ? "bg-white/25 shadow-lg backdrop-blur-sm text-white"
@@ -878,7 +938,7 @@
 //                     >
 //                       {item.type.toUpperCase()}
 //                     </span>
-//                   </motion.a>
+//                   </Link>
 //                 );
 //               })}
 //             </div>
@@ -900,7 +960,7 @@
 //                         {user.name}
 //                       </ResponsiveText>
 //                       <p className="text-xs text-gray-300 capitalize">
-//                         {user.role}
+//                         {user.status || "user"}
 //                       </p>
 //                     </div>
 //                   </div>
@@ -930,6 +990,7 @@
 //         const parsedUser = JSON.parse(savedUser);
 //         // Only update if user is different
 //         if (!user || JSON.stringify(parsedUser) !== JSON.stringify(user)) {
+//           // console.log("Setting user from cookie:", parsedUser);
 //           setUser(parsedUser);
 //         }
 //       } catch (error) {
@@ -989,7 +1050,7 @@
 //   }, []);
 
 //   return (
-//     <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-gray-900 transition-colors duration-300 overflow-x-hidden">
+//     <div className="min-h-screen bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] text-white transition-colors duration-300 overflow-x-hidden">
 //       {/* Initial App Loading */}
 //       {loading ? (
 //         <PageLoader
@@ -1027,7 +1088,7 @@
 //                 element={
 //                   <>
 //                     <Navbar />
-//                     <main className="w-full pt-12 sm:pt-14 md:pt-16 bg-gradient-to-t from-[#1e4c9c] to-[#183772]">
+//                     <main className="w-full pt-12 sm:pt-14 md:pt-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
 //                       <ResponsiveContainer>
 //                         <PageTransition>{route.element}</PageTransition>
 //                       </ResponsiveContainer>
@@ -1038,14 +1099,14 @@
 //               />
 //             ))}
 
-//             {/* Dashboard routes */}
+//             {/* Dashboard routes - IMPORTANT: Order matters! */}
 //             {dashboardRoutes.map((route) => (
 //               <Route
 //                 key={`dashboard-${route.path}`}
 //                 path={route.path}
 //                 element={
 //                   <PrivateRoute
-//                     requiredStatus={route.requiredStatus}
+//                     allowedStatuses={route.allowedStatuses}
 //                     pageTitle={route.name}
 //                   >
 //                     {route.element}
@@ -1059,6 +1120,21 @@
 //     </div>
 //   );
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1344,63 +1420,6 @@ const { logout } = useAuth();
 
   // Get menu based on user status (admin or user)
   const menuItems = user?.status === "admin" ? adminMenuItems : userMenuItems;
-
-  // const handleLogout = async () => {
-  //   const token = Cookies.get("token");
-
-  //   if (!token) {
-  //     // No token, just clear frontend and redirect
-  //     setUser(null);
-  //     Cookies.remove("user");
-  //     Cookies.remove("token");
-  //     return;
-  //   }
-
-  //   try {
-  //     // Send logout request to backend
-  //     const response = await axios.post(
-  //       "https://ndizmusicprojectbackend.onrender.com/api/users/logout",
-  //       {}, // no body
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //         withCredentials: true, // IMPORTANT if backend uses cookies for session
-  //       },
-  //     );
-
-  //     // Check backend response
-  //     if (response.status === 200 || response.status === 204) {
-  //       // Backend successfully invalidated session
-  //       setUser(null);
-  //       Cookies.remove("user");
-  //       Cookies.remove("token");
-
-  //       toast.success("Logged out successfully!");
-
-  //       // Navigate to home AFTER session cleared
-  //       window.location.href = "/";
-  //     } else {
-  //       throw new Error("Logout failed on server");
-  //     }
-  //   } catch (error) {
-  //     console.error("Logout failed:", error.response?.data || error);
-
-  //     // Always clear frontend as a fallback
-  //     setUser(null);
-  //     Cookies.remove("user");
-  //     Cookies.remove("token");
-
-  //     toast.warning(
-  //       error.response?.data?.message ||
-  //         "Logout failed on server. Session cleared locally.",
-  //     );
-
-  //     // Navigate home
-  //     window.location.href = "/";
-  //   }
-  // };
 
   // Set page title on mount and route change
   useEffect(() => {
@@ -1923,7 +1942,7 @@ const getPageInfoHelper = (pathname) => {
   };
 };
 
-// RESPONSIVE MOBILE MENU (For Small Screens)
+// RESPONSIVE MOBILE MENU (For Small Screens) - FIXED Z-INDEX
 function MobileMenu({ isOpen, onClose, user }) {
   const location = useLocation();
 
@@ -1963,88 +1982,93 @@ function MobileMenu({ isOpen, onClose, user }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: "100%" }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: "100%" }}
-          transition={{ type: "spring", damping: 25 }}
-          className="fixed inset-0 z-40 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c] md:hidden"
-        >
-          <div className="flex flex-col h-full">
-            <div className="flex justify-between items-center mb-4 sm:mb-6 md:mb-8">
-              <ResponsiveText size="lg" className="font-bold text-white">
-                Menu
-              </ResponsiveText>
-              <button
-                onClick={onClose}
-                className="p-1.5 sm:p-2 rounded-lg bg-gradient-to-t from-red-500 to-red-600 text-white"
-                aria-label="Close menu"
-              >
-                <Close className="text-base sm:text-lg" />
-              </button>
-            </div>
+        <>
+          {/* Backdrop with high z-index */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[999]"
+            onClick={onClose}
+          />
+          
+          {/* Menu with extremely high z-index */}
+          <motion.div
+            initial={{ opacity: 0, x: "100%" }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: "100%" }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            className="fixed top-0 right-0 h-full w-64 sm:w-80 bg-gradient-to-b from-[#1e4c9c] to-[#0f2d5a] shadow-2xl z-[1000] overflow-y-auto"
+          >
+            <div className="flex flex-col h-full p-5">
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-white">Menu</h2>
+                <button
+                  onClick={onClose}
+                  className="p-2 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 transition-all"
+                  aria-label="Close menu"
+                >
+                  <Close className="text-lg" />
+                </button>
+              </div>
 
-            <div className="flex-1 space-y-1.5 sm:space-y-2 md:space-y-4">
-              {mobileMenuItems.map((item, index) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
+              <div className="flex-1 space-y-2">
+                {mobileMenuItems.map((item, index) => {
+                  const Icon = item.icon;
+                  const isActive = location.pathname === item.path;
 
-                return (
-                  <Link
-                    key={`mobile-${item.path}-${index}`}
-                    to={item.path}
-                    className={`flex items-center space-x-2 sm:space-x-3 p-2.5 sm:p-3 md:p-4 rounded-lg transition-all ${
-                      isActive
-                        ? "bg-white/25 shadow-lg backdrop-blur-sm text-white"
-                        : "hover:bg-white/15 text-gray-200 hover:text-white"
-                    }`}
-                    whileHover={{ x: 5 }}
-                    onClick={onClose}
-                  >
-                    <Icon className="text-base sm:text-lg" />
-                    <ResponsiveText size="sm" className="flex-1">
-                      {item.label}
-                    </ResponsiveText>
-                    <span
-                      className={`text-xs px-1 sm:px-1.5 py-0.5 rounded ${
-                        item.type === "private"
-                          ? "bg-red-500/20 text-red-200 border border-red-500/30"
-                          : "bg-green-500/20 text-green-200 border border-green-500/30"
+                  return (
+                    <Link
+                      key={`mobile-${item.path}-${index}`}
+                      to={item.path}
+                      className={`flex items-center space-x-3 p-3 rounded-lg transition-all ${
+                        isActive
+                          ? "bg-white/25 shadow-lg text-white"
+                          : "hover:bg-white/15 text-gray-200 hover:text-white"
                       }`}
+                      onClick={onClose}
                     >
-                      {item.type.toUpperCase()}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
+                      <Icon className="text-lg" />
+                      <span className="flex-1 text-sm font-medium">
+                        {item.label}
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${
+                          item.type === "private"
+                            ? "bg-purple-500/30 text-purple-200 border border-purple-500/50"
+                            : "bg-blue-500/30 text-blue-200 border border-blue-500/50"
+                        }`}
+                      >
+                        {item.type === "private" ? "DASH" : "PUB"}
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
 
-            <div className="pt-3 sm:pt-4 md:pt-6 border-t border-white/20">
-              {user && user.token ? (
-                <div className="space-y-2 sm:space-y-3 md:space-y-4">
-                  <div className="flex items-center space-x-2 sm:space-x-3">
-                    <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
+              {user && user.token && (
+                <div className="mt-4 pt-4 border-t border-white/20">
+                  <div className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
                       <span className="text-white font-bold text-sm">
                         {user.name?.charAt(0) || "U"}
                       </span>
                     </div>
-                    <div>
-                      <ResponsiveText
-                        size="sm"
-                        className="text-white font-medium"
-                      >
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-medium text-sm truncate">
                         {user.name}
-                      </ResponsiveText>
-                      <p className="text-xs text-gray-300 capitalize">
+                      </p>
+                      <p className="text-xs text-blue-200 capitalize">
                         {user.status || "user"}
                       </p>
                     </div>
                   </div>
                 </div>
-              ) : null}
+              )}
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </>
       )}
     </AnimatePresence>
   );
@@ -2147,7 +2171,7 @@ export default function App() {
             />
           )}
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - Rendered at root level with highest z-index */}
           <MobileMenu
             isOpen={mobileMenuOpen}
             onClose={() => setMobileMenuOpen(false)}
@@ -2163,7 +2187,7 @@ export default function App() {
                 path={route.path}
                 element={
                   <>
-                    <Navbar />
+                    <Navbar onMenuToggle={() => setMobileMenuOpen(true)} />
                     <main className="w-full pt-12 sm:pt-14 md:pt-16 bg-gradient-to-t from-[#1e4c9c] to-[#1e4c9c]">
                       <ResponsiveContainer>
                         <PageTransition>{route.element}</PageTransition>
